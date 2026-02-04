@@ -24,7 +24,7 @@ const Drivers = () => {
     status: "ACTIVE",
   });
 
-  /* ================= LOAD ================= */
+  /* LOAD */
   const loadDrivers = async () => {
     const res = await fetch(API);
     const data = await res.json();
@@ -35,35 +35,31 @@ const Drivers = () => {
     loadDrivers();
   }, []);
 
-  /* ================= FORM ================= */
+  /* FORM CHANGE */
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  /* ================= PHONE VALIDATION ================= */
+  /* PHONE VALIDATION */
   const handlePhoneChange = (value, country) => {
     const fullNumber = "+" + value;
     setForm({ ...form, phone: fullNumber });
 
-    const localNumber = value.slice(country.dialCode.length);
+    const local = value.slice(country.dialCode.length);
 
-    if (!localNumber) {
-      setPhoneError("Phone number is required");
-    } else if (!/^\d+$/.test(localNumber)) {
-      setPhoneError("Only digits allowed");
-    } else if (localNumber.length < 7 || localNumber.length > 12) {
-      setPhoneError("Invalid phone number length");
-    } else {
-      setPhoneError("");
-    }
+    if (!local) setPhoneError("Phone number is required");
+    else if (!/^\d+$/.test(local)) setPhoneError("Only digits allowed");
+    else if (local.length < 7 || local.length > 12)
+      setPhoneError("Invalid phone number");
+    else setPhoneError("");
   };
 
-  /* ================= SUBMIT ================= */
+  /* SUBMIT */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (phoneError || !form.phone) {
-      alert("Please enter a valid phone number");
+      alert("Enter valid phone number");
       return;
     }
 
@@ -92,39 +88,39 @@ const Drivers = () => {
     setPhoneError("");
   };
 
-  /* ================= EDIT ================= */
+  /* EDIT */
   const editDriver = (driver) => {
     setForm(driver);
     setIsEdit(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  /* ================= DELETE ================= */
+  /* DELETE */
   const deleteDriver = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this driver?")) return;
-
+    if (!window.confirm("Delete this driver?")) return;
     await fetch(`${API}?id=${id}`, { method: "DELETE" });
     alert("Driver deleted successfully");
     loadDrivers();
   };
 
-  /* ================= SEARCH ================= */
+  /* SEARCH */
   const filteredDrivers = drivers.filter(
     (d) =>
       d.driver_name.toLowerCase().includes(search.toLowerCase()) ||
       d.phone.includes(search)
   );
 
-  /* ================= PAGINATION LOGIC ================= */
+  /* PAGINATION */
   const totalPages = Math.ceil(filteredDrivers.length / recordsPerPage);
-  const startIndex = (currentPage - 1) * recordsPerPage;
-  const endIndex = startIndex + recordsPerPage;
-  const paginatedDrivers = filteredDrivers.slice(startIndex, endIndex);
+  const start = (currentPage - 1) * recordsPerPage;
+  const paginatedDrivers = filteredDrivers.slice(
+    start,
+    start + recordsPerPage
+  );
 
   return (
     <div className="driver-page">
-
-      {/* ================= FORM ================= */}
+      {/* FORM */}
       <div className="driver-form-card">
         <div className="driver-form-header">
           👤 {isEdit ? "Update Driver" : "Add New Driver"}
@@ -148,9 +144,7 @@ const Drivers = () => {
               enableSearch
               inputStyle={{ width: "100%" }}
             />
-            {phoneError && (
-              <small style={{ color: "red" }}>{phoneError}</small>
-            )}
+            {phoneError && <small className="error">{phoneError}</small>}
 
             <label>License No *</label>
             <input
@@ -179,16 +173,12 @@ const Drivers = () => {
               <option value="INACTIVE">INACTIVE</option>
             </select>
 
-            <button className="save-btn" type="submit">
+            <button className="save-btn">
               💾 {isEdit ? "Update Driver" : "Save Driver"}
             </button>
 
             {isEdit && (
-              <button
-                type="button"
-                className="cancel-btn"
-                onClick={resetForm}
-              >
+              <button type="button" className="cancel-btn" onClick={resetForm}>
                 ❌ Cancel
               </button>
             )}
@@ -196,7 +186,7 @@ const Drivers = () => {
         </div>
       </div>
 
-      {/* ================= LIST ================= */}
+      {/* LIST */}
       <div className="driver-list-card">
         <div className="list-header">
           <h3>👥 LIST</h3>
@@ -227,46 +217,31 @@ const Drivers = () => {
           </thead>
 
           <tbody>
-            {paginatedDrivers.length === 0 ? (
-              <tr>
-                <td colSpan="6">
-                  <div className="no-data">
-                    <div className="no-data-icon">👥</div>
-                    <p>No customers found for your search</p>
-                  </div>
+            {paginatedDrivers.map((d) => (
+              <tr key={d.driver_id}>
+                <td data-label="Name">{d.driver_name}</td>
+                <td data-label="Phone">📞 {d.phone}</td>
+                <td data-label="License">{d.license_no}</td>
+                <td data-label="Joining Date">{d.joining_date}</td>
+                <td data-label="Status">
+                  <span className="status-active">{d.status}</span>
+                </td>
+                <td data-label="Actions">
+                  <button className="edit-btn" onClick={() => editDriver(d)}>
+                    ✏️
+                  </button>
+                  <button
+                    className="delete-btn"
+                    onClick={() => deleteDriver(d.driver_id)}
+                  >
+                    🗑
+                  </button>
                 </td>
               </tr>
-            ) : (
-              paginatedDrivers.map((d) => (
-                <tr key={d.driver_id}>
-                  <td>{d.driver_name}</td>
-                  <td>📞 {d.phone}</td>
-                  <td>{d.license_no}</td>
-                  <td>{d.joining_date}</td>
-                  <td>
-                    <span className="status-active">{d.status}</span>
-                  </td>
-                  <td>
-                    <button
-                      className="edit-btn"
-                      onClick={() => editDriver(d)}
-                    >
-                      ✏️
-                    </button>
-                    <button
-                      className="delete-btn"
-                      onClick={() => deleteDriver(d.driver_id)}
-                    >
-                      🗑
-                    </button>
-                  </td>
-                </tr>
-              ))
-            )}
+            ))}
           </tbody>
         </table>
 
-        {/* ================= PAGINATION UI ================= */}
         {totalPages > 1 && (
           <div className="pagination">
             <button
@@ -275,11 +250,9 @@ const Drivers = () => {
             >
               ◀ Previous
             </button>
-
             <span>
               Page {currentPage} of {totalPages}
             </span>
-
             <button
               disabled={currentPage === totalPages}
               onClick={() => setCurrentPage((p) => p + 1)}

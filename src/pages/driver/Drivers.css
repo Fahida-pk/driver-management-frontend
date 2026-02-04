@@ -205,77 +205,47 @@ th {
   cursor: not-allowed;
 }
 
-/* ================= TABLET ================= */
-@media (max-width: 992px) {
-  .driver-page {
-    flex-direction: column;
-  }
-
-  .driver-form-card {
-    width: 100%;
-  }
-
-  .list-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .search-box {
-    width: 100%;
-  }
-
-  .search-box input {
-    min-width: 100%;
-  }
-}
-
-/* ================= MOBILE ================= */
+/* ================= MOBILE TABLE → CARD VIEW ================= */
 @media (max-width: 576px) {
-  .driver-page {
-    padding: 10px;
-    gap: 14px;
-  }
-
-  .driver-form-card,
-  .driver-list-card {
-    width: 100%;
-  }
-
-  .driver-form-body {
-    padding: 16px;
-  }
-
-  .driver-list-card {
-    padding: 16px;
-  }
-
-  /* search stacked */
-  .search-box {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .search-box input {
-    width: 100%;
-    border-radius: 6px;
-    margin-bottom: 8px;
-  }
-
-  .search-box button {
-    width: 100%;
-    border-radius: 6px;
-  }
-
-  /* table spacing */
+  table,
+  thead,
+  tbody,
   th,
-  td {
-    font-size: 12px;
-    padding: 8px;
+  tr {
+    display: block;
+    width: 100%;
   }
 
-  .edit-btn,
-  .delete-btn {
-    padding: 5px 8px;
-    font-size: 12px;
+  thead {
+    display: none; /* hide table header */
+  }
+
+  tbody tr {
+    background: #f9fafb;
+    margin-bottom: 14px;
+    border-radius: 10px;
+    padding: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  }
+
+  tbody td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border: none;
+    font-size: 13px;
+  }
+
+  tbody td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #374151;
+  }
+
+  /* action buttons aligned */
+  tbody td:last-child {
+    justify-content: flex-start;
+    gap: 10px;
   }
 }

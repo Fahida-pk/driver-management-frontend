@@ -113,17 +113,17 @@ border-radius: 25px 10px;
 
   .topbar {
     height: 84px;
-    margin: 10px;
+    margin: 15px;
     padding: 0 16px;
   }
 
   .topbar-left {
-    font-size: 20px;
+    font-size: 15px;
     gap: 8px;
   }
 
   .topbar-right {
-    font-size: 20px;
+    font-size: 15px;
   }
 
   .dashboard-inner {

@@ -1,27 +1,29 @@
 .dashboard {
   display: flex;
   min-height: 100vh;
+  background: #f8fafc;
 }
 
-/* SIDEBAR */
+/* ===== SIDEBAR ===== */
 .sidebar {
   width: 220px;
   background: #1e293b;
   color: white;
   padding: 20px;
+  flex-shrink: 0; /* 🔥 important */
 }
 
 .sidebar h3 {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .sidebar a,
 .menu {
   display: block;
-  margin: 10px 0;
-  cursor: pointer;
+  margin: 12px 0;
   color: white;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .submenu a {
@@ -29,26 +31,17 @@
   font-size: 14px;
 }
 
-.logout-btn {
-  margin-top: 20px;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-/* CONTENT */
+/* ===== DASHBOARD CONTENT ===== */
 .dashboard-content {
   flex: 1;
   padding: 30px;
-  background: #f8fafc;
 }
 
-/* CARDS */
+/* ===== CARDS ===== */
 .cards {
   display: flex;
   gap: 20px;
-  flex-wrap: wrap; /* 🔥 IMPORTANT */
+  flex-wrap: wrap; /* 🔥 responsive */
 }
 
 .card {
@@ -56,22 +49,15 @@
   padding: 20px;
   border-radius: 8px;
   width: 180px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-/* ========================= */
-/* 📱 MOBILE RESPONSIVE */
-/* ========================= */
+/* ================= MOBILE VIEW ================= */
 @media (max-width: 768px) {
-  .dashboard {
-    flex-direction: column;
-  }
 
   .sidebar {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    width: 180px;        /* smaller sidebar */
+    padding: 15px;
   }
 
   .dashboard-content {
@@ -79,10 +65,11 @@
   }
 
   .cards {
-    flex-direction: column;
+    flex-direction: column;  /* cards one by one */
+    gap: 15px;
   }
 
   .card {
-    width: 100%;
+    width: 100%;             /* full width card */
   }
 }

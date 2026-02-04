@@ -1,9 +1,11 @@
-/* RESET */
+/* ================= RESET ================= */
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* PAGE */
+/* ================= PAGE ================= */
 .driver-page {
   display: flex;
   gap: 24px;
@@ -11,9 +13,10 @@
   background: #f4f7fb;
   align-items: flex-start;
   width: 100%;
+  min-height: 100vh;
 }
 
-/* FORM CARD */
+/* ================= FORM CARD ================= */
 .driver-form-card {
   width: 360px;
   background: #fff;
@@ -47,9 +50,10 @@
   margin-bottom: 16px;
   border-radius: 6px;
   border: 1px solid #dcdfe6;
+  font-size: 14px;
 }
 
-/* BUTTONS */
+/* ================= BUTTONS ================= */
 .save-btn {
   width: 100%;
   padding: 12px;
@@ -71,16 +75,17 @@
   cursor: pointer;
 }
 
-/* LIST CARD */
+/* ================= LIST CARD ================= */
 .driver-list-card {
   flex: 1;
   background: #fff;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-  overflow-x: auto; /* 🔑 TABLE SCROLL FIX */
+  overflow-x: auto; /* table scroll */
 }
 
+/* ================= LIST HEADER ================= */
 .list-header {
   display: flex;
   justify-content: space-between;
@@ -89,7 +94,7 @@
   gap: 10px;
 }
 
-/* SEARCH */
+/* ================= SEARCH ================= */
 .search-box {
   display: flex;
 }
@@ -98,7 +103,7 @@
   padding: 8px;
   border: 1px solid #dcdfe6;
   border-radius: 6px 0 0 6px;
-  min-width: 200px;
+  min-width: 220px;
 }
 
 .search-box button {
@@ -110,18 +115,20 @@
   cursor: pointer;
 }
 
-/* TABLE */
+/* ================= TABLE ================= */
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 700px; /* 🔑 MOBILE SCROLL */
+  min-width: 700px; /* mobile scroll safety */
 }
 
-th, td {
+th,
+td {
   padding: 12px;
   border-bottom: 1px solid #e5e7eb;
   text-align: left;
   white-space: nowrap;
+  font-size: 14px;
 }
 
 th {
@@ -129,7 +136,7 @@ th {
   font-weight: 600;
 }
 
-/* STATUS */
+/* ================= STATUS ================= */
 .status-active {
   background: #dcfce7;
   color: #15803d;
@@ -148,7 +155,7 @@ th {
   font-weight: 600;
 }
 
-/* ACTIONS */
+/* ================= ACTIONS ================= */
 .edit-btn {
   background: #22c55e;
   border: none;
@@ -167,7 +174,8 @@ th {
   margin-left: 6px;
   cursor: pointer;
 }
-/* PAGINATION */
+
+/* ================= PAGINATION ================= */
 .pagination {
   display: flex;
   justify-content: center;
@@ -186,10 +194,6 @@ th {
   font-weight: 500;
 }
 
-.page-btn:hover:not(:disabled) {
-  background: #e5e7eb;
-}
-
 .page-btn.active {
   background: #1d72f3;
   color: #fff;
@@ -201,9 +205,7 @@ th {
   cursor: not-allowed;
 }
 
-/* ================= RESPONSIVE ================= */
-
-/* TABLET */
+/* ================= TABLET ================= */
 @media (max-width: 992px) {
   .driver-page {
     flex-direction: column;
@@ -218,16 +220,25 @@ th {
     align-items: flex-start;
   }
 
+  .search-box {
+    width: 100%;
+  }
+
   .search-box input {
     min-width: 100%;
   }
 }
 
-/* MOBILE */
+/* ================= MOBILE ================= */
 @media (max-width: 576px) {
   .driver-page {
-    padding: 12px;
-    gap: 16px;
+    padding: 10px;
+    gap: 14px;
+  }
+
+  .driver-form-card,
+  .driver-list-card {
+    width: 100%;
   }
 
   .driver-form-body {
@@ -238,9 +249,28 @@ th {
     padding: 16px;
   }
 
-  th, td {
-    font-size: 13px;
-    padding: 10px;
+  /* search stacked */
+  .search-box {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .search-box input {
+    width: 100%;
+    border-radius: 6px;
+    margin-bottom: 8px;
+  }
+
+  .search-box button {
+    width: 100%;
+    border-radius: 6px;
+  }
+
+  /* table spacing */
+  th,
+  td {
+    font-size: 12px;
+    padding: 8px;
   }
 
   .edit-btn,

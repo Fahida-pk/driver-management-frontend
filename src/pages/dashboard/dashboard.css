@@ -112,18 +112,18 @@ border-radius: 25px 10px;
 @media (max-width: 768px) {
 
   .topbar {
-    height: 54px;
+    height: 84px;
     margin: 10px;
     padding: 0 16px;
   }
 
   .topbar-left {
-    font-size: 16px;
+    font-size: 20px;
     gap: 8px;
   }
 
   .topbar-right {
-    font-size: 14px;
+    font-size: 20px;
   }
 
   .dashboard-inner {
@@ -140,7 +140,7 @@ border-radius: 25px 10px;
   }
 
   .card-title {
-    font-size: 22px;
+    font-size: 28px;
   }
 
   .card-icon {
@@ -148,6 +148,6 @@ border-radius: 25px 10px;
   }
 
   .card-count {
-    font-size: 14px;
+    font-size: 24px;
   }
 }

@@ -8,10 +8,16 @@ const TopNavbar = () => {
     if (r) setRole(r.toLowerCase());
   }, []);
 
+  const openSidebar = () => {
+    // 🔥 Sidebar-ine notify cheyyunnu
+    window.dispatchEvent(new Event("open-sidebar"));
+  };
+
   return (
     <div className="topbar">
       <div className="topbar-left">
-        ☰ <span>Dashboard</span>
+        <span className="menu-icon" onClick={openSidebar}>☰</span>
+        <span>Dashboard</span>
       </div>
 
       <div className="topbar-right">

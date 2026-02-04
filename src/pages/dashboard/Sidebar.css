@@ -20,6 +20,27 @@
   font-family: "Poppins", sans-serif;
 }
 
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: 240px;
+  min-height: 100vh;
+  color: white;
+  padding: 20px;
+  background: linear-gradient(
+    180deg,
+    #b096d1 0%,
+    #979ba0 50%,
+    #b3d5f0 75%,
+    #6a7be7 100%
+  );
+}
+
+.sidebar a {
+  display: block;
+  margin: 12px 0;
+  color: white;
+  text-decoration: none;
+}
 /* ================= MAIN MENU ITEM ================= */
 
 .menu-item {
@@ -134,44 +155,30 @@
   background: #f3f3f3;
 }
 
-/* ================= RESPONSIVE ================= */
-
-/* Tablet */
-@media (max-width: 1024px) {
-  .sidebar {
-    width: 240px;
-    padding: 20px 14px;
-  }
-
-  .menu-item {
-    font-size: 15px;
-  }
-}
-
-/* Mobile */
+/* Mobile only */
 @media (max-width: 768px) {
   .sidebar {
     position: fixed;
-    left: 0;
     top: 0;
-    width: 220px;
+    left: -280px;
+    height: 100vh;
     z-index: 1000;
+    transition: left 0.3s ease;
   }
 
-  .menu-item {
-    padding: 12px 4px;
-    font-size: 14px;
-  }
-}
-
-/* Small mobile */
-@media (max-width: 480px) {
-  .sidebar {
-    width: 200px;
+  .sidebar.mobile-open {
+    left: 0;
   }
 
-  .menu-item span,
-  .submenu a span {
-    font-size: 14px;
+  .sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 999;
+  }
+
+  .menu-icon {
+    cursor: pointer;
+    font-size: 22px;
   }
 }

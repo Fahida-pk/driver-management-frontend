@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import {
   FaTachometerAlt,
@@ -12,8 +12,17 @@ import {
 import "./Sidebar.css";
 
 const Sidebar = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);          // submenu
+  const [mobileOpen, setMobileOpen] = useState(false); // 🔥 mobile drawer
   const navigate = useNavigate();
+
+  // 🔥 listen to TopNavbar ☰ click
+  useEffect(() => {
+    const handler = () => setMobileOpen(true);
+    window.addEventListener("open-sidebar", handler);
+
+    return () => window.removeEventListener("open-sidebar", handler);
+  }, []);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -21,47 +30,57 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="sidebar">
-
-      {/* Dashboard */}
-      <Link to="/dashboard" className="menu-item">
-        <FaTachometerAlt />
-        <span>Dashboard</span>
-      </Link>
-
-      {/* Master */}
-      <div className="menu-item" onClick={() => setOpen(!open)}>
-        <FaFolderOpen />
-        <span>Master</span>
-        <FaChevronDown className={open ? "rotate" : ""} />
-      </div>
-
-      {open && (
-        <div className="submenu">
-         <Link to="/drivers">
-  <FaUserTie />
-  <span>Driver</span>
-</Link>
-
-          <Link to="/vehicle">
-            <FaTruck />
-            <span>Vehicle</span>
-          </Link>
-
-          <Link to="/route">
-            <FaRoute />
-            <span>Route</span>
-          </Link>
-        </div>
+    <>
+      {/* MOBILE OVERLAY */}
+      {mobileOpen && (
+        <div
+          className="sidebar-overlay"
+          onClick={() => setMobileOpen(false)}
+        />
       )}
 
-      {/* Logout */}
-      <button className="logout-btn" onClick={handleLogout}>
-        <FaSignOutAlt />
-        <span>Logout</span>
-      </button>
+      <div className={`sidebar ${mobileOpen ? "mobile-open" : ""}`}>
 
-    </div>
+        {/* Dashboard */}
+        <Link to="/dashboard" className="menu-item" onClick={() => setMobileOpen(false)}>
+          <FaTachometerAlt />
+          <span>Dashboard</span>
+        </Link>
+
+        {/* Master */}
+        <div className="menu-item" onClick={() => setOpen(!open)}>
+          <FaFolderOpen />
+          <span>Master</span>
+          <FaChevronDown className={open ? "rotate" : ""} />
+        </div>
+
+        {open && (
+          <div className="submenu">
+            <Link to="/drivers" onClick={() => setMobileOpen(false)}>
+              <FaUserTie />
+              <span>Driver</span>
+            </Link>
+
+            <Link to="/vehicle" onClick={() => setMobileOpen(false)}>
+              <FaTruck />
+              <span>Vehicle</span>
+            </Link>
+
+            <Link to="/route" onClick={() => setMobileOpen(false)}>
+              <FaRoute />
+              <span>Route</span>
+            </Link>
+          </div>
+        )}
+
+        {/* Logout */}
+        <button className="logout-btn" onClick={handleLogout}>
+          <FaSignOutAlt />
+          <span>Logout</span>
+        </button>
+
+      </div>
+    </>
   );
 };
 

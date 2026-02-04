@@ -109,27 +109,7 @@ html, body {
   box-shadow: 0 5px 8px rgba(0,0,0,0.15);
 }
 
-/* ===== SIDEBAR ===== */
-.sidebar {
-  width: 240px;
-  min-height: 100vh;
-  color: white;
-  padding: 20px;
-  background: linear-gradient(
-    180deg,
-    #b096d1 0%,
-    #979ba0 50%,
-    #b3d5f0 75%,
-    #6a7be7 100%
-  );
-}
 
-.sidebar a {
-  display: block;
-  margin: 12px 0;
-  color: white;
-  text-decoration: none;
-}
 
 /* ===== CONTENT ===== */
 .dashboard-content {
@@ -184,10 +164,10 @@ html, body {
 .card {
   background: rgb(230, 229, 210);
   padding: 24px;
-  width: 350px;
-  height: 150px;
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  width: 380px;
+  height: 200px;
+  border-radius: 45px 30px 15px 15px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.12);
 }
 
 /* 🔥 ICON + TITLE SAME LINE */

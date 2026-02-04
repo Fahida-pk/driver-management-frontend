@@ -1,0 +1,125 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* FULL PAGE BACKGROUND */
+.login-wrapper {
+  width: 100vw;
+  height: 100vh;
+  font-family: "Segoe UI", sans-serif;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(
+    90deg,
+     #764ba2  0%,
+    #dbdfe2 50%,
+    #b3d5f0 75%,
+    #b3d5f0 100%
+  );
+
+}
+
+/* 🧊 GLASS LOGIN CARD */
+.login-content {
+  width: 100%;
+  max-width: 400px;
+  padding: 44px 36px;
+
+  background: rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
+
+  color: #0f172a;
+}
+
+/* TITLE */
+.brand {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 14px;
+  color: #334155;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* LABEL */
+.login-content label {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+/* INPUT */
+.login-content input {
+  width: 100%;
+  padding: 15px 14px;
+  margin: 8px 0 20px 0;
+
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+
+  color: #0f172a;
+  font-size: 14px;
+  outline: none;
+}
+
+/* PLACEHOLDER */
+.login-content input::placeholder {
+  color: #475569;
+}
+
+/* INPUT FOCUS */
+.login-content input:focus {
+  border-color: #2563eb;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+/* BUTTON */
+.login-btn {
+  width: 100%;
+  padding: 15px;
+  margin-top: 8px;
+
+  background: #2563eb;
+  border: none;
+  border-radius: 12px;
+
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.login-btn:hover {
+  background: #1d4ed8;
+  color: black;
+  transform: translateY(-2px);
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+  .login-content {
+    margin: 0 16px;
+  }
+}

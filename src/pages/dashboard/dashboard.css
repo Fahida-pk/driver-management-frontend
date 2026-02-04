@@ -1,0 +1,43 @@
+.dashboard {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 220px;
+  background: #1e293b;
+  color: white;
+  padding: 20px;
+}
+
+.sidebar a,
+.menu {
+  display: block;
+  margin: 10px 0;
+  cursor: pointer;
+  color: white;
+  text-decoration: none;
+}
+
+.submenu a {
+  margin-left: 15px;
+  font-size: 14px;
+}
+
+.dashboard-content {
+  flex: 1;
+  padding: 30px;
+}
+
+.cards {
+  display: flex;
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 180px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}

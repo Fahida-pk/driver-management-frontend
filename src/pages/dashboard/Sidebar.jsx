@@ -1,16 +1,19 @@
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import {
+  FaTachometerAlt,
+  FaFolderOpen,
+  FaUserTie,
+  FaTruck,
+  FaRoute,
+  FaSignOutAlt,
+  FaChevronDown
+} from "react-icons/fa";
+import "./Sidebar.css";
 
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
-  const [role, setRole] = useState("");
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const storedRole = localStorage.getItem("role");
-    console.log("ROLE FROM STORAGE:", storedRole); // 🔥 DEBUG
-    setRole(storedRole?.toLowerCase()); // normalize
-  }, []);
 
   const handleLogout = () => {
     localStorage.clear();
@@ -19,31 +22,45 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar">
-      {/* ROLE LABEL */}
-      <h3>{role === "admin" ? "Admin" : "User"}</h3>
 
-      <a href="/dashboard">Dashboard</a>
+      {/* Dashboard */}
+      <Link to="/dashboard" className="menu-item">
+        <FaTachometerAlt />
+        <span>Dashboard</span>
+      </Link>
 
-      {/* MASTER ONLY FOR ADMIN */}
-      {role === "admin" && (
-        <>
-          <div onClick={() => setOpen(!open)} className="menu">
-            Master ▾
-          </div>
+      {/* Master */}
+      <div className="menu-item" onClick={() => setOpen(!open)}>
+        <FaFolderOpen />
+        <span>Master</span>
+        <FaChevronDown className={open ? "rotate" : ""} />
+      </div>
 
-          {open && (
-            <div className="submenu">
-              <a href="/driver">Driver</a>
-              <a href="/vehicle">Vehicle</a>
-              <a href="/route">Route</a>
-            </div>
-          )}
-        </>
+      {open && (
+        <div className="submenu">
+         <Link to="/drivers">
+  <FaUserTie />
+  <span>Driver</span>
+</Link>
+
+          <Link to="/vehicle">
+            <FaTruck />
+            <span>Vehicle</span>
+          </Link>
+
+          <Link to="/route">
+            <FaRoute />
+            <span>Route</span>
+          </Link>
+        </div>
       )}
 
-      <button onClick={handleLogout} className="logout-btn">
-        Logout
+      {/* Logout */}
+      <button className="logout-btn" onClick={handleLogout}>
+        <FaSignOutAlt />
+        <span>Logout</span>
       </button>
+
     </div>
   );
 };

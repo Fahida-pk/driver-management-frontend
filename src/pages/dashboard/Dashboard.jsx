@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "./Sidebar";
+import Topbar from "./TopNavbar";
 import "./dashboard.css";
 
 const Dashboard = () => {
@@ -8,34 +8,43 @@ const Dashboard = () => {
 
   useEffect(() => {
     const role = localStorage.getItem("role");
-    if (!role) {
-      navigate("/");
-    }
+    if (!role) navigate("/");
   }, [navigate]);
 
   return (
-    <div className="dashboard">
-      <Sidebar />
+    <>
+      <Topbar />
 
       <div className="dashboard-content">
-        <h2>Dashboard</h2>
+        <div className="dashboard-inner">
+          <div className="cards">
+            <div className="card">
+              <div className="card-head">
+                <span className="card-icon">🚚</span>
+                <span className="card-title">Vehicles</span>
+              </div>
+              <div className="card-count">Total Number 12</div>
+            </div>
 
-        <div className="cards">
-          <div className="card">
-            🚚 Vehicles <br />
-            <b>12</b>
-          </div>
-          <div className="card">
-            👨‍✈️ Drivers <br />
-            <b>8</b>
-          </div>
-          <div className="card">
-            🛣 Routes <br />
-            <b>5</b>
+            <div className="card">
+              <div className="card-head">
+                <span className="card-icon">👨‍✈️</span>
+                <span className="card-title">Drivers</span>
+              </div>
+              <div className="card-count">Total Number 8</div>
+            </div>
+
+            <div className="card">
+              <div className="card-head">
+                <span className="card-icon">🛣</span>
+                <span className="card-title">Routes</span>
+              </div>
+              <div className="card-count">Total Number 5</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -10,43 +10,30 @@ const Login = () => {
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
-    e.preventDefault(); // 🔥 VERY IMPORTANT
-
-    setError(""); // reset old error
+    e.preventDefault();
+    setError("");
 
     try {
       const res = await fetch(
-        "https://zyntaweb.com/alafiya/api/login.php", // ✅ CORRECT API
+        "https://zyntaweb.com/alafiya/api/login.php",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: username,
-            password: password,
-          }),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password }),
         }
       );
-
-      // HTTP error check
-      if (!res.ok) {
-        throw new Error("HTTP error");
-      }
 
       const data = await res.json();
 
       if (data.status === "success") {
-        // store login info
         localStorage.setItem("user_id", data.user_id);
         localStorage.setItem("role", data.role);
 
-        // go to React dashboard
         navigate("/dashboard");
       } else {
         setError("Invalid username or password");
       }
-    } catch (err) {
+    } catch {
       setError("Server error. Try again");
     }
   };
@@ -62,7 +49,6 @@ const Login = () => {
         <input
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-          placeholder="Enter username"
           required
         />
 
@@ -71,13 +57,10 @@ const Login = () => {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          placeholder="Enter password"
           required
         />
 
-        <button className="login-btn" type="submit">
-          SUBMIT
-        </button>
+        <button className="login-btn">SUBMIT</button>
       </form>
     </div>
   );

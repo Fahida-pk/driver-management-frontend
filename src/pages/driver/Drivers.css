@@ -1,22 +1,19 @@
-/* ================= RESET ================= */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* ================= PAGE ================= */
+/* PAGE */
 .driver-page {
   display: flex;
   gap: 24px;
   padding: 24px;
   background: #f4f7fb;
-  align-items: flex-start;
-  width: 100%;
   min-height: 100vh;
 }
 
-/* ================= FORM CARD ================= */
+/* FORM CARD */
 .driver-form-card {
   width: 360px;
   background: #fff;
@@ -37,23 +34,22 @@
 }
 
 .driver-form-body label {
-  display: block;
   font-size: 13px;
   font-weight: 600;
   margin-bottom: 6px;
+  display: block;
 }
 
 .driver-form-body input,
 .driver-form-body select {
   width: 100%;
   padding: 10px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   border-radius: 6px;
   border: 1px solid #dcdfe6;
-  font-size: 14px;
 }
 
-/* ================= BUTTONS ================= */
+/* BUTTONS */
 .save-btn {
   width: 100%;
   padding: 12px;
@@ -62,39 +58,34 @@
   border: none;
   border-radius: 8px;
   font-weight: 600;
-  cursor: pointer;
 }
 
 .cancel-btn {
   width: 100%;
-  padding: 12px;
   margin-top: 10px;
+  padding: 12px;
   background: #e5e7eb;
   border: none;
   border-radius: 8px;
-  cursor: pointer;
 }
 
-/* ================= LIST CARD ================= */
+/* LIST CARD */
 .driver-list-card {
   flex: 1;
   background: #fff;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-  overflow-x: auto; /* table scroll */
+  overflow-x: auto;
 }
 
-/* ================= LIST HEADER ================= */
 .list-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   margin-bottom: 16px;
-  gap: 10px;
 }
 
-/* ================= SEARCH ================= */
+/* SEARCH */
 .search-box {
   display: flex;
 }
@@ -103,7 +94,6 @@
   padding: 8px;
   border: 1px solid #dcdfe6;
   border-radius: 6px 0 0 6px;
-  min-width: 220px;
 }
 
 .search-box button {
@@ -112,140 +102,102 @@
   color: #fff;
   border: none;
   border-radius: 0 6px 6px 0;
-  cursor: pointer;
 }
 
-/* ================= TABLE ================= */
+/* TABLE */
 table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 700px; /* mobile scroll safety */
+  min-width: 700px;
 }
 
-th,
-td {
+th, td {
   padding: 12px;
   border-bottom: 1px solid #e5e7eb;
   text-align: left;
   white-space: nowrap;
-  font-size: 14px;
 }
 
 th {
   background: #f9fafb;
-  font-weight: 600;
 }
 
-/* ================= STATUS ================= */
+/* STATUS */
 .status-active {
   background: #dcfce7;
   color: #15803d;
   padding: 4px 12px;
   border-radius: 12px;
   font-size: 12px;
-  font-weight: 600;
 }
 
-.status-inactive {
-  background: #fee2e2;
-  color: #b91c1c;
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-/* ================= ACTIONS ================= */
+/* ACTIONS */
 .edit-btn {
   background: #22c55e;
+  color: #fff;
   border: none;
   padding: 6px 10px;
   border-radius: 6px;
-  color: #fff;
-  cursor: pointer;
 }
 
 .delete-btn {
   background: #ef4444;
+  color: #fff;
   border: none;
   padding: 6px 10px;
   border-radius: 6px;
-  color: #fff;
   margin-left: 6px;
-  cursor: pointer;
 }
 
-/* ================= PAGINATION ================= */
+/* PAGINATION */
 .pagination {
   display: flex;
   justify-content: center;
-  align-items: center;
-  gap: 6px;
+  gap: 12px;
   margin-top: 20px;
 }
 
-.page-btn {
-  padding: 8px 14px;
-  border: 1px solid #d1d5db;
-  background: #fff;
-  color: #374151;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 500;
-}
-
-.page-btn.active {
-  background: #1d72f3;
-  color: #fff;
-  border-color: #1d72f3;
-}
-
-.page-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* ================= MOBILE TABLE → CARD VIEW ================= */
+/* MOBILE CARD VIEW */
 @media (max-width: 576px) {
+  .driver-page {
+    flex-direction: column;
+    padding: 12px;
+  }
+
   table,
   thead,
   tbody,
-  th,
-  tr {
+  tr,
+  td {
     display: block;
     width: 100%;
   }
 
   thead {
-    display: none; /* hide table header */
+    display: none;
   }
 
   tbody tr {
     background: #f9fafb;
     margin-bottom: 14px;
-    border-radius: 10px;
     padding: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    border-radius: 10px;
   }
 
   tbody td {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     padding: 8px 0;
     border: none;
-    font-size: 13px;
   }
 
   tbody td::before {
     content: attr(data-label);
     font-weight: 600;
-    color: #374151;
   }
+}
 
-  /* action buttons aligned */
-  tbody td:last-child {
-    justify-content: flex-start;
-    gap: 10px;
-  }
+.error {
+  color: red;
+  font-size: 12px;
 }

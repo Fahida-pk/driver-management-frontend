@@ -243,36 +243,48 @@
   cursor: pointer;
 }
 
+/* ================= DESKTOP ONLY ================= */
+@media (min-width: 577px) {
+  table {
+    min-width: 700px;
+  }
+}
+
 /* ================================================= */
-/* ================= MOBILE VIEW =================== */
+/* ================= MOBILE VIEW FIX ================= */
 /* ================================================= */
 @media (max-width: 576px) {
 
-  /* ===== PAGE ===== */
-  
-  .trip-page {
-    padding: 12px;
-   
-  }
-
-  .card-header {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-  }
-
-  .search-input {
+  /* 🔥 MAIN FIX */
+  .top-navbar {
+    margin-left: 0;
     width: 100%;
   }
 
+  
+  .trip-page {
+    padding: 12px;
+    padding-top: 70px;   /* navbar height */
+  }
+
+  /* SEARCH & HEADER */
+  .card-header,
+  .trip-card-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-input,
+  .trip-search input {
+    width: 100%;
+  }
+
+  /* TABLE → CARD */
   thead {
     display: none;
   }
 
-  table,
-  tbody,
-  tr,
-  td {
+  table, tbody, tr, td {
     display: block;
     width: 100%;
   }
@@ -301,13 +313,19 @@
 
   tbody td[data-label="Actions"] {
     justify-content: flex-end;
-    gap: 10px;
   }
 
-  .modal-box {
+  /* MODAL FULL SCREEN */
+  .modal-box,
+  .trip-modal {
     width: 100%;
     height: 100%;
     border-radius: 0;
     overflow-y: auto;
+  }
+
+  /* OPTIONAL: SIDEBAR HIDE */
+  .sidebar {
+    display: none;
   }
 }

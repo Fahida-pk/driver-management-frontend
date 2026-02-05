@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import TopNavbar from "../dashboard/TopNavbar";
+
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import "./Drivers.css";
@@ -10,10 +12,11 @@ const Drivers = () => {
   const [search, setSearch] = useState("");
   const [isEdit, setIsEdit] = useState(false);
   const [phoneError, setPhoneError] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   /* PAGINATION */
   const [currentPage, setCurrentPage] = useState(1);
-  const recordsPerPage = 5;
+  const recordsPerPage = 7;
 
   const [form, setForm] = useState({
     driver_id: "",
@@ -24,11 +27,15 @@ const Drivers = () => {
     status: "ACTIVE",
   });
 
-  /* LOAD */
+  /* LOAD DATA */
   const loadDrivers = async () => {
-    const res = await fetch(API);
-    const data = await res.json();
-    setDrivers(data);
+    try {
+      const res = await fetch(API);
+      const data = await res.json();
+      setDrivers(Array.isArray(data) ? data : []);
+    } catch (err) {
+      setDrivers([]);
+    }
   };
 
   useEffect(() => {
@@ -40,7 +47,7 @@ const Drivers = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  /* PHONE VALIDATION */
+  /* PHONE */
   const handlePhoneChange = (value, country) => {
     const fullNumber = "+" + value;
     setForm({ ...form, phone: fullNumber });
@@ -69,9 +76,8 @@ const Drivers = () => {
       body: JSON.stringify(form),
     });
 
-    alert(isEdit ? "Driver updated successfully" : "Driver added successfully");
-
     resetForm();
+    setShowModal(false);
     loadDrivers();
   };
 
@@ -92,22 +98,21 @@ const Drivers = () => {
   const editDriver = (driver) => {
     setForm(driver);
     setIsEdit(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setShowModal(true);
   };
 
   /* DELETE */
   const deleteDriver = async (id) => {
     if (!window.confirm("Delete this driver?")) return;
     await fetch(`${API}?id=${id}`, { method: "DELETE" });
-    alert("Driver deleted successfully");
     loadDrivers();
   };
 
-  /* SEARCH */
+  /* SEARCH FILTER */
   const filteredDrivers = drivers.filter(
     (d) =>
-      d.driver_name.toLowerCase().includes(search.toLowerCase()) ||
-      d.phone.includes(search)
+      d.driver_name?.toLowerCase().includes(search.toLowerCase()) ||
+      d.phone?.toLowerCase().includes(search.toLowerCase())
   );
 
   /* PAGINATION */
@@ -120,79 +125,23 @@ const Drivers = () => {
 
   return (
     <div className="driver-page">
-      {/* FORM */}
-      <div className="driver-form-card">
-        <div className="driver-form-header">
-          👤 {isEdit ? "Update Driver" : "Add New Driver"}
-        </div>
+    <TopNavbar />
 
-        <div className="driver-form-body">
-          <form onSubmit={handleSubmit}>
-            <label>Driver Name *</label>
-            <input
-              name="driver_name"
-              value={form.driver_name}
-              onChange={handleChange}
-              required
-            />
+      <button className="add-driver-top" onClick={() => {
+        resetForm();
+        setShowModal(true);
+      }}>
+        ➕ Add New Driver
+      </button>
 
-            <label>Phone *</label>
-            <PhoneInput
-              country="in"
-              value={form.phone}
-              onChange={handlePhoneChange}
-              enableSearch
-              inputStyle={{ width: "100%" }}
-            />
-            {phoneError && <small className="error">{phoneError}</small>}
-
-            <label>License No *</label>
-            <input
-              name="license_no"
-              value={form.license_no}
-              onChange={handleChange}
-              required
-            />
-
-            <label>Joining Date *</label>
-            <input
-              type="date"
-              name="joining_date"
-              value={form.joining_date}
-              onChange={handleChange}
-              required
-            />
-
-            <label>Status</label>
-            <select
-              name="status"
-              value={form.status}
-              onChange={handleChange}
-            >
-              <option value="ACTIVE">ACTIVE</option>
-              <option value="INACTIVE">INACTIVE</option>
-            </select>
-
-            <button className="save-btn">
-              💾 {isEdit ? "Update Driver" : "Save Driver"}
-            </button>
-
-            {isEdit && (
-              <button type="button" className="cancel-btn" onClick={resetForm}>
-                ❌ Cancel
-              </button>
-            )}
-          </form>
-        </div>
-      </div>
-
-      {/* LIST */}
       <div className="driver-list-card">
-        <div className="list-header">
-          <h3>👥 LIST</h3>
 
-          <div className="search-box">
+        <div className="card-header">
+          <h3>👥 DRIVERS LIST</h3>
+
+          <div className="search-wrapper">
             <input
+              className="search-input"
               placeholder="Search by name or phone"
               value={search}
               onChange={(e) => {
@@ -200,68 +149,113 @@ const Drivers = () => {
                 setCurrentPage(1);
               }}
             />
-            <button>🔍</button>
+
+            <button className="search-btn" title="Search">🔍</button>
+
+            {search && (
+              <button
+                className="clear-btn"
+                title="Clear"
+                onClick={() => {
+                  setSearch("");
+                  setCurrentPage(1);
+                }}
+              >
+                ✕
+              </button>
+            )}
           </div>
         </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Phone</th>
-              <th>License</th>
-              <th>Joining Date</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {paginatedDrivers.map((d) => (
-              <tr key={d.driver_id}>
-                <td data-label="Name">{d.driver_name}</td>
-                <td data-label="Phone">📞 {d.phone}</td>
-                <td data-label="License">{d.license_no}</td>
-                <td data-label="Joining Date">{d.joining_date}</td>
-                <td data-label="Status">
-                  <span className="status-active">{d.status}</span>
-                </td>
-                <td data-label="Actions">
-                  <button className="edit-btn" onClick={() => editDriver(d)}>
-                    ✏️
-                  </button>
-                  <button
-                    className="delete-btn"
-                    onClick={() => deleteDriver(d.driver_id)}
-                  >
-                    🗑
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {totalPages > 1 && (
-          <div className="pagination">
-            <button
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage((p) => p - 1)}
-            >
-              ◀ Previous
-            </button>
-            <span>
-              Page {currentPage} of {totalPages}
-            </span>
-            <button
-              disabled={currentPage === totalPages}
-              onClick={() => setCurrentPage((p) => p + 1)}
-            >
-              Next ▶
-            </button>
+        {/* NO DATA MESSAGE */}
+        {filteredDrivers.length === 0 ? (
+          <div className="no-data">
+            <div className="no-data-icon">🚗</div>
+            <p>No drivers found.</p>
           </div>
+        ) : (
+          <>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Phone</th>
+                  <th>License</th>
+                  <th>Joining Date</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {paginatedDrivers.map((d) => (
+                  <tr key={d.driver_id}>
+                    <td data-label="Name">{d.driver_name}</td>
+                    <td data-label="Phone">{d.phone}</td>
+                    <td data-label="License">{d.license_no}</td>
+                    <td data-label="Joining Date">{d.joining_date}</td>
+                    <td data-label="Status">
+                      <span className="status-active">{d.status}</span>
+                    </td>
+                    <td data-label="Actions">
+                      <button className="edit-btn" onClick={() => editDriver(d)}>✏️</button>
+                      <button className="delete-btn" onClick={() => deleteDriver(d.driver_id)}>🗑</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {totalPages > 1 && (
+              <div className="pagination">
+                <button disabled={currentPage === 1} onClick={() => setCurrentPage(p => p - 1)}>◀ Previous</button>
+                <span>{currentPage} / {totalPages}</span>
+                <button disabled={currentPage === totalPages} onClick={() => setCurrentPage(p => p + 1)}>▶  Next</button>
+              </div>
+            )}
+          </>
         )}
       </div>
+
+      {/* MODAL */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-box">
+            <div className="modal-header">
+              <h3>{isEdit ? "Update Driver" : "Add New Driver"}</h3>
+              <button onClick={() => setShowModal(false)}>✕</button>
+            </div>
+
+            <form onSubmit={handleSubmit} className="modal-body">
+              <label>Driver Name *</label>
+              <input name="driver_name" value={form.driver_name} onChange={handleChange} required />
+
+              <label>Phone *</label>
+              <PhoneInput
+                country="in"
+                value={form.phone}
+                onChange={handlePhoneChange}
+                inputStyle={{ width: "100%" }}
+              />
+              {phoneError && <small className="error">{phoneError}</small>}
+
+              <label>License *</label>
+              <input name="license_no" value={form.license_no} onChange={handleChange} required />
+
+              <label>Joining Date *</label>
+              <input type="date" name="joining_date" value={form.joining_date} onChange={handleChange} required />
+
+              <label>Status</label>
+              <select name="status" value={form.status} onChange={handleChange}>
+                <option value="ACTIVE">ACTIVE</option>
+                <option value="INACTIVE">INACTIVE</option>
+              </select>
+
+              <button className="save-btn">💾 Save</button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

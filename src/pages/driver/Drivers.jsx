@@ -14,6 +14,10 @@ const Drivers = () => {
   const [phoneError, setPhoneError] = useState("");
   const [showModal, setShowModal] = useState(false);
 
+  /* MESSAGE BOX */
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("");
+
   /* PAGINATION */
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 7;
@@ -33,7 +37,7 @@ const Drivers = () => {
       const res = await fetch(API);
       const data = await res.json();
       setDrivers(Array.isArray(data) ? data : []);
-    } catch (err) {
+    } catch {
       setDrivers([]);
     }
   };
@@ -66,7 +70,9 @@ const Drivers = () => {
     e.preventDefault();
 
     if (phoneError || !form.phone) {
-      alert("Enter valid phone number");
+      setMessage("Enter valid phone number");
+      setMessageType("error");
+      autoHide();
       return;
     }
 
@@ -76,9 +82,21 @@ const Drivers = () => {
       body: JSON.stringify(form),
     });
 
+    setMessage(
+      isEdit
+        ? "Driver updated successfully ✅"
+        : "Driver added successfully 🎉"
+    );
+    setMessageType("success");
+    autoHide();
+
     resetForm();
     setShowModal(false);
     loadDrivers();
+  };
+
+  const autoHide = () => {
+    setTimeout(() => setMessage(""), 3000);
   };
 
   const resetForm = () => {
@@ -103,12 +121,18 @@ const Drivers = () => {
 
   /* DELETE */
   const deleteDriver = async (id) => {
-    if (!window.confirm("Delete this driver?")) return;
+    if (!window.confirm("Are you sure you want to delete this driver?")) return;
+
     await fetch(`${API}?id=${id}`, { method: "DELETE" });
+
+    setMessage("Driver deleted successfully ❌");
+    setMessageType("success");
+    autoHide();
+
     loadDrivers();
   };
 
-  /* SEARCH FILTER */
+  /* SEARCH */
   const filteredDrivers = drivers.filter(
     (d) =>
       d.driver_name?.toLowerCase().includes(search.toLowerCase()) ||
@@ -125,17 +149,26 @@ const Drivers = () => {
 
   return (
     <div className="driver-page">
-    <TopNavbar />
+      <TopNavbar />
 
-      <button className="add-driver-top" onClick={() => {
-        resetForm();
-        setShowModal(true);
-      }}>
+      {/* MESSAGE BOX */}
+      {message && (
+        <div className={`message-box ${messageType}`}>
+          {message}
+        </div>
+      )}
+
+      <button
+        className="add-driver-top"
+        onClick={() => {
+          resetForm();
+          setShowModal(true);
+        }}
+      >
         ➕ Add New Driver
       </button>
 
       <div className="driver-list-card">
-
         <div className="card-header">
           <h3>👥 DRIVERS LIST</h3>
 
@@ -150,12 +183,11 @@ const Drivers = () => {
               }}
             />
 
-            <button className="search-btn" title="Search">🔍</button>
+            <button className="search-btn">🔍</button>
 
             {search && (
               <button
                 className="clear-btn"
-                title="Clear"
                 onClick={() => {
                   setSearch("");
                   setCurrentPage(1);
@@ -167,7 +199,6 @@ const Drivers = () => {
           </div>
         </div>
 
-        {/* NO DATA MESSAGE */}
         {filteredDrivers.length === 0 ? (
           <div className="no-data">
             <div className="no-data-icon">🚗</div>
@@ -198,8 +229,18 @@ const Drivers = () => {
                       <span className="status-active">{d.status}</span>
                     </td>
                     <td data-label="Actions">
-                      <button className="edit-btn" onClick={() => editDriver(d)}>✏️</button>
-                      <button className="delete-btn" onClick={() => deleteDriver(d.driver_id)}>🗑</button>
+                      <button
+                        className="edit-btn"
+                        onClick={() => editDriver(d)}
+                      >
+                        ✏️
+                      </button>
+                      <button
+                        className="delete-btn"
+                        onClick={() => deleteDriver(d.driver_id)}
+                      >
+                        🗑
+                      </button>
                     </td>
                   </tr>
                 ))}
@@ -208,9 +249,21 @@ const Drivers = () => {
 
             {totalPages > 1 && (
               <div className="pagination">
-                <button disabled={currentPage === 1} onClick={() => setCurrentPage(p => p - 1)}>◀ Previous</button>
-                <span>{currentPage} / {totalPages}</span>
-                <button disabled={currentPage === totalPages} onClick={() => setCurrentPage(p => p + 1)}>▶  Next</button>
+                <button
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage((p) => p - 1)}
+                >
+                  ◀ Previous
+                </button>
+                <span>
+                  {currentPage} / {totalPages}
+                </span>
+                <button
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage((p) => p + 1)}
+                >
+                  ▶ Next
+                </button>
               </div>
             )}
           </>
@@ -228,7 +281,12 @@ const Drivers = () => {
 
             <form onSubmit={handleSubmit} className="modal-body">
               <label>Driver Name *</label>
-              <input name="driver_name" value={form.driver_name} onChange={handleChange} required />
+              <input
+                name="driver_name"
+                value={form.driver_name}
+                onChange={handleChange}
+                required
+              />
 
               <label>Phone *</label>
               <PhoneInput
@@ -240,18 +298,36 @@ const Drivers = () => {
               {phoneError && <small className="error">{phoneError}</small>}
 
               <label>License *</label>
-              <input name="license_no" value={form.license_no} onChange={handleChange} required />
+              <input
+                name="license_no"
+                value={form.license_no}
+                onChange={handleChange}
+                required
+              />
 
               <label>Joining Date *</label>
-              <input type="date" name="joining_date" value={form.joining_date} onChange={handleChange} required />
+              <input
+                type="date"
+                name="joining_date"
+                value={form.joining_date}
+                onChange={handleChange}
+                required
+              />
 
               <label>Status</label>
-              <select name="status" value={form.status} onChange={handleChange}>
+              <select
+                name="status"
+                value={form.status}
+                onChange={handleChange}
+              >
                 <option value="ACTIVE">ACTIVE</option>
                 <option value="INACTIVE">INACTIVE</option>
               </select>
 
-              <button className="save-btn">💾 Save</button>
+              {/* 🔥 BUTTON TEXT FIXED HERE */}
+              <button className="save-btn">
+                {isEdit ? "✏️ UPDATE DRIVER" : "💾 ADD DRIVER"}
+              </button>
             </form>
           </div>
         </div>

@@ -141,6 +141,8 @@ border-radius: 25px 10px;
   }
 
   .card {
+      background: rgb(230, 229, 210);
+
     width: 100%;
     min-height: auto;
   }

@@ -258,9 +258,8 @@ th {
    background: linear-gradient(
   35deg,
     #2563eb 0%,
-    #b3d5f0 30%,
-    #b096d1 70%,
-    #2563eb 100%
+    #b3d5f0 75%,
+    #b096d1 100%
   );
   color: white;
   border: none;

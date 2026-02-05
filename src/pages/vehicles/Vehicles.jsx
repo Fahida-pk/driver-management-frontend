@@ -19,12 +19,7 @@ const Vehicles = () => {
   const recordsPerPage = 7;
 
   /* VEHICLE TYPES */
-  const [vehicleTypes, setVehicleTypes] = useState([
-    "LORRY",
-    "TRUCK",
-    "VAN",
-  ]);
-
+  const [vehicleTypes, setVehicleTypes] = useState(["LORRY", "TRUCK", "VAN"]);
   const [showTypeModal, setShowTypeModal] = useState(false);
   const [newType, setNewType] = useState("");
 
@@ -43,6 +38,7 @@ const Vehicles = () => {
       const res = await fetch(API);
       const data = await res.json();
       setVehicles(Array.isArray(data) ? data : []);
+      setCurrentPage(1); // ✅ pagination refresh fix
     } catch {
       setVehicles([]);
     }
@@ -57,7 +53,7 @@ const Vehicles = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  /* SUBMIT VEHICLE */
+  /* SUBMIT */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -74,11 +70,7 @@ const Vehicles = () => {
       body: JSON.stringify(form),
     });
 
-    setMessage(
-      isEdit
-        ? "Vehicle updated successfully ✅"
-        : "Vehicle added successfully 🚗"
-    );
+    setMessage(isEdit ? "Vehicle updated ✅" : "Vehicle added 🚗");
     setMessageType("success");
     autoHide();
 
@@ -126,7 +118,6 @@ const Vehicles = () => {
     if (!newType.trim()) return;
 
     const type = newType.toUpperCase();
-
     if (vehicleTypes.includes(type)) {
       alert("Vehicle type already exists");
       return;
@@ -198,14 +189,17 @@ const Vehicles = () => {
           <tbody>
             {paginatedVehicles.map((v) => (
               <tr key={v.vehicle_id}>
-                <td>{v.name}</td>
-                <td>{v.vehicle_no}</td>
-                <td>{v.vehicle_type}</td>
-                <td>
+                <td data-label="Name">{v.name}</td>
+                <td data-label="Number">{v.vehicle_no}</td>
+                <td data-label="Type">{v.vehicle_type}</td>
+                <td data-label="Status">
                   <span className="status-active">{v.status}</span>
                 </td>
-                <td>
-                  <button className="edit-btn" onClick={() => editVehicle(v)}>
+                <td data-label="Actions">
+                  <button
+                    className="edit-btn"
+                    onClick={() => editVehicle(v)}
+                  >
                     ✏️
                   </button>
                   <button
@@ -220,7 +214,7 @@ const Vehicles = () => {
           </tbody>
         </table>
 
-        {totalPages > 1 && (
+        {totalPages > 1 && currentPage <= totalPages && (
           <div className="pagination">
             <button
               disabled={currentPage === 1}
@@ -228,9 +222,11 @@ const Vehicles = () => {
             >
               ◀ Previous
             </button>
+
             <span>
               {currentPage} / {totalPages}
             </span>
+
             <button
               disabled={currentPage === totalPages}
               onClick={() => setCurrentPage((p) => p + 1)}
@@ -286,7 +282,11 @@ const Vehicles = () => {
               </div>
 
               <label>Status</label>
-              <select name="status" value={form.status} onChange={handleChange}>
+              <select
+                name="status"
+                value={form.status}
+                onChange={handleChange}
+              >
                 <option value="ACTIVE">ACTIVE</option>
                 <option value="INACTIVE">INACTIVE</option>
               </select>

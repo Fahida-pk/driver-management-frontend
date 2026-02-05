@@ -66,7 +66,7 @@ const Sidebar = () => {
               <span>Vehicle</span>
             </Link>
 
-            <Link to="/route" onClick={() => setMobileOpen(false)}>
+            <Link to="/trips" onClick={() => setMobileOpen(false)}>
               <FaRoute />
               <span>Route</span>
             </Link>

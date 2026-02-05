@@ -5,12 +5,14 @@ import "./dashboard.css";
 
 const VEHICLE_API = "https://zyntaweb.com/alafiya/api/vehicles.php";
 const DRIVER_API = "https://zyntaweb.com/alafiya/api/drivers.php";
+const TRIP_API   = "https://zyntaweb.com/alafiya/api/trip.php";
 
 const Dashboard = () => {
   const navigate = useNavigate();
 
   const [vehicleCount, setVehicleCount] = useState(0);
   const [driverCount, setDriverCount] = useState(0);
+  const [routeCount, setRouteCount] = useState(0);
 
   useEffect(() => {
     const role = localStorage.getItem("role");
@@ -21,6 +23,7 @@ const Dashboard = () => {
 
     loadVehicleCount();
     loadDriverCount();
+    loadRouteCount();
   }, [navigate]);
 
   /* LOAD VEHICLE COUNT */
@@ -42,6 +45,17 @@ const Dashboard = () => {
       setDriverCount(Array.isArray(data) ? data.length : 0);
     } catch {
       setDriverCount(0);
+    }
+  };
+
+  /* LOAD ROUTE (MASTER TRIP) COUNT */
+  const loadRouteCount = async () => {
+    try {
+      const res = await fetch(TRIP_API);
+      const data = await res.json();
+      setRouteCount(Array.isArray(data) ? data.length : 0);
+    } catch {
+      setRouteCount(0);
     }
   };
 
@@ -75,14 +89,14 @@ const Dashboard = () => {
               </div>
             </div>
 
-            {/* ROUTES (static now) */}
+            {/* ROUTES */}
             <div className="card">
               <div className="card-head">
                 <span className="card-icon">🛣</span>
                 <span className="card-title">Routes</span>
               </div>
               <div className="card-count">
-                Total Number 5
+                Total Number {routeCount}
               </div>
             </div>
 

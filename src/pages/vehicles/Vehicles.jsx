@@ -38,7 +38,7 @@ const Vehicles = () => {
       const res = await fetch(API);
       const data = await res.json();
       setVehicles(Array.isArray(data) ? data : []);
-      setCurrentPage(1); // ✅ pagination refresh fix
+      setCurrentPage(1); // 🔥 pagination refresh fix
     } catch {
       setVehicles([]);
     }
@@ -47,6 +47,11 @@ const Vehicles = () => {
   useEffect(() => {
     loadVehicles();
   }, []);
+
+  /* 🔥 SEARCH / DATA CHANGE PAGINATION FIX */
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, vehicles.length]);
 
   /* HANDLE FORM CHANGE */
   const handleChange = (e) => {
@@ -148,7 +153,9 @@ const Vehicles = () => {
     <div className="vehicle-page">
       <TopNavbar />
 
-      {message && <div className={`message-box ${messageType}`}>{message}</div>}
+      {message && (
+        <div className={`message-box ${messageType}`}>{message}</div>
+      )}
 
       <button
         className="add-vehicle-top"
@@ -164,76 +171,96 @@ const Vehicles = () => {
         <div className="card-header">
           <h3>🚘 VEHICLES LIST</h3>
 
-          <input
-            className="search-input"
-            placeholder="Search by name, no or type"
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setCurrentPage(1);
-            }}
-          />
+          {/* 🔍 SEARCH WITH ICON */}
+          <div className="search-wrapper">
+            <input
+              className="search-input"
+              placeholder="Search by name, no or type"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+
+            <button className="search-btn" type="button">🔍</button>
+
+            {search && (
+              <button
+                className="clear-btn"
+                type="button"
+                onClick={() => setSearch("")}
+              >
+                ✕
+              </button>
+            )}
+          </div>
         </div>
 
-        <table>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Number</th>
-              <th>Type</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {paginatedVehicles.map((v) => (
-              <tr key={v.vehicle_id}>
-                <td data-label="Name">{v.name}</td>
-                <td data-label="Number">{v.vehicle_no}</td>
-                <td data-label="Type">{v.vehicle_type}</td>
-                <td data-label="Status">
-                  <span className="status-active">{v.status}</span>
-                </td>
-                <td data-label="Actions">
-                  <button
-                    className="edit-btn"
-                    onClick={() => editVehicle(v)}
-                  >
-                    ✏️
-                  </button>
-                  <button
-                    className="delete-btn"
-                    onClick={() => deleteVehicle(v.vehicle_id)}
-                  >
-                    🗑
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {totalPages > 1 && currentPage <= totalPages && (
-          <div className="pagination">
-            <button
-              disabled={currentPage === 1}
-              onClick={() => setCurrentPage((p) => p - 1)}
-            >
-              ◀ Previous
-            </button>
-
-            <span>
-              {currentPage} / {totalPages}
-            </span>
-
-            <button
-              disabled={currentPage === totalPages}
-              onClick={() => setCurrentPage((p) => p + 1)}
-            >
-              ▶ Next
-            </button>
+        {/* 🚫 NO DATA */}
+        {filteredVehicles.length === 0 ? (
+          <div className="no-data">
+            <div className="no-data-icon">🚘</div>
+            <p>No vehicles found.</p>
           </div>
+        ) : (
+          <>
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Number</th>
+                  <th>Type</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {paginatedVehicles.map((v) => (
+                  <tr key={v.vehicle_id}>
+                    <td data-label="Name">{v.name}</td>
+                    <td data-label="Number">{v.vehicle_no}</td>
+                    <td data-label="Type">{v.vehicle_type}</td>
+                    <td data-label="Status">
+                      <span className="status-active">{v.status}</span>
+                    </td>
+                    <td data-label="Actions">
+                      <button className="edit-btn" onClick={() => editVehicle(v)}>
+                        ✏️
+                      </button>
+                      <button
+                        className="delete-btn"
+                        onClick={() => deleteVehicle(v.vehicle_id)}
+                      >
+                        🗑
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {/* PAGINATION */}
+            {totalPages > 1 && currentPage <= totalPages && (
+              <div className="pagination">
+                <button
+                  disabled={currentPage === 1}
+                  onClick={() => setCurrentPage((p) => p - 1)}
+                >
+                  ◀ Previous
+                </button>
+
+                <span>
+                  {currentPage} / {totalPages}
+                </span>
+
+                <button
+                  disabled={currentPage === totalPages}
+                  onClick={() => setCurrentPage((p) => p + 1)}
+                >
+                  ▶ Next
+                </button>
+              </div>
+            )}
+          </>
         )}
       </div>
 
@@ -299,7 +326,7 @@ const Vehicles = () => {
         </div>
       )}
 
-      {/* ADD VEHICLE TYPE MODAL */}
+      {/* ADD TYPE MODAL */}
       {showTypeModal && (
         <div className="modal-overlay">
           <div className="modal-box small">

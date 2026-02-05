@@ -1,0 +1,344 @@
+/* ===== RESET ===== */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== TOP NAVBAR ===== */
+.top-navbar {
+  position: relative;
+  top: 0;
+
+  /* sidebar width */
+  margin-left: 280px;
+  width: calc(100% - 280px);
+
+  height: 64px;
+  z-index: 1000;
+}
+
+/* ===== PAGE ===== */
+.vehicle-page {
+  padding: 16px;
+  background: #f4f7fb;
+  min-height: 100vh;
+}
+
+/* ================================================= */
+/* ============ ADD BUTTON ========================== */
+/* ================================================= */
+.add-vehicle-top {
+  padding: 10px 18px;
+  background: linear-gradient(
+    300deg,
+    #2563eb 0%,
+    #b3d5f0 40%,
+    #b096d1 70%,
+    #2563eb 100%
+  );
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+/* ===== LIST CARD ===== */
+.vehicle-list-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  overflow-x: auto;
+}
+
+/* ================================================= */
+/* =============== CARD HEADER ===================== */
+/* ================================================= */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+  gap: 12px;
+}
+
+.card-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.search-input {
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid #dcdfe6;
+  border-radius: 8px;
+  width: 240px;
+}
+
+.clear-btn {
+  height: 42px;
+  width: 42px;
+  border: 1px solid #dcdfe6;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* ===== NO DATA ===== */
+.no-data {
+  padding: 60px 0;
+  text-align: center;
+  color: #6b7280;
+}
+
+.no-data-icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+/* ===== TABLE ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+  text-align: left;
+  white-space: nowrap;
+}
+
+th {
+  background: #f9fafb;
+  font-weight: 600;
+}
+
+/* ===== STATUS ===== */
+.status-active {
+  background: #dcfce7;
+  color: #15803d;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
+/* ===== ACTIONS ===== */
+.edit-btn {
+  background: #22c55e;
+  color: #fff;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.delete-btn {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin-left: 6px;
+  cursor: pointer;
+}
+
+/* ===== PAGINATION ===== */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #dcdfe6;
+  background: #fff;
+  cursor: pointer;
+}
+
+/* ================================================= */
+/* ================= MODAL ========================= */
+/* ================================================= */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* ===== MESSAGE BOX ===== */
+.message-box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 320px;
+  padding: 16px 20px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  z-index: 9999;
+}
+
+.message-box.success {
+  background: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.message-box.error {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+/* ===== MODAL BOX ===== */
+.modal-box {
+  background: #fff;
+  width: 500px;
+  max-width: 95%;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  font-size: 18px;
+}
+
+.modal-header button {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* ===== MODAL FORM ===== */
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.modal-body label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.modal-body input,
+.modal-body select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #dcdfe6;
+}
+
+.modal-body .save-btn {
+  margin-top: 10px;
+  padding: 12px;
+  background: linear-gradient(
+    190deg,
+    #2563eb 0%,
+    #b3d5f0 50%,
+    #2563eb 100%
+  );
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ===== DESKTOP ===== */
+@media (min-width: 577px) {
+  table {
+    min-width: 700px;
+  }
+}
+
+/* ================================================= */
+/* ================= MOBILE VIEW =================== */
+/* ================================================= */
+@media (max-width: 576px) {
+
+  .vehicle-page {
+    padding: 12px;
+  }
+
+  .card-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+
+  thead {
+    display: none;
+  }
+
+  table,
+  tbody,
+  tr,
+  td {
+    display: block;
+    width: 100%;
+  }
+
+  tbody tr {
+    background: #fff;
+    margin-bottom: 14px;
+    padding: 14px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  }
+
+  tbody td {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 0;
+    border: none;
+  }
+
+  tbody td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    min-width: 110px;
+  }
+
+  tbody td[data-label="Actions"] {
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  .modal-box {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    overflow-y: auto;
+  }
+}

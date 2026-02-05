@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/login/login";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Drivers from "./pages/driver/Drivers";
+import  Vehicles from "./pages/vehicles/Vehicles";
+
 import MainLayout from "./layouts/MainLayout";
 
 function App() {
@@ -16,6 +18,7 @@ function App() {
         <Route element={<MainLayout />}>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/drivers" element={<Drivers />} />
+          <Route path="/vehicles" element={<Vehicles />} />
         </Route>
 
       </Routes>

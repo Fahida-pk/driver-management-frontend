@@ -84,12 +84,18 @@ border-radius: 25px 10px;
   flex-wrap: wrap;
 }
 
-.card { background: rgb(230, 229, 210); padding: 24px; width: 380px; height: 200px; border-radius: 45px 30px 15px 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.12); }
-
-.card-head {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.card {
+  background: linear-gradient(
+    200deg,
+    #b096d1 0%,
+    #b3d5f0 50%,
+    #b096d1 100%
+  );
+  padding: 24px;
+  width: 380px;
+  height: 200px;
+  border-radius: 45px 30px 15px 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 
 .card-icon {

@@ -245,6 +245,28 @@ th {
   font-size: 13px;
   font-weight: 600;
 }
+.type-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.add-type-btn {
+  width: 42px;
+  height: 42px;
+  font-size: 22px;
+   background: linear-gradient(
+  35deg,
+    #2563eb 0%,
+    #b3d5f0 30%,
+    #b096d1 70%,
+    #2563eb 100%
+  );
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
 
 .modal-body input,
 .modal-body select {

@@ -10,7 +10,7 @@ const Vehicles = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
-  /* MESSAGE BOX */
+  /* MESSAGE */
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
 
@@ -18,14 +18,26 @@ const Vehicles = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 7;
 
+  /* VEHICLE TYPES */
+  const [vehicleTypes, setVehicleTypes] = useState([
+    "LORRY",
+    "TRUCK",
+    "VAN",
+  ]);
+
+  const [showTypeModal, setShowTypeModal] = useState(false);
+  const [newType, setNewType] = useState("");
+
+  /* FORM */
   const [form, setForm] = useState({
     vehicle_id: "",
+    name: "",
     vehicle_no: "",
     vehicle_type: "",
     status: "ACTIVE",
   });
 
-  /* LOAD DATA */
+  /* LOAD VEHICLES */
   const loadVehicles = async () => {
     try {
       const res = await fetch(API);
@@ -40,17 +52,17 @@ const Vehicles = () => {
     loadVehicles();
   }, []);
 
-  /* FORM CHANGE */
+  /* HANDLE FORM CHANGE */
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  /* SUBMIT */
+  /* SUBMIT VEHICLE */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!form.vehicle_type) {
-      setMessage("Please select vehicle type ❗");
+    if (!form.name || !form.vehicle_no || !form.vehicle_type) {
+      setMessage("Please fill all required fields ❗");
       setMessageType("error");
       autoHide();
       return;
@@ -82,6 +94,7 @@ const Vehicles = () => {
   const resetForm = () => {
     setForm({
       vehicle_id: "",
+      name: "",
       vehicle_no: "",
       vehicle_type: "",
       status: "ACTIVE",
@@ -98,20 +111,36 @@ const Vehicles = () => {
 
   /* DELETE */
   const deleteVehicle = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this vehicle?")) return;
+    if (!window.confirm("Delete this vehicle?")) return;
 
     await fetch(`${API}?id=${id}`, { method: "DELETE" });
 
-    setMessage("Vehicle deleted successfully ❌");
+    setMessage("Vehicle deleted ❌");
     setMessageType("success");
     autoHide();
-
     loadVehicles();
+  };
+
+  /* ADD VEHICLE TYPE */
+  const saveVehicleType = () => {
+    if (!newType.trim()) return;
+
+    const type = newType.toUpperCase();
+
+    if (vehicleTypes.includes(type)) {
+      alert("Vehicle type already exists");
+      return;
+    }
+
+    setVehicleTypes([...vehicleTypes, type]);
+    setNewType("");
+    setShowTypeModal(false);
   };
 
   /* SEARCH */
   const filteredVehicles = vehicles.filter(
     (v) =>
+      v.name?.toLowerCase().includes(search.toLowerCase()) ||
       v.vehicle_no?.toLowerCase().includes(search.toLowerCase()) ||
       v.vehicle_type?.toLowerCase().includes(search.toLowerCase())
   );
@@ -128,12 +157,7 @@ const Vehicles = () => {
     <div className="vehicle-page">
       <TopNavbar />
 
-      {/* MESSAGE BOX */}
-      {message && (
-        <div className={`message-box ${messageType}`}>
-          {message}
-        </div>
-      )}
+      {message && <div className={`message-box ${messageType}`}>{message}</div>}
 
       <button
         className="add-vehicle-top"
@@ -149,99 +173,75 @@ const Vehicles = () => {
         <div className="card-header">
           <h3>🚘 VEHICLES LIST</h3>
 
-          <div className="search-wrapper">
-            <input
-              className="search-input"
-              placeholder="Search by vehicle no or type"
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                setCurrentPage(1);
-              }}
-            />
-
-            {search && (
-              <button
-                className="clear-btn"
-                onClick={() => {
-                  setSearch("");
-                  setCurrentPage(1);
-                }}
-              >
-                ✕
-              </button>
-            )}
-          </div>
+          <input
+            className="search-input"
+            placeholder="Search by name, no or type"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setCurrentPage(1);
+            }}
+          />
         </div>
 
-        {filteredVehicles.length === 0 ? (
-          <div className="no-data">
-            <div className="no-data-icon">🚗</div>
-            <p>No vehicles found.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Number</th>
+              <th>Type</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {paginatedVehicles.map((v) => (
+              <tr key={v.vehicle_id}>
+                <td>{v.name}</td>
+                <td>{v.vehicle_no}</td>
+                <td>{v.vehicle_type}</td>
+                <td>
+                  <span className="status-active">{v.status}</span>
+                </td>
+                <td>
+                  <button className="edit-btn" onClick={() => editVehicle(v)}>
+                    ✏️
+                  </button>
+                  <button
+                    className="delete-btn"
+                    onClick={() => deleteVehicle(v.vehicle_id)}
+                  >
+                    🗑
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+
+        {totalPages > 1 && (
+          <div className="pagination">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((p) => p - 1)}
+            >
+              ◀ Previous
+            </button>
+            <span>
+              {currentPage} / {totalPages}
+            </span>
+            <button
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage((p) => p + 1)}
+            >
+              ▶ Next
+            </button>
           </div>
-        ) : (
-          <>
-            <table>
-              <thead>
-                <tr>
-                  <th>Vehicle No</th>
-                  <th>Vehicle Type</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {paginatedVehicles.map((v) => (
-                  <tr key={v.vehicle_id}>
-                    <td data-label="Vehicle No">{v.vehicle_no}</td>
-                    <td data-label="Vehicle Type">{v.vehicle_type}</td>
-                    <td data-label="Status">
-                      <span className="status-active">{v.status}</span>
-                    </td>
-                    <td data-label="Actions">
-                      <button
-                        className="edit-btn"
-                        onClick={() => editVehicle(v)}
-                      >
-                        ✏️
-                      </button>
-                      <button
-                        className="delete-btn"
-                        onClick={() => deleteVehicle(v.vehicle_id)}
-                      >
-                        🗑
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-
-            {totalPages > 1 && (
-              <div className="pagination">
-                <button
-                  disabled={currentPage === 1}
-                  onClick={() => setCurrentPage((p) => p - 1)}
-                >
-                  ◀ Previous
-                </button>
-                <span>
-                  {currentPage} / {totalPages}
-                </span>
-                <button
-                  disabled={currentPage === totalPages}
-                  onClick={() => setCurrentPage((p) => p + 1)}
-                >
-                  ▶ Next
-                </button>
-              </div>
-            )}
-          </>
         )}
       </div>
 
-      {/* MODAL */}
+      {/* VEHICLE MODAL */}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-box">
@@ -251,33 +251,42 @@ const Vehicles = () => {
             </div>
 
             <form onSubmit={handleSubmit} className="modal-body">
+              <label>Vehicle Name *</label>
+              <input name="name" value={form.name} onChange={handleChange} />
+
               <label>Vehicle Number *</label>
               <input
                 name="vehicle_no"
                 value={form.vehicle_no}
                 onChange={handleChange}
-                required
               />
 
               <label>Vehicle Type *</label>
-              <select
-                name="vehicle_type"
-                value={form.vehicle_type}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Select Vehicle Type</option>
-                <option value="LORRY">Lorry</option>
-                <option value="TRUCK">Truck</option>
-                <option value="VAN">Van</option>
-              </select>
+              <div className="type-row">
+                <select
+                  name="vehicle_type"
+                  value={form.vehicle_type}
+                  onChange={handleChange}
+                >
+                  <option value="">Select Vehicle Type</option>
+                  {vehicleTypes.map((t) => (
+                    <option key={t} value={t}>
+                      {t}
+                    </option>
+                  ))}
+                </select>
+
+                <button
+                  type="button"
+                  className="add-type-btn"
+                  onClick={() => setShowTypeModal(true)}
+                >
+                  ➕
+                </button>
+              </div>
 
               <label>Status</label>
-              <select
-                name="status"
-                value={form.status}
-                onChange={handleChange}
-              >
+              <select name="status" value={form.status} onChange={handleChange}>
                 <option value="ACTIVE">ACTIVE</option>
                 <option value="INACTIVE">INACTIVE</option>
               </select>
@@ -286,6 +295,31 @@ const Vehicles = () => {
                 {isEdit ? "✏️ UPDATE VEHICLE" : "💾 ADD VEHICLE"}
               </button>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* ADD VEHICLE TYPE MODAL */}
+      {showTypeModal && (
+        <div className="modal-overlay">
+          <div className="modal-box small">
+            <div className="modal-header">
+              <h3>Add Vehicle Type</h3>
+              <button onClick={() => setShowTypeModal(false)}>✕</button>
+            </div>
+
+            <div className="modal-body">
+              <label>Vehicle Type Name *</label>
+              <input
+                value={newType}
+                onChange={(e) => setNewType(e.target.value)}
+                placeholder="Eg: MINI TRUCK"
+              />
+
+              <button className="save-btn" onClick={saveVehicleType}>
+                💾 SAVE TYPE
+              </button>
+            </div>
           </div>
         </div>
       )}

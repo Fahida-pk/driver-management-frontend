@@ -36,7 +36,7 @@ const TripMaster = () => {
     status: "ACTIVE",
   });
 
-  /* LOAD */
+  /* LOAD TRIPS */
   const loadTrips = async () => {
     try {
       const res = await fetch(API);
@@ -62,13 +62,13 @@ const TripMaster = () => {
     setTimeout(() => setMessage(""), 3000);
   };
 
-  /* CHANGE */
+  /* INPUT CHANGE */
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: value });
   };
 
-  /* ENTER KEY */
+  /* ENTER KEY NAVIGATION */
   const handleEnter = (e, nextRef) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -128,11 +128,18 @@ const TripMaster = () => {
     setShowModal(true);
   };
 
-  /* DELETE (Driver.jsx pole) */
+  /* DELETE ✅ FIXED */
   const deleteTrip = async (id) => {
     if (!window.confirm("Are you sure you want to delete this trip?")) return;
 
-    await fetch(`${API}?id=${id}`, { method: "DELETE" });
+    await fetch(API, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        action: "delete",
+        route_id: id,
+      }),
+    });
 
     setMessage("Trip deleted successfully ❌");
     setMessageType("success");
@@ -155,7 +162,6 @@ const TripMaster = () => {
     <div className="trip-page">
       <TopNavbar />
 
-      {/* MESSAGE BOX */}
       {message && <div className={`message-box ${messageType}`}>{message}</div>}
 
       <button
@@ -165,7 +171,7 @@ const TripMaster = () => {
           setShowModal(true);
         }}
       >
-        ➕ Add Master Trip
+        ➕ Add New Trip
       </button>
 
       <div className="trip-list-card1">
@@ -182,8 +188,6 @@ const TripMaster = () => {
                 setCurrentPage(1);
               }}
             />
-            <button className="search-btn">🔍</button>
-
             {search && (
               <button
                 className="clear-btn"
@@ -216,18 +220,17 @@ const TripMaster = () => {
                   <th>Actions</th>
                 </tr>
               </thead>
-
               <tbody>
                 {paginatedTrips.map((t) => (
                   <tr key={t.route_id}>
-                    <td data-label="Route">{t.route_name}</td>
-                    <td data-label="Distance">{t.fixed_distance}</td>
-                    <td data-label="Allowance">{t.fixed_allowance}</td>
-                    <td data-label="Food">{t.fixed_food_allowance}</td>
-                    <td data-label="Status">
+                    <td>{t.route_name}</td>
+                    <td>{t.fixed_distance}</td>
+                    <td>{t.fixed_allowance}</td>
+                    <td>{t.fixed_food_allowance}</td>
+                    <td>
                       <span className="status-active">{t.status}</span>
                     </td>
-                    <td data-label="Actions">
+                    <td>
                       <button className="edit-btn" onClick={() => editTrip(t)}>
                         ✏️
                       </button>
@@ -251,7 +254,9 @@ const TripMaster = () => {
                 >
                   ◀ Previous
                 </button>
-                <span>{currentPage} / {totalPages}</span>
+                <span>
+                  {currentPage} / {totalPages}
+                </span>
                 <button
                   disabled={currentPage === totalPages}
                   onClick={() => setCurrentPage((p) => p + 1)}
@@ -264,7 +269,6 @@ const TripMaster = () => {
         )}
       </div>
 
-      {/* MODAL */}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-box">

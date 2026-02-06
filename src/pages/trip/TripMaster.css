@@ -359,82 +359,37 @@ th {
 
 @media (max-width: 576px) {
 
-  .top-navbar {
-    margin-left: 0;
-    width: 100%;
-    position: fixed;
-    top: 0;
-    z-index: 1000;
-  }
-
-  .trip-page {
-    padding: 12px;
-    padding-top: 70px;
-    background: #f4f7fb;
-  }
-
-  thead {
-    display: none;
-  }
-
-  table,
-  tbody,
-  tr,
-  td {
-    display: block;
-    width: 100%;
-  }
-
-  tbody tr {
-    background: #fff;
-    margin-bottom: 14px;
-    padding: 14px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-  }
-
   tbody td {
     display: flex;
-    justify-content: space-between;
     align-items: flex-start;
-    gap: 12px;
+    gap: 10px;
     padding: 8px 0;
     border: none;
     font-size: 14px;
   }
 
+  /* LABEL */
   tbody td::before {
     content: attr(data-label);
     font-weight: 600;
     color: #555;
-    min-width: 110px;
+    width: 110px;          /* fixed */
     flex-shrink: 0;
   }
 
-  /* 🔥 THIS IS THE KEY FIX */
- .td-value {
-  flex: 1;
-  text-align: right;
+  /* VALUE */
+  .td-value {
+    flex: 1;               /* take remaining space */
+    text-align: right;
 
-  overflow-wrap: anywhere;
-  word-break: break-all;
+    white-space: normal;   /* allow wrapping */
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
 
-  max-width: 55%;
-}
-
-
+  /* ACTIONS */
   tbody td[data-label="Actions"] {
     justify-content: flex-end;
     gap: 10px;
-  }
-
-  .sidebar {
-    display: none;
-  }
-
-  .modal-box {
-    width: 100%;
-    height: 100%;
-    border-radius: 0;
   }
 }

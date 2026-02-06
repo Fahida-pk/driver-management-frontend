@@ -51,18 +51,39 @@ const Drivers = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  /* PHONE */
+  /* 📞 PHONE VALIDATION – ALL COUNTRIES */
   const handlePhoneChange = (value, country) => {
     const fullNumber = "+" + value;
     setForm({ ...form, phone: fullNumber });
 
-    const local = value.slice(country.dialCode.length);
+    const localNumber = value.slice(country.dialCode.length);
 
-    if (!local) setPhoneError("Phone number is required");
-    else if (!/^\d+$/.test(local)) setPhoneError("Only digits allowed");
-    else if (local.length < 7 || local.length > 12)
-      setPhoneError("Invalid phone number");
-    else setPhoneError("");
+    if (!localNumber) {
+      setPhoneError("Phone number is required");
+      return;
+    }
+
+    if (!/^\d+$/.test(localNumber)) {
+      setPhoneError("Only digits allowed");
+      return;
+    }
+
+    // 🇮🇳 India → exactly 10 digits
+    if (country.countryCode === "in") {
+      if (localNumber.length !== 10) {
+        setPhoneError("Indian phone number must be 10 digits");
+        return;
+      }
+    } 
+    // 🌍 Other countries
+    else {
+      if (localNumber.length < 7 || localNumber.length > 12) {
+        setPhoneError("Invalid phone number length");
+        return;
+      }
+    }
+
+    setPhoneError("");
   };
 
   /* SUBMIT */
@@ -152,11 +173,7 @@ const Drivers = () => {
       <TopNavbar />
 
       {/* MESSAGE BOX */}
-      {message && (
-        <div className={`message-box ${messageType}`}>
-          {message}
-        </div>
-      )}
+      {message && <div className={`message-box ${messageType}`}>{message}</div>}
 
       <button
         className="add-driver-top"
@@ -182,7 +199,6 @@ const Drivers = () => {
                 setCurrentPage(1);
               }}
             />
-
             <button className="search-btn">🔍</button>
 
             {search && (
@@ -217,7 +233,6 @@ const Drivers = () => {
                   <th>Actions</th>
                 </tr>
               </thead>
-
               <tbody>
                 {paginatedDrivers.map((d) => (
                   <tr key={d.driver_id}>
@@ -229,10 +244,7 @@ const Drivers = () => {
                       <span className="status-active">{d.status}</span>
                     </td>
                     <td data-label="Actions">
-                      <button
-                        className="edit-btn"
-                        onClick={() => editDriver(d)}
-                      >
+                      <button className="edit-btn" onClick={() => editDriver(d)}>
                         ✏️
                       </button>
                       <button
@@ -324,7 +336,6 @@ const Drivers = () => {
                 <option value="INACTIVE">INACTIVE</option>
               </select>
 
-              {/* 🔥 BUTTON TEXT FIXED HERE */}
               <button className="save-btn">
                 {isEdit ? "✏️ UPDATE DRIVER" : "💾 ADD DRIVER"}
               </button>

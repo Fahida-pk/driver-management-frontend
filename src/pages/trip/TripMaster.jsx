@@ -254,7 +254,11 @@ const TripMaster = () => {
                 </span>
                 <button
                   disabled={currentPage === totalPages}
-                  onClick={() => setCurrentPage((p) => p + 1)}
+                  onClick={() => {
+  setCurrentPage((p) => p + 1);
+  scrollToTop();
+}}
+
                 >
                   ▶ Next
                 </button>

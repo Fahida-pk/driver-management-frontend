@@ -416,9 +416,10 @@ th {
   flex: 1;
   text-align: right;
 
-  /* 🔥 IMPORTANT */
-  overflow-wrap: anywhere;   /* modern browsers */
-  word-break: break-all;     /* fallback */
+  overflow-wrap: anywhere;
+  word-break: break-all;
+
+  max-width: 55%;
 }
 
 

@@ -194,9 +194,9 @@ const TripMaster = () => {
               <thead>
                 <tr>
                   <th>Route</th>
-                  <th>Distance</th>
-                  <th>Allowance</th>
-                  <th>Food</th>
+                  <th>Fixed Distance</th>
+                  <th>Fixed Allowance</th>
+                  <th>Fixed Food Allowance</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>

@@ -18,7 +18,7 @@ const TripMaster = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 7;
 
-  /* INPUT REFS (ENTER FLOW) */
+  /* INPUT REFS */
   const routeRef = useRef(null);
   const distanceRef = useRef(null);
   const allowanceRef = useRef(null);
@@ -51,7 +51,6 @@ const TripMaster = () => {
     loadTrips();
   }, []);
 
-  /* AUTO FOCUS WHEN MODAL OPENS */
   useEffect(() => {
     if (showModal) {
       setTimeout(() => routeRef.current?.focus(), 100);
@@ -64,13 +63,11 @@ const TripMaster = () => {
     setForm({ ...form, [name]: value });
   };
 
-  /* ENTER KEY HANDLER */
+  /* ENTER KEY */
   const handleEnter = (e, nextRef) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      if (nextRef?.current) {
-        nextRef.current.focus();
-      }
+      nextRef?.current?.focus();
     }
   };
 
@@ -93,15 +90,11 @@ const TripMaster = () => {
 
     setMessage(isEdit ? "Trip updated successfully ✅" : "Trip added successfully 🎉");
     setMessageType("success");
-    autoHide();
+    setTimeout(() => setMessage(""), 3000);
 
     resetForm();
     setShowModal(false);
     loadTrips();
-  };
-
-  const autoHide = () => {
-    setTimeout(() => setMessage(""), 3000);
   };
 
   const resetForm = () => {
@@ -131,13 +124,7 @@ const TripMaster = () => {
   /* DELETE */
   const deleteTrip = async (id) => {
     if (!window.confirm("Are you sure you want to delete this trip?")) return;
-
     await fetch(`${API}?id=${id}`, { method: "DELETE" });
-
-    setMessage("Trip deleted successfully ❌");
-    setMessageType("success");
-    autoHide();
-
     loadTrips();
   };
 
@@ -155,9 +142,7 @@ const TripMaster = () => {
     <div className="trip-page">
       <TopNavbar />
 
-      {message && (
-        <div className={`message-box ${messageType}`}>{message}</div>
-      )}
+      {message && <div className={`message-box ${messageType}`}>{message}</div>}
 
       <button
         className="add-trip-top"
@@ -220,13 +205,26 @@ const TripMaster = () => {
               <tbody>
                 {paginatedTrips.map((t) => (
                   <tr key={t.route_id}>
-                    <td data-label="Route">{t.route_name}</td>
-                    <td data-label="Distance">{t.fixed_distance}</td>
-                    <td data-label="Allowance">{t.fixed_allowance}</td>
-                    <td data-label="Food">{t.fixed_food_allowance}</td>
-                    <td data-label="Status">
-                      <span className="status-active">{t.status}</span>
+                    <td data-label="Route">
+                      <span className="td-value">{t.route_name}</span>
                     </td>
+
+                    <td data-label="Distance">
+                      <span className="td-value">{t.fixed_distance}</span>
+                    </td>
+
+                    <td data-label="Allowance">
+                      <span className="td-value">{t.fixed_allowance}</span>
+                    </td>
+
+                    <td data-label="Food">
+                      <span className="td-value">{t.fixed_food_allowance}</span>
+                    </td>
+
+                    <td data-label="Status">
+                      <span className="td-value status-active">{t.status}</span>
+                    </td>
+
                     <td data-label="Actions">
                       <button className="edit-btn" onClick={() => editTrip(t)}>
                         ✏️

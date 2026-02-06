@@ -413,10 +413,11 @@ th {
 
   /* 🔥 THIS IS THE KEY FIX */
   .td-value {
-    text-align: right;
-    word-break: break-word;
-    flex: 1;
-  }
+  flex: 1;
+  text-align: right;
+  word-break: break-word;
+}
+
 
   tbody td[data-label="Actions"] {
     justify-content: flex-end;

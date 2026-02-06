@@ -51,26 +51,47 @@ const Drivers = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  /* PHONE */
+  /* PHONE VALIDATION – ALL COUNTRIES */
   const handlePhoneChange = (value, country) => {
+    if (!value) {
+      setForm({ ...form, phone: "" });
+      setPhoneError("Phone number is required");
+      return;
+    }
+
     const fullNumber = "+" + value;
+    const localNumber = value.slice(country.dialCode.length);
+
+    // digits only
+    if (!/^\d+$/.test(localNumber)) {
+      setPhoneError("Only digits allowed");
+      return;
+    }
+
+    // 🇮🇳 INDIA → EXACT 10 DIGITS
+    if (country.countryCode === "in") {
+      if (localNumber.length !== 10) {
+        setPhoneError("India phone number must be 10 digits");
+        return;
+      }
+    } else {
+      // 🌍 OTHER COUNTRIES
+      if (localNumber.length < 6 || localNumber.length > 12) {
+        setPhoneError("Invalid phone number for selected country");
+        return;
+      }
+    }
+
     setForm({ ...form, phone: fullNumber });
-
-    const local = value.slice(country.dialCode.length);
-
-    if (!local) setPhoneError("Phone number is required");
-    else if (!/^\d+$/.test(local)) setPhoneError("Only digits allowed");
-    else if (local.length < 7 || local.length > 12)
-      setPhoneError("Invalid phone number");
-    else setPhoneError("");
+    setPhoneError("");
   };
 
   /* SUBMIT */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (phoneError || !form.phone) {
-      setMessage("Enter valid phone number");
+    if (!form.driver_name || !form.phone || phoneError) {
+      setMessage("Please enter valid details");
       setMessageType("error");
       autoHide();
       return;
@@ -128,7 +149,6 @@ const Drivers = () => {
     setMessage("Driver deleted successfully ❌");
     setMessageType("success");
     autoHide();
-
     loadDrivers();
   };
 
@@ -151,12 +171,7 @@ const Drivers = () => {
     <div className="driver-page">
       <TopNavbar />
 
-      {/* MESSAGE BOX */}
-      {message && (
-        <div className={`message-box ${messageType}`}>
-          {message}
-        </div>
-      )}
+      {message && <div className={`message-box ${messageType}`}>{message}</div>}
 
       <button
         className="add-driver-top"
@@ -182,9 +197,7 @@ const Drivers = () => {
                 setCurrentPage(1);
               }}
             />
-
             <button className="search-btn">🔍</button>
-
             {search && (
               <button
                 className="clear-btn"
@@ -217,22 +230,18 @@ const Drivers = () => {
                   <th>Actions</th>
                 </tr>
               </thead>
-
               <tbody>
                 {paginatedDrivers.map((d) => (
                   <tr key={d.driver_id}>
-                    <td data-label="Name">{d.driver_name}</td>
-                    <td data-label="Phone">{d.phone}</td>
-                    <td data-label="License">{d.license_no}</td>
-                    <td data-label="Joining Date">{d.joining_date}</td>
-                    <td data-label="Status">
+                    <td>{d.driver_name}</td>
+                    <td>{d.phone}</td>
+                    <td>{d.license_no}</td>
+                    <td>{d.joining_date}</td>
+                    <td>
                       <span className="status-active">{d.status}</span>
                     </td>
-                    <td data-label="Actions">
-                      <button
-                        className="edit-btn"
-                        onClick={() => editDriver(d)}
-                      >
+                    <td>
+                      <button className="edit-btn" onClick={() => editDriver(d)}>
                         ✏️
                       </button>
                       <button
@@ -253,7 +262,7 @@ const Drivers = () => {
                   disabled={currentPage === 1}
                   onClick={() => setCurrentPage((p) => p - 1)}
                 >
-                  ◀ Previous
+                  ◀ Prev
                 </button>
                 <span>
                   {currentPage} / {totalPages}
@@ -262,7 +271,7 @@ const Drivers = () => {
                   disabled={currentPage === totalPages}
                   onClick={() => setCurrentPage((p) => p + 1)}
                 >
-                  ▶ Next
+                  Next ▶
                 </button>
               </div>
             )}
@@ -270,7 +279,6 @@ const Drivers = () => {
         )}
       </div>
 
-      {/* MODAL */}
       {showModal && (
         <div className="modal-overlay">
           <div className="modal-box">
@@ -291,6 +299,7 @@ const Drivers = () => {
               <label>Phone *</label>
               <PhoneInput
                 country="in"
+                enableSearch={true}
                 value={form.phone}
                 onChange={handlePhoneChange}
                 inputStyle={{ width: "100%" }}
@@ -324,7 +333,6 @@ const Drivers = () => {
                 <option value="INACTIVE">INACTIVE</option>
               </select>
 
-              {/* 🔥 BUTTON TEXT FIXED HERE */}
               <button className="save-btn">
                 {isEdit ? "✏️ UPDATE DRIVER" : "💾 ADD DRIVER"}
               </button>

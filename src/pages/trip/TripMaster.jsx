@@ -18,6 +18,14 @@ const TripMaster = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 7;
 
+  /* INPUT REFS (ENTER FLOW) */
+  const routeRef = useRef(null);
+  const distanceRef = useRef(null);
+  const allowanceRef = useRef(null);
+  const foodRef = useRef(null);
+  const statusRef = useRef(null);
+  const saveBtnRef = useRef(null);
+
   /* FORM */
   const [form, setForm] = useState({
     route_id: "",
@@ -43,18 +51,26 @@ const TripMaster = () => {
     loadTrips();
   }, []);
 
-  /* CHANGE (DECIMAL SAFE) */
+  /* AUTO FOCUS WHEN MODAL OPENS */
+  useEffect(() => {
+    if (showModal) {
+      setTimeout(() => routeRef.current?.focus(), 100);
+    }
+  }, [showModal]);
+
+  /* CHANGE */
   const handleChange = (e) => {
     const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  };
 
-    if (
-      name === "fixed_distance" ||
-      name === "fixed_allowance" ||
-      name === "fixed_food_allowance"
-    ) {
-      setForm({ ...form, [name]: value });
-    } else {
-      setForm({ ...form, [name]: value });
+  /* ENTER KEY HANDLER */
+  const handleEnter = (e, nextRef) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (nextRef?.current) {
+        nextRef.current.focus();
+      }
     }
   };
 
@@ -167,9 +183,7 @@ const TripMaster = () => {
                 setCurrentPage(1);
               }}
             />
-
             <button className="search-btn">🔍</button>
-
             {search && (
               <button
                 className="clear-btn"
@@ -264,48 +278,62 @@ const TripMaster = () => {
             <form onSubmit={handleSubmit} className="modal-body">
               <label>Route Name *</label>
               <input
+                ref={routeRef}
                 name="route_name"
                 value={form.route_name}
                 onChange={handleChange}
+                onKeyDown={(e) => handleEnter(e, distanceRef)}
                 required
               />
 
               <label>Fixed Distance *</label>
               <input
+                ref={distanceRef}
                 type="number"
                 step="0.01"
                 name="fixed_distance"
                 value={form.fixed_distance}
                 onChange={handleChange}
+                onKeyDown={(e) => handleEnter(e, allowanceRef)}
                 required
               />
 
               <label>Fixed Allowance *</label>
               <input
+                ref={allowanceRef}
                 type="number"
                 step="0.01"
                 name="fixed_allowance"
                 value={form.fixed_allowance}
                 onChange={handleChange}
+                onKeyDown={(e) => handleEnter(e, foodRef)}
                 required
               />
 
               <label>Fixed Food Allowance</label>
               <input
+                ref={foodRef}
                 type="number"
                 step="0.01"
                 name="fixed_food_allowance"
                 value={form.fixed_food_allowance}
                 onChange={handleChange}
+                onKeyDown={(e) => handleEnter(e, statusRef)}
               />
 
               <label>Status</label>
-              <select name="status" value={form.status} onChange={handleChange}>
+              <select
+                ref={statusRef}
+                name="status"
+                value={form.status}
+                onChange={handleChange}
+                onKeyDown={(e) => handleEnter(e, saveBtnRef)}
+              >
                 <option value="ACTIVE">ACTIVE</option>
                 <option value="INACTIVE">INACTIVE</option>
               </select>
 
-              <button className="save-btn">
+              <button ref={saveBtnRef} className="save-btn" type="submit">
                 {isEdit ? "✏️ UPDATE TRIP" : "💾 ADD TRIP"}
               </button>
             </form>

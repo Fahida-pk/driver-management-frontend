@@ -92,7 +92,7 @@ const Dashboard = () => {
             {/* ROUTES */}
             <div className="card">
               <div className="card-head">
-                <span className="card-icon">🛣</span>
+                <span className="card-icon">🛣️</span>
                 <span className="card-title">Routes</span>
               </div>
               <div className="card-count">

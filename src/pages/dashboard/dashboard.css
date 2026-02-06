@@ -87,9 +87,9 @@ border-radius: 25px 10px;
 .card {
   background: linear-gradient(
     200deg,
-    #b096d1 0%,
-    #b3d5f0 50%,
-    #b096d1 100%
+    #b3d5f0 0%,
+    #f2e9fd 35%,
+    #86a7c3 70%
   );
   padding: 24px;
   width: 380px;

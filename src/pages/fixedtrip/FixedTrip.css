@@ -1,11 +1,11 @@
-/* ===== RESET ===== */
+/* ================= RESET ================= */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* ===== TOP NAVBAR ===== */
+/* ================= TOP NAVBAR ================= */
 .top-navbar {
   position: relative;
   margin-left: 280px;
@@ -14,45 +14,39 @@
   z-index: 1000;
 }
 
-/* ===== PAGE ===== */
-.trip-page {
+/* ================= PAGE ================= */
+.fixed-trip-page {
   padding: 16px;
   background: #f4f7fb;
   min-height: 100vh;
 }
 
-/* ===== ADD BUTTON ===== */
-.add-trip-top {
-  padding: 10px 18px;
-  background: linear-gradient(300deg,#2563eb,#b3d5f0,#b096d1,#2563eb);
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-bottom: 16px;
-}
-
-/* ===== CARD ===== */
-.trip-list-card1 {
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-  overflow-x: hidden; /* 🔥 IMPORTANT */
+/* ================= CARD ================= */
+.fixed-trip-list-card {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
-/* ===== HEADER ===== */
+/* ================= HEADER ================= */
 .card-header {
   display: flex;
   justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 14px;
   align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
-/* ===== SEARCH ===== */
+.card-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* ================= SEARCH ================= */
 .search-wrapper {
   display: flex;
   gap: 8px;
@@ -73,33 +67,39 @@
   cursor: pointer;
 }
 
-/* ===== TABLE (DESKTOP) ===== */
+/* ================= TABLE (DESKTOP) ================= */
 table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed; /* 🔥 long text control */
+  table-layout: fixed;
 }
 
-th, td {
+th,
+td {
   padding: 12px;
   border-bottom: 1px solid #e5e7eb;
-  white-space: normal; /* 🔥 remove nowrap */
+  text-align: left;
+  vertical-align: top;
+  white-space: normal;
 }
 
-th {
-  background: #f9fafb;
+td:nth-child(5) {
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.5;
 }
 
-/* ===== STATUS ===== */
+/* ================= STATUS ================= */
 .status-active {
   background: #dcfce7;
   color: #15803d;
   padding: 4px 12px;
   border-radius: 12px;
   font-size: 12px;
+  display: inline-block;
 }
 
-/* ===== ACTIONS ===== */
+/* ================= ACTION BUTTONS ================= */
 .edit-btn {
   background: #22c55e;
   color: #fff;
@@ -119,15 +119,16 @@ th {
   cursor: pointer;
 }
 
-/* ===== PAGINATION ===== */
+/* ================= PAGINATION ================= */
 .pagination {
   display: flex;
   justify-content: center;
+  align-items: center;
   gap: 12px;
   margin-top: 20px;
 }
 
-/* ===== MESSAGE BOX ===== */
+/* ================= MESSAGE BOX ================= */
 .message-box {
   position: fixed;
   top: 50%;
@@ -150,7 +151,7 @@ th {
   color: #991b1b;
 }
 
-/* ===== MODAL ===== */
+/* ================= MODAL ================= */
 .modal-overlay {
   position: fixed;
   inset: 0;
@@ -189,14 +190,17 @@ th {
   border: 1px solid #dcdfe6;
 }
 
+/* ================= SAVE BUTTON ================= */
 .save-btn {
+  margin-top: 10px;
   padding: 12px;
-  background: linear-gradient(190deg,#2563eb,#b3d5f0,#2563eb);
-  color: #fff;
+  border-radius: 10px;
   border: none;
-  border-radius: 8px;
+  font-size: 15px;
   font-weight: 600;
+  color: #ffffff;
   cursor: pointer;
+  background: linear-gradient(190deg,#2563eb,#b3d5f0,#2563eb);
 }
 
 /* ================================================= */
@@ -212,7 +216,7 @@ th {
     z-index: 1000;
   }
 
-  .trip-page {
+  .fixed-trip-page {
     padding: 12px;
     padding-top: 70px;
   }

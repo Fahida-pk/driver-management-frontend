@@ -7,20 +7,18 @@ import {
   FaTruck,
   FaRoute,
   FaSignOutAlt,
-  FaChevronDown
+  FaChevronDown,
 } from "react-icons/fa";
 import "./Sidebar.css";
 
 const Sidebar = () => {
-  const [open, setOpen] = useState(false);          // submenu
-  const [mobileOpen, setMobileOpen] = useState(false); // 🔥 mobile drawer
+  const [openMenu, setOpenMenu] = useState(null); // 🔑 FIX
+  const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
 
-  // 🔥 listen to TopNavbar ☰ click
   useEffect(() => {
     const handler = () => setMobileOpen(true);
     window.addEventListener("open-sidebar", handler);
-
     return () => window.removeEventListener("open-sidebar", handler);
   }, []);
 
@@ -31,30 +29,35 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* MOBILE OVERLAY */}
       {mobileOpen && (
-        <div
-          className="sidebar-overlay"
-          onClick={() => setMobileOpen(false)}
-        />
+        <div className="sidebar-overlay" onClick={() => setMobileOpen(false)} />
       )}
 
       <div className={`sidebar ${mobileOpen ? "mobile-open" : ""}`}>
 
         {/* Dashboard */}
-        <Link to="/dashboard" className="menu-item" onClick={() => setMobileOpen(false)}>
+        <Link
+          to="/dashboard"
+          className="menu-item"
+          onClick={() => setMobileOpen(false)}
+        >
           <FaTachometerAlt />
           <span>Dashboard</span>
         </Link>
 
-        {/* Master */}
-        <div className="menu-item" onClick={() => setOpen(!open)}>
+        {/* ================= MASTER ================= */}
+        <div
+          className="menu-item"
+          onClick={() =>
+            setOpenMenu(openMenu === "master" ? null : "master")
+          }
+        >
           <FaFolderOpen />
           <span>Master</span>
-          <FaChevronDown className={open ? "rotate" : ""} />
+          <FaChevronDown className={openMenu === "master" ? "rotate" : ""} />
         </div>
 
-        {open && (
+        {openMenu === "master" && (
           <div className="submenu">
             <Link to="/drivers" onClick={() => setMobileOpen(false)}>
               <FaUserTie />
@@ -73,12 +76,34 @@ const Sidebar = () => {
           </div>
         )}
 
+        {/* ================= TRANSACTION ================= */}
+        <div
+          className="menu-item"
+          onClick={() =>
+            setOpenMenu(openMenu === "transaction" ? null : "transaction")
+          }
+        >
+          <FaRoute />
+          <span>Transaction</span>
+          <FaChevronDown
+            className={openMenu === "transaction" ? "rotate" : ""}
+          />
+        </div>
+
+        {openMenu === "transaction" && (
+          <div className="submenu">
+            <Link to="/fixed-trips" onClick={() => setMobileOpen(false)}>
+              <FaRoute />
+              <span>Fixed Trip</span>
+            </Link>
+          </div>
+        )}
+
         {/* Logout */}
         <button className="logout-btn" onClick={handleLogout}>
           <FaSignOutAlt />
           <span>Logout</span>
         </button>
-
       </div>
     </>
   );

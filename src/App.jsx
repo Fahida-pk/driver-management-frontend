@@ -5,6 +5,7 @@ import Drivers from "./pages/driver/Drivers";
 import  Vehicles from "./pages/vehicles/Vehicles";
 import TripMaster from "./pages/trip/TripMaster";
 import MainLayout from "./layouts/MainLayout";
+import FixedTrip from "./pages/fixedtrip/FixedTrip";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/drivers" element={<Drivers />} />
           <Route path="/vehicles" element={<Vehicles />} />
           <Route path="/trips" element={<TripMaster />} />
+          <Route path="/fixed-trips" element={<FixedTrip />} />
         </Route>
 
       </Routes>

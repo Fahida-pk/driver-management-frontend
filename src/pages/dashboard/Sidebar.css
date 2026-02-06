@@ -3,29 +3,13 @@
 /* ================= SIDEBAR ================= */
 
 .sidebar {
-  width: 280px;
-  min-height: 100vh;
-  position: relative;
-  background: linear-gradient(
-    190deg,
-    #8fb3ff 0%,
-    #b7c8d6 50%,
-    #6a7be7 75%,
-    #b69ad6 100%
-  );
-  color: #ffffff;
-  padding: 24px 18px;
-  display: flex;
-  flex-direction: column;
-  font-family: "Poppins", sans-serif;
-}
-
-/* ===== SIDEBAR ===== */
-.sidebar {
   width: 240px;
   min-height: 100vh;
-  color: white;
+  position: relative;
   padding: 20px;
+  color: #ffffff;
+  font-family: "Poppins", sans-serif;
+
   background: linear-gradient(
     180deg,
     #b096d1 0%,
@@ -33,56 +17,49 @@
     #b3d5f0 75%,
     #6a7be7 100%
   );
+
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar a {
-  display: block;
-  margin: 12px 0;
-  color: white;
   text-decoration: none;
+  color: #fff;
 }
+
 /* ================= MAIN MENU ITEM ================= */
 
 .menu-item {
   display: flex;
   align-items: center;
-  gap: 18px;                 /* 🔑 icon-text gap */
-  padding: 14px 18px;
+  gap: 18px;
+  padding: 18px 5px;
   border-radius: 8px;
-  color: #ffffff;
-  text-decoration: none;
   cursor: pointer;
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 600;
   transition: background 0.2s ease;
 }
 
 .menu-item:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.15);
 }
 
-/* icons – same width everywhere */
 .menu-item svg {
   width: 26px;
   min-width: 26px;
   height: 26px;
   font-size: 22px;
   flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
 }
 
-/* text spacing */
 .menu-item span {
   margin-left: 12px;
 }
-
-/* arrow icon right */
 .menu-item svg:last-child {
   margin-left: auto;
-  font-size: 16px;
 }
+
 
 /* arrow rotate */
 .rotate {
@@ -93,7 +70,7 @@
 /* ================= SUB MENU ================= */
 
 .submenu {
-  margin-left: 45px;
+  margin-left: 42px;
   margin-top: 6px;
   display: flex;
   flex-direction: column;
@@ -102,28 +79,23 @@
 .submenu a {
   display: flex;
   align-items: center;
-  gap: 18px;                 /* 🔑 SAME GAP AS MAIN */
+  gap: 18px;
   padding: 10px 14px;
   border-radius: 6px;
-  color: #f1f1f1;
-  text-decoration: none;
   font-size: 15px;
+  color: #f1f1f1;
 }
 
 .submenu a:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.12);
 }
 
-/* submenu icons same alignment */
 .submenu a svg {
-  width: 26px;
-  min-width: 26px;
-  height: 26px;
-  font-size: 20px;
-  flex-shrink: 0;
+  width: 24px;
+  min-width: 24px;
+  height: 24px;
 }
 
-/* 🔑 FIX: submenu text gap */
 .submenu a span {
   margin-left: 12px;
 }
@@ -145,22 +117,22 @@
   font-weight: 500;
 }
 
-.logout-btn svg {
-  width: 22px;
-  min-width: 22px;
-  height: 22px;
-}
-
 .logout-btn:hover {
   background: #f3f3f3;
 }
 
-/* Mobile only */
+.logout-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* ================= MOBILE ================= */
+
 @media (max-width: 768px) {
   .sidebar {
     position: fixed;
     top: 0;
-    left: -280px;
+    left: -260px;
     height: 100vh;
     z-index: 1000;
     transition: left 0.3s ease;
@@ -173,12 +145,7 @@
   .sidebar-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.35);
+    background: rgba(0, 0, 0, 0.35);
     z-index: 999;
-  }
-
-  .menu-icon {
-    cursor: pointer;
-    font-size: 22px;
   }
 }

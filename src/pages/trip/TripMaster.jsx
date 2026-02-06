@@ -18,7 +18,7 @@ const TripMaster = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 7;
 
-  /* INPUT REFS */
+  /* REFS */
   const routeRef = useRef(null);
   const distanceRef = useRef(null);
   const allowanceRef = useRef(null);
@@ -57,6 +57,11 @@ const TripMaster = () => {
     }
   }, [showModal]);
 
+  /* AUTO HIDE MESSAGE */
+  const autoHide = () => {
+    setTimeout(() => setMessage(""), 3000);
+  };
+
   /* CHANGE */
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -88,9 +93,11 @@ const TripMaster = () => {
       body: JSON.stringify(payload),
     });
 
-    setMessage(isEdit ? "Trip updated successfully ✅" : "Trip added successfully 🎉");
+    setMessage(
+      isEdit ? "Trip updated successfully ✅" : "Trip added successfully 🎉"
+    );
     setMessageType("success");
-    setTimeout(() => setMessage(""), 3000);
+    autoHide();
 
     resetForm();
     setShowModal(false);
@@ -121,10 +128,16 @@ const TripMaster = () => {
     setShowModal(true);
   };
 
-  /* DELETE */
+  /* DELETE (Driver.jsx pole) */
   const deleteTrip = async (id) => {
     if (!window.confirm("Are you sure you want to delete this trip?")) return;
+
     await fetch(`${API}?id=${id}`, { method: "DELETE" });
+
+    setMessage("Trip deleted successfully ❌");
+    setMessageType("success");
+    autoHide();
+
     loadTrips();
   };
 
@@ -142,6 +155,7 @@ const TripMaster = () => {
     <div className="trip-page">
       <TopNavbar />
 
+      {/* MESSAGE BOX */}
       {message && <div className={`message-box ${messageType}`}>{message}</div>}
 
       <button
@@ -154,7 +168,7 @@ const TripMaster = () => {
         ➕ Add Master Trip
       </button>
 
-      <div className="trip-list-card">
+      <div className="trip-list-card1">
         <div className="card-header">
           <h3>🛣️ TRIP LIST</h3>
 
@@ -169,6 +183,7 @@ const TripMaster = () => {
               }}
             />
             <button className="search-btn">🔍</button>
+
             {search && (
               <button
                 className="clear-btn"
@@ -194,9 +209,9 @@ const TripMaster = () => {
               <thead>
                 <tr>
                   <th>Route</th>
-                  <th>Fixed Distance</th>
-                  <th>Fixed Allowance</th>
-                  <th>Fixed Food Allowance</th>
+                  <th>Distance</th>
+                  <th>Allowance</th>
+                  <th>Food</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
@@ -205,26 +220,13 @@ const TripMaster = () => {
               <tbody>
                 {paginatedTrips.map((t) => (
                   <tr key={t.route_id}>
-                    <td data-label="Route">
-                      <span className="td-value">{t.route_name}</span>
-                    </td>
-
-                    <td data-label="Distance">
-                      <span className="td-value">{t.fixed_distance}</span>
-                    </td>
-
-                    <td data-label="Allowance">
-                      <span className="td-value">{t.fixed_allowance}</span>
-                    </td>
-
-                    <td data-label="Food">
-                      <span className="td-value">{t.fixed_food_allowance}</span>
-                    </td>
-
+                    <td data-label="Route">{t.route_name}</td>
+                    <td data-label="Distance">{t.fixed_distance}</td>
+                    <td data-label="Allowance">{t.fixed_allowance}</td>
+                    <td data-label="Food">{t.fixed_food_allowance}</td>
                     <td data-label="Status">
-                      <span className="td-value status-active">{t.status}</span>
+                      <span className="status-active">{t.status}</span>
                     </td>
-
                     <td data-label="Actions">
                       <button className="edit-btn" onClick={() => editTrip(t)}>
                         ✏️
@@ -249,16 +251,10 @@ const TripMaster = () => {
                 >
                   ◀ Previous
                 </button>
-                <span>
-                  {currentPage} / {totalPages}
-                </span>
+                <span>{currentPage} / {totalPages}</span>
                 <button
                   disabled={currentPage === totalPages}
-                  onClick={() => {
-  setCurrentPage((p) => p + 1);
-  scrollToTop();
-}}
-
+                  onClick={() => setCurrentPage((p) => p + 1)}
                 >
                   ▶ Next
                 </button>
@@ -292,7 +288,6 @@ const TripMaster = () => {
               <input
                 ref={distanceRef}
                 type="number"
-                step="0.01"
                 name="fixed_distance"
                 value={form.fixed_distance}
                 onChange={handleChange}
@@ -304,7 +299,6 @@ const TripMaster = () => {
               <input
                 ref={allowanceRef}
                 type="number"
-                step="0.01"
                 name="fixed_allowance"
                 value={form.fixed_allowance}
                 onChange={handleChange}
@@ -316,7 +310,6 @@ const TripMaster = () => {
               <input
                 ref={foodRef}
                 type="number"
-                step="0.01"
                 name="fixed_food_allowance"
                 value={form.fixed_food_allowance}
                 onChange={handleChange}
@@ -335,7 +328,7 @@ const TripMaster = () => {
                 <option value="INACTIVE">INACTIVE</option>
               </select>
 
-              <button ref={saveBtnRef} className="save-btn" type="submit">
+              <button ref={saveBtnRef} className="save-btn">
                 {isEdit ? "✏️ UPDATE TRIP" : "💾 ADD TRIP"}
               </button>
             </form>

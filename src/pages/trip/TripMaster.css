@@ -412,10 +412,13 @@ th {
   }
 
   /* 🔥 THIS IS THE KEY FIX */
-  .td-value {
+ .td-value {
   flex: 1;
   text-align: right;
-  word-break: break-word;
+
+  /* 🔥 IMPORTANT */
+  overflow-wrap: anywhere;   /* modern browsers */
+  word-break: break-all;     /* fallback */
 }
 
 

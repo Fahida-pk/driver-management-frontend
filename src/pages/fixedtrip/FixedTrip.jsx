@@ -17,11 +17,9 @@ const FixedTrips = () => {
   const [showModal, setShowModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
 
-  /* MESSAGE */
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
 
-  /* PAGINATION */
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 7;
 
@@ -41,7 +39,6 @@ const FixedTrips = () => {
 
   const [form, setForm] = useState(emptyForm);
 
-  /* AUTO HIDE */
   const autoHide = () => setTimeout(() => setMessage(""), 3000);
 
   /* LOAD ALL */
@@ -59,13 +56,10 @@ const FixedTrips = () => {
     loadAll();
   }, []);
 
-  /* 🔥 ROUTE AUTO FILL (FIXED) */
+  /* ROUTE AUTO FILL */
   const handleRoute = (e) => {
     const routeId = e.target.value;
-
-    const r = routes.find(
-      x => String(x.route_id) === String(routeId)
-    );
+    const r = routes.find(x => String(x.route_id) === String(routeId));
     if (!r) return;
 
     setForm(prev => ({
@@ -91,18 +85,13 @@ const FixedTrips = () => {
       body: JSON.stringify(form),
     });
 
-    setMessage(
-      isEdit
-        ? "Fixed trip updated successfully ✅"
-        : "Fixed trip added successfully 🎉"
-    );
+    setMessage(isEdit ? "Fixed trip updated successfully ✅" : "Fixed trip added successfully 🎉");
     setMessageType("success");
     autoHide();
 
     setShowModal(false);
     setIsEdit(false);
     setForm(emptyForm);
-
     loadAll();
   };
 
@@ -122,7 +111,6 @@ const FixedTrips = () => {
     setMessage("Fixed trip deleted successfully ❌");
     setMessageType("success");
     autoHide();
-
     loadAll();
   };
 
@@ -140,15 +128,13 @@ const FixedTrips = () => {
   const paginatedTrips = filteredTrips.slice(start, start + recordsPerPage);
 
   return (
-    <div className="driver-page">
+    <div className="fixed-trip-page">
       <TopNavbar />
 
-      {message && (
-        <div className={`message-box ${messageType}`}>{message}</div>
-      )}
+      {message && <div className={`message-box ${messageType}`}>{message}</div>}
 
       <button
-        className="add-driver-top"
+        className="add-fixed-trip-top"
         onClick={() => {
           setIsEdit(false);
           setForm(emptyForm);
@@ -158,7 +144,7 @@ const FixedTrips = () => {
         ➕ Add Fixed Trip
       </button>
 
-      <div className="driver-list-card">
+      <div className="fixed-trip-list-card">
         <div className="card-header">
           <h3>📋 FIXED TRIPS</h3>
 
@@ -174,9 +160,7 @@ const FixedTrips = () => {
             />
             <button className="search-btn">🔍</button>
             {search && (
-              <button className="clear-btn" onClick={() => setSearch("")}>
-                ✕
-              </button>
+              <button className="clear-btn" onClick={() => setSearch("")}>✕</button>
             )}
           </div>
         </div>
@@ -191,7 +175,7 @@ const FixedTrips = () => {
             <table>
               <thead>
                 <tr>
-                  <th>Doc No</th>
+                  <th>Doc</th>
                   <th>Date</th>
                   <th>Driver</th>
                   <th>Vehicle</th>
@@ -205,15 +189,15 @@ const FixedTrips = () => {
               <tbody>
                 {paginatedTrips.map(t => (
                   <tr key={t.fixed_trip_id}>
-                    <td>{t.document_no}</td>
-                    <td>{t.trip_date}</td>
-                    <td>{t.driver_name}</td>
-                    <td>{t.vehicle_name}</td>
-                    <td>{t.route_name}</td>
-                    <td>{t.distance}</td>
-                    <td>{t.fixed_allowance}</td>
-                    <td>{t.food_allowance}</td>
-                    <td>
+                    <td data-label="Doc">{t.document_no}</td>
+                    <td data-label="Date">{t.trip_date}</td>
+                    <td data-label="Driver">{t.driver_name}</td>
+                    <td data-label="Vehicle">{t.vehicle_name}</td>
+                    <td data-label="Route">{t.route_name}</td>
+                    <td data-label="Distance">{t.distance}</td>
+                    <td data-label="Allowance">{t.fixed_allowance}</td>
+                    <td data-label="Food">{t.food_allowance}</td>
+                    <td data-label="Actions">
                       <button className="edit-btn" onClick={() => editTrip(t)}>✏️</button>
                       <button className="delete-btn" onClick={() => deleteTrip(t.fixed_trip_id)}>🗑</button>
                     </td>
@@ -224,19 +208,9 @@ const FixedTrips = () => {
 
             {totalPages > 1 && (
               <div className="pagination">
-                <button
-                  disabled={currentPage === 1}
-                  onClick={() => setCurrentPage(p => p - 1)}
-                >
-                  ◀ Previous
-                </button>
+                <button disabled={currentPage === 1} onClick={() => setCurrentPage(p => p - 1)}>◀ Previous</button>
                 <span>{currentPage} / {totalPages}</span>
-                <button
-                  disabled={currentPage === totalPages}
-                  onClick={() => setCurrentPage(p => p + 1)}
-                >
-                  ▶ Next
-                </button>
+                <button disabled={currentPage === totalPages} onClick={() => setCurrentPage(p => p + 1)}>Next ▶</button>
               </div>
             )}
           </>
@@ -254,56 +228,29 @@ const FixedTrips = () => {
 
             <form onSubmit={handleSubmit} className="modal-body">
               <label>Date *</label>
-              <input
-                type="date"
-                name="trip_date"
-                value={form.trip_date}
-                onChange={handleChange}
-                required
-              />
+              <input type="date" name="trip_date" value={form.trip_date} onChange={handleChange} required />
 
               <label>Driver *</label>
-              <select
-                name="driver_id"
-                value={form.driver_id}
-                onChange={handleChange}
-                required
-              >
+              <select name="driver_id" value={form.driver_id} onChange={handleChange} required>
                 <option value="">Select</option>
                 {drivers.map(d => (
-                  <option key={d.driver_id} value={d.driver_id}>
-                    {d.driver_name}
-                  </option>
+                  <option key={d.driver_id} value={d.driver_id}>{d.driver_name}</option>
                 ))}
               </select>
 
               <label>Vehicle *</label>
-              <select
-                name="vehicle_id"
-                value={form.vehicle_id}
-                onChange={handleChange}
-                required
-              >
+              <select name="vehicle_id" value={form.vehicle_id} onChange={handleChange} required>
                 <option value="">Select</option>
                 {vehicles.map(v => (
-                  <option key={v.vehicle_id} value={v.vehicle_id}>
-                    {v.name}
-                  </option>
+                  <option key={v.vehicle_id} value={v.vehicle_id}>{v.name}</option>
                 ))}
               </select>
 
               <label>Route *</label>
-              <select
-                name="route_id"          /* 🔥 FIX */
-                value={form.route_id}
-                onChange={handleRoute}
-                required
-              >
+              <select name="route_id" value={form.route_id} onChange={handleRoute} required>
                 <option value="">Select Route</option>
                 {routes.map(r => (
-                  <option key={r.route_id} value={r.route_id}>
-                    {r.route_name}
-                  </option>
+                  <option key={r.route_id} value={r.route_id}>{r.route_name}</option>
                 ))}
               </select>
 
@@ -316,9 +263,7 @@ const FixedTrips = () => {
               <label>Food Allowance</label>
               <input value={form.food_allowance} readOnly />
 
-              <button className="save-btn">
-                {isEdit ? "✏️ UPDATE" : "💾 SAVE"}
-              </button>
+              <button className="save-btn">{isEdit ? "✏️ UPDATE" : "💾 SAVE"}</button>
             </form>
           </div>
         </div>

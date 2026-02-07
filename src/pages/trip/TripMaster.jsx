@@ -1,4 +1,6 @@
 import { useEffect, useState, useRef } from "react";
+import { FaEdit, FaTrash, FaSearch, FaPlus } from "react-icons/fa";
+
 import TopNavbar from "../dashboard/TopNavbar";
 import "./TripMaster.css";
 
@@ -165,7 +167,7 @@ const TripMaster = () => {
           setShowModal(true);
         }}
       >
-        ➕ Add New Trip
+         <FaPlus /> Add New Trip
       </button>
 
       <div className="trip-list-card1">

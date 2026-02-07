@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import TopNavbar from "../dashboard/TopNavbar";
+import { FaEdit, FaTrash, FaSearch, FaPlus } from "react-icons/fa";
 
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
@@ -182,7 +183,7 @@ const Drivers = () => {
           setShowModal(true);
         }}
       >
-        ➕ Add New Driver
+  <FaPlus /> Add New Trip
       </button>
 
       <div className="driver-list-card">

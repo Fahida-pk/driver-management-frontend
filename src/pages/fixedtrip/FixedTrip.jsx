@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import TopNavbar from "../dashboard/TopNavbar";
+import { FaClipboardList } from "react-icons/fa";
+
+import { FaEdit, FaTrash, FaSearch, FaPlus } from "react-icons/fa";
 import "./FixedTrip.css";
 
 const API = "https://zyntaweb.com/alafiya/api/fixed_trips.php";
@@ -141,7 +144,7 @@ const FixedTrips = () => {
           setShowModal(true);
         }}
       >
-        ➕ Add Fixed Trip
+  <FaPlus /> Add New Trip
       </button>
 
       <div className="fixed-trip-list-card">

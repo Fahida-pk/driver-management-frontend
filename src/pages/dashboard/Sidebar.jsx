@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { MdSwapHoriz } from "react-icons/md";
+import {
+  FaClipboardCheck,
+  FaListAlt,
+} from "react-icons/fa";
+
 import {
   FaTachometerAlt,
   FaFolderOpen,
@@ -83,7 +89,7 @@ const Sidebar = () => {
             setOpenMenu(openMenu === "transaction" ? null : "transaction")
           }
         >
-          <FaRoute />
+          <MdSwapHoriz />
           <span>Transaction</span>
           <FaChevronDown
             className={openMenu === "transaction" ? "rotate" : ""}
@@ -93,8 +99,9 @@ const Sidebar = () => {
         {openMenu === "transaction" && (
           <div className="submenu">
             <Link to="/fixed-trips" onClick={() => setMobileOpen(false)}>
-              <FaRoute />
-              <span>Fixed Trip</span>
+           <FaClipboardCheck />
+
+      <span>Fixed Trip</span>
             </Link>
           </div>
         )}

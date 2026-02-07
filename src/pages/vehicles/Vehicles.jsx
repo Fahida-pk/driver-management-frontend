@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import TopNavbar from "../dashboard/TopNavbar";
+import { FaEdit, FaTrash, FaSearch, FaPlus } from "react-icons/fa";
+
 import "./Vehicles.css";
 
 const API = "https://zyntaweb.com/alafiya/api/vehicles.php";
@@ -164,7 +166,7 @@ const Vehicles = () => {
           setShowModal(true);
         }}
       >
-        ➕ Add New Vehicle
+  <FaPlus /> Add New Trip
       </button>
 
       <div className="vehicle-list-card">

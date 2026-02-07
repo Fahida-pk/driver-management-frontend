@@ -287,18 +287,20 @@ const TripMaster = () => {
               <label>Fixed Distance *</label>
               <input
                 ref={distanceRef}
-                type="number"
-                name="fixed_distance"
-                value={form.fixed_distance}
-                onChange={handleChange}
-                onKeyDown={(e) => handleEnter(e, allowanceRef)}
-                required
+  type="number"
+  step="0.01"
+  name="fixed_distance"
+  value={form.fixed_distance}
+  onChange={handleChange}
+  onKeyDown={(e) => handleEnter(e, allowanceRef)}
+  required
               />
 
               <label>Fixed Allowance *</label>
               <input
                 ref={allowanceRef}
                 type="number"
+                step="0.01"
                 name="fixed_allowance"
                 value={form.fixed_allowance}
                 onChange={handleChange}
@@ -310,6 +312,7 @@ const TripMaster = () => {
               <input
                 ref={foodRef}
                 type="number"
+                step="0.01"
                 name="fixed_food_allowance"
                 value={form.fixed_food_allowance}
                 onChange={handleChange}

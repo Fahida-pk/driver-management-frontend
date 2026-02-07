@@ -144,7 +144,7 @@ const FixedTrips = () => {
           setShowModal(true);
         }}
       >
-  <FaPlus /> Add New Trip
+  <FaPlus /> Add New Fixed Trip
       </button>
 
       <div className="fixed-trip-list-card">

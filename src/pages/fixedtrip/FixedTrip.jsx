@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import TopNavbar from "../dashboard/TopNavbar";
 import { FaClipboardList } from "react-icons/fa";
+import { FaGlobe, FaMapMarkedAlt, FaTaxi } from "react-icons/fa";
 
 import { FaEdit, FaTrash, FaSearch, FaPlus } from "react-icons/fa";
 import "./FixedTrip.css";
@@ -149,7 +150,7 @@ const FixedTrips = () => {
 
       <div className="fixed-trip-list-card">
         <div className="card-header">
-          <h3>📋 FIXED TRIPS</h3>
+          <h3>📋FIXED TRIPS</h3>
 
           <div className="search-wrapper">
             <input
@@ -202,7 +203,7 @@ const FixedTrips = () => {
                     <td data-label="Food">{t.food_allowance}</td>
                     <td data-label="Actions">
                       <button className="edit-btn" onClick={() => editTrip(t)}>✏️</button>
-                      <button className="delete-btn" onClick={() => deleteTrip(t.fixed_trip_id)}>🗑</button>
+                      <button className="delete-btn" onClick={() => deleteTrip(t.fixed_trip_id)}> <FaTrash /></button>
                     </td>
                   </tr>
                 ))}

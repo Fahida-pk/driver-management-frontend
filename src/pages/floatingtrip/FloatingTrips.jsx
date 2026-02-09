@@ -1,0 +1,350 @@
+import { useEffect, useState } from "react";
+import TopNavbar from "../dashboard/TopNavbar";
+import {
+  FaPlus,
+  FaEdit,
+  FaTrash,
+  FaMapMarkedAlt,
+  FaSearch
+} from "react-icons/fa";
+import "./FloatingTrip.css";
+
+const API = "https://zyntaweb.com/alafiya/api/floating_trips.php";
+const DRIVER_API = "https://zyntaweb.com/alafiya/api/drivers.php";
+const VEHICLE_API = "https://zyntaweb.com/alafiya/api/vehicles.php";
+
+const FloatingTrips = () => {
+  const [trips, setTrips] = useState([]);
+  const [drivers, setDrivers] = useState([]);
+  const [vehicles, setVehicles] = useState([]);
+
+  const [search, setSearch] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState("");
+
+  /* PAGINATION */
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 7;
+
+  const autoHide = () => setTimeout(() => setMessage(""), 3000);
+
+  const emptyForm = {
+    floating_trip_id: "",
+    trip_date: "",
+    driver_id: "",
+    vehicle_id: "",
+    area_name: "",
+    start_time: "",
+    end_time: "",
+    start_km: "",
+    end_km: "",
+    food_allowance: "",
+    status: "ACTIVE",
+  };
+
+  const [form, setForm] = useState(emptyForm);
+
+  /* LOAD DATA */
+  const loadAll = async () => {
+    try {
+      const [t, d, v] = await Promise.all([
+        fetch(API).then(r => r.json()),
+        fetch(DRIVER_API).then(r => r.json()),
+        fetch(VEHICLE_API).then(r => r.json())
+      ]);
+      setTrips(t);
+      setDrivers(d);
+      setVehicles(v);
+    } catch (err) {
+      console.error("Load error", err);
+    }
+  };
+
+  useEffect(() => {
+    loadAll();
+  }, []);
+
+  /* FORM CHANGE */
+  const handleChange = (e) => {
+    setForm(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
+  /* SAVE */
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const res = await fetch(API, {
+      method: isEdit ? "PUT" : "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    });
+
+    const data = await res.json();
+
+    if (data.error) {
+      setMessage(data.error);
+      setMessageType("error");
+      autoHide();
+      return;
+    }
+
+    setMessage(isEdit
+      ? "Floating trip updated successfully ✅"
+      : "Floating trip added successfully 🎉"
+    );
+    setMessageType("success");
+    autoHide();
+
+    setShowModal(false);
+    setIsEdit(false);
+    setForm(emptyForm);
+    loadAll();
+  };
+
+  /* EDIT */
+  const editTrip = (t) => {
+    setForm(t);
+    setIsEdit(true);
+    setShowModal(true);
+  };
+
+  /* DELETE */
+  const deleteTrip = async (id) => {
+    if (!window.confirm("Delete floating trip?")) return;
+
+    await fetch(`${API}?id=${id}`, { method: "DELETE" });
+
+    setMessage("Floating trip deleted successfully ❌");
+    setMessageType("success");
+    autoHide();
+    loadAll();
+  };
+
+  /* SEARCH */
+  const filteredTrips = trips.filter(t =>
+    t.area_name?.toLowerCase().includes(search.toLowerCase()) ||
+    t.driver_name?.toLowerCase().includes(search.toLowerCase()) ||
+    t.vehicle_name?.toLowerCase().includes(search.toLowerCase())
+  );
+
+  /* PAGINATION */
+  const totalPages = Math.ceil(filteredTrips.length / recordsPerPage);
+  const startIndex = (currentPage - 1) * recordsPerPage;
+  const paginatedTrips = filteredTrips.slice(
+    startIndex,
+    startIndex + recordsPerPage
+  );
+
+  return (
+    <div className="floating-trip-page">
+      <TopNavbar />
+
+      {message && <div className={`message-box ${messageType}`}>{message}</div>}
+
+      <button
+        className="add-floating-trip-top"
+        onClick={() => {
+          setForm(emptyForm);
+          setIsEdit(false);
+          setShowModal(true);
+        }}
+      >
+        <FaPlus /> Add Floating Trip
+      </button>
+
+      <div className="floating-trip-list-card">
+        <div className="floating-card-header">
+          <h3><FaMapMarkedAlt /> FLOATING TRIPS</h3>
+
+          <div className="search-wrapper">
+            <input
+              className="search-input"
+              placeholder="Search by area / driver / vehicle"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setCurrentPage(1);
+              }}
+            />
+            <button className="search-btn">🔍</button>
+            {search && (
+              <button className="clear-btn" onClick={() => setSearch("")}>✕</button>
+            )}
+          </div>
+        </div>
+
+        <table className="floating-table">
+          <thead>
+            <tr>
+              <th>Doc</th>
+              <th>Date</th>
+              <th>Driver</th>
+              <th>Vehicle</th>
+              <th>Area</th>
+              <th>Start KM</th>
+              <th>End KM</th>
+              <th>Start time</th>
+              <th>End time</th>
+              <th>Distance</th>
+              <th>Mileage</th>
+              <th>Total Time</th>
+              <th>Food</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+
+          <tbody>
+  {paginatedTrips.length === 0 ? (
+    <tr>
+      <td colSpan="12" style={{ textAlign: "center" }}>
+        <FaMapMarkedAlt /> No floating trips found
+      </td>
+    </tr>
+  ) : (
+    paginatedTrips.map(t => (
+      <tr key={t.floating_trip_id}>
+        <td data-label="Doc">{t.document_no}</td>
+        <td data-label="Date">{t.trip_date}</td>
+        <td data-label="Driver">{t.driver_name}</td>
+        <td data-label="Vehicle">{t.vehicle_name}</td>
+        <td data-label="Area">
+  <span className="area-value">{t.area_name}</span>
+</td>
+
+        <td data-label="Start KM">{t.start_km}</td>
+        <td data-label="End KM">{t.end_km}</td>
+        <td data-label="Start time">{t.start_time}</td>
+        <td data-label="End time">{t.end_time}</td>
+        <td data-label="Distance">{t.total_distance}</td>
+        <td data-label="Mileage"> {t.mileage_allowance}</td>
+        <td data-label="Total Time">
+  {t.total_time}
+</td>
+        <td data-label="Food"> {t.food_allowance}</td>
+        <td data-label="Status">
+          <span className="floating-status-active">{t.status}</span>
+        </td>
+        <td data-label="Actions">
+          <button
+            className="floating-edit-btn"
+            onClick={() => editTrip(t)}
+          >
+            <FaEdit />
+          </button>
+          <button
+            className="floating-delete-btn"
+            onClick={() => deleteTrip(t.floating_trip_id)}
+          >
+            <FaTrash />
+          </button>
+        </td>
+      </tr>
+    ))
+  )}
+</tbody>
+
+        </table>
+
+        {totalPages > 1 && (
+          <div className="pagination">
+            <button disabled={currentPage === 1} onClick={() => setCurrentPage(p => p - 1)}>
+              ◀ Previous
+            </button>
+            <span>{currentPage} / {totalPages}</span>
+            <button disabled={currentPage === totalPages} onClick={() => setCurrentPage(p => p + 1)}>
+              Next ▶
+            </button>
+          </div>
+        )}
+      </div>
+
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="floating-modal-box">
+            <div className="modal-header">
+              <h3>{isEdit ? "Edit Floating Trip" : "Add Floating Trip"}</h3>
+              <button className="modal-close-btn" onClick={() => setShowModal(false)}>✕</button>
+            </div>
+
+            <form onSubmit={handleSubmit} className="modal-body">
+              <label>Date *</label>
+              <input type="date" name="trip_date" value={form.trip_date} onChange={handleChange} required />
+
+              <label>Driver *</label>
+              <select name="driver_id" value={form.driver_id} onChange={handleChange} required>
+                <option value="">Select</option>
+                {drivers.map(d => (
+                  <option key={d.driver_id} value={d.driver_id}>{d.driver_name}</option>
+                ))}
+              </select>
+
+              <label>Vehicle *</label>
+              <select name="vehicle_id" value={form.vehicle_id} onChange={handleChange} required>
+                <option value="">Select</option>
+                {vehicles.map(v => (
+                  <option key={v.vehicle_id} value={v.vehicle_id}>{v.name}</option>
+                ))}
+              </select>
+
+              <label>Area *</label>
+              <input name="area_name" value={form.area_name} onChange={handleChange} required />
+
+              <label>Start Time *</label>
+              <input type="time" name="start_time" value={form.start_time} onChange={handleChange} required />
+
+              <label>End Time *</label>
+              <input type="time" name="end_time" value={form.end_time} onChange={handleChange} required />
+
+              {/* ✅ DECIMAL ENABLED */}
+              <label>Start KM *</label>
+              <input
+                type="number"
+                step="0.01"
+                inputMode="decimal"
+                name="start_km"
+                value={form.start_km}
+                onChange={handleChange}
+                required
+              />
+
+              <label>End KM *</label>
+              <input
+                type="number"
+                step="0.01"
+                inputMode="decimal"
+                name="end_km"
+                value={form.end_km}
+                onChange={handleChange}
+                required
+              />
+
+              <label>Food Allowance *</label>
+              <input
+                type="number"
+                step="0.01"
+                inputMode="decimal"
+                name="food_allowance"
+                value={form.food_allowance}
+                onChange={handleChange}
+                required
+              />
+
+              <button className="save-floating-btn">
+                {isEdit ? "UPDATE" : "SAVE"}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default FloatingTrips;

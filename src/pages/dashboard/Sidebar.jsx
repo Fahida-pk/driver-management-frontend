@@ -3,10 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { MdSwapHoriz } from "react-icons/md";
 import {
   FaClipboardCheck,
-  FaListAlt,
-} from "react-icons/fa";
-
-import {
+  FaMapMarkedAlt,
   FaTachometerAlt,
   FaFolderOpen,
   FaUserTie,
@@ -18,7 +15,7 @@ import {
 import "./Sidebar.css";
 
 const Sidebar = () => {
-  const [openMenu, setOpenMenu] = useState(null); // 🔑 FIX
+  const [openMenu, setOpenMenu] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -36,7 +33,10 @@ const Sidebar = () => {
   return (
     <>
       {mobileOpen && (
-        <div className="sidebar-overlay" onClick={() => setMobileOpen(false)} />
+        <div
+          className="sidebar-overlay"
+          onClick={() => setMobileOpen(false)}
+        />
       )}
 
       <div className={`sidebar ${mobileOpen ? "mobile-open" : ""}`}>
@@ -99,9 +99,13 @@ const Sidebar = () => {
         {openMenu === "transaction" && (
           <div className="submenu">
             <Link to="/fixed-trips" onClick={() => setMobileOpen(false)}>
-           <FaClipboardCheck />
+              <FaClipboardCheck />
+              <span>Fixed Trip</span>
+            </Link>
 
-      <span>Fixed Trip</span>
+            <Link to="/floating-trips" onClick={() => setMobileOpen(false)}>
+              <FaMapMarkedAlt />
+              <span>Floating Trip</span>
             </Link>
           </div>
         )}

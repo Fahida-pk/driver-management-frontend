@@ -237,7 +237,7 @@ const TripMaster = () => {
                         className="delete-btn"
                         onClick={() => deleteTrip(t.route_id)}
                       >
-                        🗑
+                       <FaTrash />
                       </button>
                     </td>
                   </tr>

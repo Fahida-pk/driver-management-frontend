@@ -252,7 +252,7 @@ const Drivers = () => {
                         className="delete-btn"
                         onClick={() => deleteDriver(d.driver_id)}
                       >
-                        🗑
+                        <FaTrash />
                       </button>
                     </td>
                   </tr>

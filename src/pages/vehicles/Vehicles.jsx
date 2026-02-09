@@ -232,7 +232,7 @@ const Vehicles = () => {
                         className="delete-btn"
                         onClick={() => deleteVehicle(v.vehicle_id)}
                       >
-                        🗑
+                      <FaTrash />
                       </button>
                     </td>
                   </tr>

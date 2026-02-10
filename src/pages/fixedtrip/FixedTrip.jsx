@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TopNavbar from "../dashboard/TopNavbar";
 import { FaTrash, FaSearch, FaPlus } from "react-icons/fa";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+
 import "./FixedTrip.css";
 
 const API = "https://zyntaweb.com/alafiya/api/fixed_trips.php";
@@ -70,7 +73,7 @@ const validatePhone = (phone) => {
   const [addDriverForm, setAddDriverForm] = useState({
     driver_name: "",
     phone: "",
-    license: "",
+   license_no: "",  
     joining_date: "",
     status: "ACTIVE",
   });
@@ -188,7 +191,7 @@ const validatePhone = (phone) => {
   setAddDriverForm({
     driver_name: "",
     phone: "",
-    license: "",
+   license_no: "",
     joining_date: "",
     status: "ACTIVE",
   });

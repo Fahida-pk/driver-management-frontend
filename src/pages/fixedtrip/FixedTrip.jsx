@@ -32,25 +32,41 @@ const [phoneError, setPhoneError] = useState("");
 
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
+// VEHICLE
+const [vehicleSearch, setVehicleSearch] = useState("");
+const [showVehicleDropdown, setShowVehicleDropdown] = useState(false);
+
+// ROUTE
+const [routeSearch, setRouteSearch] = useState("");
+const [showRouteDropdown, setShowRouteDropdown] = useState(false);
 
   /* pagination */
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 7;
 const validatePhone = (phone) => {
-  if (!phone || !phone.trim()) {
-    return "Phone number required";
-  }
+  if (!phone) return "Phone number required";
 
+  // digits only
   if (!/^\d+$/.test(phone)) {
     return "Only digits allowed";
   }
 
-  if (phone.length !== 10) {
-    return "Phone number must be 10 digits";
+  // India (+91) → total length = 12 (91 + 10)
+  if (phone.startsWith("91")) {
+    if (phone.length !== 12) {
+      return "Indian phone number must be 10 digits";
+    }
+  }
+  // Other countries
+  else {
+    if (phone.length < 8 || phone.length > 15) {
+      return "Invalid phone number";
+    }
   }
 
   return "";
 };
+
 
   /* fixed trip form */
   const emptyForm = {
@@ -71,12 +87,13 @@ const validatePhone = (phone) => {
 
   /* add driver form */
   const [addDriverForm, setAddDriverForm] = useState({
-    driver_name: "",
-    phone: "",
-   license_no: "",  
-    joining_date: "",
-    status: "ACTIVE",
-  });
+  driver_name: "",
+  phone: "",          // full number with country code
+  license_no: "",     // ✅ correct key
+  joining_date: "",
+  status: "ACTIVE",
+});
+
 
   const autoHide = () => setTimeout(() => setMessage(""), 3000);
 
@@ -163,6 +180,13 @@ const validatePhone = (phone) => {
   const totalPages = Math.ceil(filteredTrips.length / recordsPerPage);
   const start = (currentPage - 1) * recordsPerPage;
   const paginatedTrips = filteredTrips.slice(start, start + recordsPerPage);
+const filteredVehicles = vehicles.filter(v =>
+  v.name.toLowerCase().includes(vehicleSearch.toLowerCase())
+);
+
+const filteredRoutes = routes.filter(r =>
+  r.route_name.toLowerCase().includes(routeSearch.toLowerCase())
+);
 
   /* ================= DRIVER SEARCH ================= */
   const filteredDrivers = drivers.filter(d =>
@@ -299,10 +323,23 @@ const validatePhone = (phone) => {
         <span className="td-value">{t.food_allowance}</span>
       </td>
 
-      <td data-label="Actions">
-        <button className="edit-btn">✏️</button>
-        <button className="delete-btn">🗑</button>
-      </td>
+     <td data-label="Actions">
+  <button
+    className="edit-btn"
+    onClick={() => editTrip(t)}
+    title="Edit"
+  >
+    ✏️
+  </button>
+
+  <button
+    className="delete-btn"
+    onClick={() => deleteTrip(t.fixed_trip_id)}
+    title="Delete"
+  > <FaTrash />
+  </button>
+</td>
+
 
     </tr>
   ))}
@@ -386,102 +423,107 @@ const validatePhone = (phone) => {
     )}
   </div>
 
- <button
-    type="button"
-    className="driver-add-btn"
-    onClick={() => setShowDriverModal(true)}
-  >
-    +
-  </button>
-</div>
-{showDriverModal && (
-  <div className="modal-overlay">
-    <div className="modal-box">
-      <div className="modal-header">
-        <h3>Add Driver</h3>
-        <button onClick={() => setShowDriverModal(false)}>✕</button>
-      </div>
 
-      <div className="modal-body">
-        <label>Driver Name *</label>
-        <input
-          value={addDriverForm.driver_name}
-          onChange={e =>
-            setAddDriverForm(f => ({ ...f, driver_name: e.target.value }))
-          }
-        />
-
-      <label>Phone *</label>
-<input
-  value={addDriverForm.phone}
-  onChange={e => {
-    setAddDriverForm(f => ({ ...f, phone: e.target.value }));
-    setPhoneError(""); // user typing cheyyumbol error clear
-  }}
-/>
-
-{phoneError && (
-  <small style={{ color: "red", marginTop: "4px", display: "block" }}>
-    {phoneError}
-  </small>
-)}
-
-
-        <label>License *</label>
-        <input
-          value={addDriverForm.license}
-          onChange={e =>
-            setAddDriverForm(f => ({ ...f, license: e.target.value }))
-          }
-        />
-
-        <label>Joining Date *</label>
-        <input
-          type="date"
-          value={addDriverForm.joining_date}
-          onChange={e =>
-            setAddDriverForm(f => ({ ...f, joining_date: e.target.value }))
-          }
-        />
-
-        <label>Status</label>
-        <select
-          value={addDriverForm.status}
-          onChange={e =>
-            setAddDriverForm(f => ({ ...f, status: e.target.value }))
-          }
-        >
-          <option value="ACTIVE">ACTIVE</option>
-          <option value="INACTIVE">INACTIVE</option>
-        </select>
-
-        <button
-          type="button"
-          className="save-btn"
-          onClick={handleAddDriver}
-        >
-          💾 ADD DRIVER
-        </button>
-      </div>
-    </div>
+   
   </div>
-)}
 
-              <label>Vehicle *</label>
-              <select name="vehicle_id" value={form.vehicle_id} onChange={handleChange} required>
-                <option value="">Select</option>
-                {vehicles.map(v => (
-                  <option key={v.vehicle_id} value={v.vehicle_id}>{v.name}</option>
-                ))}
-              </select>
+            <label>Vehicle *</label>
 
-              <label>Route *</label>
-              <select name="route_id" value={form.route_id} onChange={handleRoute} required>
-                <option value="">Select Route</option>
-                {routes.map(r => (
-                  <option key={r.route_id} value={r.route_id}>{r.route_name}</option>
-                ))}
-              </select>
+<div className="driver-row">
+  <div className="driver-select-wrapper">
+    <div
+      className="driver-select-display"
+      onClick={() => setShowVehicleDropdown(!showVehicleDropdown)}
+    >
+      {form.vehicle_id
+        ? vehicles.find(v => v.vehicle_id === form.vehicle_id)?.name
+        : "Select vehicle"}
+      <span className="arrow">▼</span>
+    </div>
+
+    {showVehicleDropdown && (
+      <div className="driver-dropdown-box">
+        <input
+          type="text"
+          placeholder="Search vehicle..."
+          value={vehicleSearch}
+          autoFocus
+          onChange={e => setVehicleSearch(e.target.value)}
+          className="driver-search-input"
+        />
+
+        <div className="driver-options">
+          {filteredVehicles.length ? (
+            filteredVehicles.map(v => (
+              <div
+                key={v.vehicle_id}
+                className="driver-option"
+                onClick={() => {
+                  setForm(f => ({ ...f, vehicle_id: v.vehicle_id }));
+                  setShowVehicleDropdown(false);
+                  setVehicleSearch("");
+                }}
+              >
+                {v.name}
+              </div>
+            ))
+          ) : (
+            <div className="driver-no-results">No results found</div>
+          )}
+        </div>
+      </div>
+    )}
+  </div>
+</div>
+
+<label>Route *</label>
+
+<div className="driver-row">
+  <div className="driver-select-wrapper">
+    <div
+      className="driver-select-display"
+      onClick={() => setShowRouteDropdown(!showRouteDropdown)}
+    >
+      {form.route_id
+        ? routes.find(r => r.route_id === form.route_id)?.route_name
+        : "Select route"}
+      <span className="arrow">▼</span>
+    </div>
+
+    {showRouteDropdown && (
+      <div className="driver-dropdown-box">
+        <input
+          type="text"
+          placeholder="Search route..."
+          value={routeSearch}
+          autoFocus
+          onChange={e => setRouteSearch(e.target.value)}
+          className="driver-search-input"
+        />
+
+        <div className="driver-options">
+          {filteredRoutes.length ? (
+            filteredRoutes.map(r => (
+              <div
+                key={r.route_id}
+                className="driver-option"
+                onClick={() => {
+                  handleRoute({ target: { value: r.route_id } });
+                  setShowRouteDropdown(false);
+                  setRouteSearch("");
+                }}
+              >
+                {r.route_name}
+              </div>
+            ))
+          ) : (
+            <div className="driver-no-results">No results found</div>
+          )}
+        </div>
+      </div>
+    )}
+  </div>
+</div>
 
               <label>Distance</label>
               <input value={form.distance} readOnly />

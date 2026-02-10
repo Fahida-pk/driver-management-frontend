@@ -166,7 +166,7 @@ const Vehicles = () => {
           setShowModal(true);
         }}
       >
-  <FaPlus /> Add New Trip
+  <FaPlus /> Add New Vehicle
       </button>
 
       <div className="vehicle-list-card">

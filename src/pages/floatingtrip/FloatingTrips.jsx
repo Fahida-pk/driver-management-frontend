@@ -21,6 +21,13 @@ const FloatingTrips = () => {
   const [search, setSearch] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
+// DRIVER
+const [driverSearch, setDriverSearch] = useState("");
+const [showDriverDropdown, setShowDriverDropdown] = useState(false);
+
+// VEHICLE
+const [vehicleSearch, setVehicleSearch] = useState("");
+const [showVehicleDropdown, setShowVehicleDropdown] = useState(false);
 
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
@@ -75,6 +82,13 @@ const FloatingTrips = () => {
       [e.target.name]: e.target.value
     }));
   };
+const filteredDrivers = drivers.filter(d =>
+  d.driver_name.toLowerCase().includes(driverSearch.toLowerCase())
+);
+
+const filteredVehicles = vehicles.filter(v =>
+  v.name.toLowerCase().includes(vehicleSearch.toLowerCase())
+);
 
   /* SAVE */
   const handleSubmit = async (e) => {
@@ -281,20 +295,109 @@ const FloatingTrips = () => {
               <input type="date" name="trip_date" value={form.trip_date} onChange={handleChange} required />
 
               <label>Driver *</label>
-              <select name="driver_id" value={form.driver_id} onChange={handleChange} required>
-                <option value="">Select</option>
-                {drivers.map(d => (
-                  <option key={d.driver_id} value={d.driver_id}>{d.driver_name}</option>
-                ))}
-              </select>
 
-              <label>Vehicle *</label>
-              <select name="vehicle_id" value={form.vehicle_id} onChange={handleChange} required>
-                <option value="">Select</option>
-                {vehicles.map(v => (
-                  <option key={v.vehicle_id} value={v.vehicle_id}>{v.name}</option>
-                ))}
-              </select>
+<div className="driver-row">
+  <div className="driver-select-wrapper">
+    <div
+      className="driver-select-display"
+      onClick={() => {
+        setShowDriverDropdown(!showDriverDropdown);
+        setShowVehicleDropdown(false);
+      }}
+    >
+      {form.driver_id
+        ? drivers.find(d => d.driver_id === form.driver_id)?.driver_name
+        : "Select driver"}
+      <span className="arrow">▼</span>
+    </div>
+
+    {showDriverDropdown && (
+      <div className="driver-dropdown-box">
+        <input
+          type="text"
+          placeholder="Search driver..."
+          value={driverSearch}
+          autoFocus
+          onChange={e => setDriverSearch(e.target.value)}
+          className="driver-search-input"
+        />
+
+        <div className="driver-options">
+          {filteredDrivers.length ? (
+            filteredDrivers.map(d => (
+              <div
+                key={d.driver_id}
+                className="driver-option"
+                onClick={() => {
+                  setForm(f => ({ ...f, driver_id: d.driver_id }));
+                  setShowDriverDropdown(false);
+                  setDriverSearch("");
+                }}
+              >
+                {d.driver_name}
+              </div>
+            ))
+          ) : (
+            <div className="driver-no-results">No results</div>
+          )}
+        </div>
+      </div>
+    )}
+  </div>
+</div>
+
+
+           <label>Vehicle *</label>
+
+<div className="driver-row">
+  <div className="driver-select-wrapper">
+    <div
+      className="driver-select-display"
+      onClick={() => {
+        setShowVehicleDropdown(!showVehicleDropdown);
+        setShowDriverDropdown(false);
+      }}
+    >
+      {form.vehicle_id
+        ? vehicles.find(v => v.vehicle_id === form.vehicle_id)?.name
+        : "Select vehicle"}
+      <span className="arrow">▼</span>
+    </div>
+
+    {showVehicleDropdown && (
+      <div className="driver-dropdown-box">
+        <input
+          type="text"
+          placeholder="Search vehicle..."
+          value={vehicleSearch}
+          autoFocus
+          onChange={e => setVehicleSearch(e.target.value)}
+          className="driver-search-input"
+        />
+
+        <div className="driver-options">
+          {filteredVehicles.length ? (
+            filteredVehicles.map(v => (
+              <div
+                key={v.vehicle_id}
+                className="driver-option"
+                onClick={() => {
+                  setForm(f => ({ ...f, vehicle_id: v.vehicle_id }));
+                  setShowVehicleDropdown(false);
+                  setVehicleSearch("");
+                }}
+              >
+                {v.name}
+              </div>
+            ))
+          ) : (
+            <div className="driver-no-results">No results</div>
+          )}
+        </div>
+      </div>
+    )}
+  </div>
+</div>
 
               <label>Area *</label>
               <input name="area_name" value={form.area_name} onChange={handleChange} required />

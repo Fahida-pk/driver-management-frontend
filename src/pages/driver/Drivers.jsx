@@ -183,7 +183,7 @@ const Drivers = () => {
           setShowModal(true);
         }}
       >
-  <FaPlus /> Add New Trip
+  <FaPlus /> Add New Driver
       </button>
 
       <div className="driver-list-card">

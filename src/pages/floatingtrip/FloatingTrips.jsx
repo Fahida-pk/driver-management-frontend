@@ -32,18 +32,19 @@ const FloatingTrips = () => {
   const autoHide = () => setTimeout(() => setMessage(""), 3000);
 
   const emptyForm = {
-    floating_trip_id: "",
-    trip_date: "",
-    driver_id: "",
-    vehicle_id: "",
-    area_name: "",
-    start_time: "",
-    end_time: "",
-    start_km: "",
-    end_km: "",
-    food_allowance: "",
-    status: "ACTIVE",
-  };
+  floating_trip_id: "",
+  trip_date: "",
+  driver_id: "",
+  vehicle_id: "",
+  area_name: "",
+  start_time: "",
+  end_time: "",
+  start_km: "",
+  end_km: "",
+  food_allowance: "",
+  allowance: "",
+};
+
 
   const [form, setForm] = useState(emptyForm);
 
@@ -195,7 +196,7 @@ const FloatingTrips = () => {
               <th>Mileage</th>
               <th>Total Time</th>
               <th>Food</th>
-              <th>Status</th>
+              <th>Allowance</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -218,6 +219,7 @@ const FloatingTrips = () => {
   <span className="area-value">{t.area_name}</span>
 </td>
 
+
         <td data-label="Start KM">{t.start_km}</td>
         <td data-label="End KM">{t.end_km}</td>
         <td data-label="Start time">{t.start_time}</td>
@@ -228,9 +230,10 @@ const FloatingTrips = () => {
   {t.total_time}
 </td>
         <td data-label="Food"> {t.food_allowance}</td>
-        <td data-label="Status">
-          <span className="floating-status-active">{t.status}</span>
-        </td>
+        <td data-label="Allowance">
+   {t.allowance}
+</td>
+
         <td data-label="Actions">
           <button
             className="floating-edit-btn"
@@ -335,6 +338,16 @@ const FloatingTrips = () => {
                 onChange={handleChange}
                 required
               />
+<label>Allowance *</label>
+<input
+  type="number"
+  step="0.01"
+  inputMode="decimal"
+  name="allowance"
+  value={form.allowance}
+  onChange={handleChange}
+  required
+/>
 
               <button className="save-floating-btn">
                 {isEdit ? "UPDATE" : "SAVE"}

@@ -1,14 +1,17 @@
 /* ================= PAGE ================= */
 .floating-trip-page {
-  padding: 16px;
+  padding: 8px;
   background: #f4f7fb;
   min-height: 100vh;
+}
+.floating-table td[data-label="Actions"] {
+  display: flex;
 }
 
 /* ================= CARD ================= */
 .floating-trip-list-card {
   background: #ffffff;
-  padding: 24px;
+  padding: 16px;
   border-radius: 14px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   width: 100%;
@@ -61,16 +64,22 @@
   background: linear-gradient(300deg,#2563eb,#b3d5f0,#b096d1,#2563eb);
   box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
 }
+.floating-table th {
+  padding: 10px 8px;
+}
+
+.floating-table td {
+  padding: 10px 8px;   /* ❌ 20px → ✅ 10px */
+}
 
 /* ================= TABLE ================= */
 .floating-table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed;
+  table-layout: auto;   /* ✅ fixed → auto */
 }
 
 .floating-table th {
-  padding: 14px 12px;
   border-bottom: 2px solid #e5e7eb;
   text-align: left;
   font-size: 13px;
@@ -80,7 +89,6 @@
 }
 
 .floating-table td {
-  padding: 14px 12px;
   border-bottom: 1px solid #e5e7eb;
   font-size: 14px;
   vertical-align: top;
@@ -206,10 +214,12 @@
 
 @media (max-width: 576px) {
 
+  /* hide table head */
   .floating-table thead {
     display: none;
   }
 
+  /* table → card */
   .floating-table,
   .floating-table tbody,
   .floating-table tr {
@@ -225,44 +235,56 @@
     box-shadow: 0 6px 18px rgba(0,0,0,0.08);
   }
 
+  /* default row layout */
   .floating-table td {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     padding: 8px 0;
+    border-bottom: none;
     font-size: 14px;
+    text-align: right;
   }
 
-  /* LABEL */
   .floating-table td::before {
     content: attr(data-label);
     font-weight: 600;
     color: #6b7280;
-    width: 110px;
-    flex-shrink: 0;
     text-align: left;
   }
 
-  /* DEFAULT VALUE */
-  .floating-table td > * {
-    text-align: right;
-    flex: 1;
+  /* left text fields */
+  .floating-table td[data-label="Doc"],
+  .floating-table td[data-label="Date"],
+  .floating-table td[data-label="Driver"],
+  .floating-table td[data-label="Vehicle"] {
+    text-align: left;
   }
 
-  /* ✅ AREA PERFECT FIX */
+  /* ===== AREA (FINAL FIX) ===== */
+  .floating-table td[data-label="Area"] {
+    align-items: flex-start;     /* allow wrap */
+    gap: 12px;
+  }
+
+  .floating-table td[data-label="Area"]::before {
+    flex-shrink: 0;              /* label fixed */
+  }
+
   .floating-table td[data-label="Area"] .area-value {
     text-align: right;
-    white-space: normal;
-    word-break: break-word;
-    line-height: 1.4;
+    white-space: normal;         /* wrap text */
+  
+    line-height: 1;
+    max-width: 100%;              /* 🔥 key line */
   }
 
-  /* STATUS */
+  /* status */
   .floating-table td[data-label="Status"] {
     justify-content: flex-start;
   }
 
-  /* ACTIONS */
+  /* actions */
   .floating-table td[data-label="Actions"] {
     justify-content: center;
     gap: 14px;

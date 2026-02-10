@@ -13,6 +13,108 @@
   height: 64px;
   z-index: 1000;
 }
+.select-with-add {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.search-below {
+  margin-top: 6px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #dcdfe6;
+}
+
+.select-with-add .add-btn {
+  height: 42px;
+  width: 42px;
+  background: #16a34a;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 18px;
+  cursor: pointer;
+}
+/* ================= DRIVER SELECT ================= */
+
+.driver-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.driver-select-wrapper {
+  flex: 1;
+  position: relative;
+}
+
+.driver-select-display {
+  border: 2px solid #3b82f6;
+  border-radius: 8px;
+  padding: 10px 12px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+}
+
+.driver-dropdown-box {
+  margin-top: 6px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+
+  max-height: 300px;     /* ⭐ important */
+  overflow-y: auto;      /* ⭐ THIS IS OVERFLOW */
+  overflow-x: hidden;
+}
+
+.driver-search-input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-bottom: 1px solid #eee;
+  outline: none;
+  border-radius: 8px 8px 0 0;
+}
+
+.driver-options {
+  max-height: 220px;
+  overflow-y: auto;      /* ⭐ list scroll */
+}
+.driver-option {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.driver-option:hover {
+  background: #e6f0ff;
+}
+
+.driver-no-results {
+  padding: 10px;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+  background: #fafafa;
+}
+
+.driver-add-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  border: none;
+  background: #22c55e;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.driver-add-btn:hover {
+  background: #16a34a;
+}
 
 /* ================= PAGE ================= */
 .fixed-trip-page {
@@ -28,7 +130,6 @@
   border-radius: 14px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   width: 100%;
-  max-width: 100%;
   overflow-x: hidden;
 }
 
@@ -195,12 +296,15 @@ td:nth-child(5) {
 }
 
 .modal-box {
-  background: #fff;
-  width: 500px;
-  max-width: 95%;
-  border-radius: 12px;
-  padding: 20px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
 }
+
+.modal-body {
+  overflow-y: auto;      /* ⭐ modal scroll */
+}
+
 
 .modal-header {
   display: flex;

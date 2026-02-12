@@ -14,6 +14,7 @@ const Drivers = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [phoneError, setPhoneError] = useState("");
   const [showModal, setShowModal] = useState(false);
+const [nameError, setNameError] = useState("");
 
   /* MESSAGE BOX */
   const [message, setMessage] = useState("");
@@ -46,6 +47,35 @@ const Drivers = () => {
   useEffect(() => {
     loadDrivers();
   }, []);
+/* FORM CHANGE */
+const handleNameChange = (e) => {
+  const { name, value } = e.target;
+
+  setForm({ ...form, [name]: value });
+
+  // 🔥 NAME DUPLICATE CHECK
+  if (name === "driver_name") {
+
+    if (!value.trim()) {
+      setNameError("Driver name is required");
+      return;
+    }
+
+    const duplicate = drivers.find(
+      (d) =>
+        d.driver_name.toLowerCase().trim() ===
+        value.toLowerCase().trim() &&
+        d.driver_id !== form.driver_id
+    );
+
+    if (duplicate) {
+      setNameError("Driver name already exists");
+      return;
+    }
+
+    setNameError("");
+  }
+};
 
   /* FORM CHANGE */
   const handleChange = (e) => {
@@ -294,12 +324,13 @@ const Drivers = () => {
 
             <form onSubmit={handleSubmit} className="modal-body">
               <label>Driver Name *</label>
-              <input
-                name="driver_name"
-                value={form.driver_name}
-                onChange={handleChange}
-                required
-              />
+            <input
+  name="driver_name"
+  value={form.driver_name}
+  onChange={handleNameChange}
+  required
+/>
+{nameError && <small className="error">{nameError}</small>}
 
               <label>Phone *</label>
               <PhoneInput

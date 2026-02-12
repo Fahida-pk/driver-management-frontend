@@ -13,6 +13,7 @@ const Users = () => {
 
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
+const [modalKey, setModalKey] = useState(0);
 
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 7;
@@ -25,7 +26,7 @@ const Users = () => {
     status: "ACTIVE",
   });
 
-  /* LOAD USERS */
+  /* ================= LOAD USERS ================= */
   const loadUsers = async () => {
     try {
       const res = await fetch(API);
@@ -40,33 +41,47 @@ const Users = () => {
     loadUsers();
   }, []);
 
+  /* ================= HANDLE CHANGE ================= */
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  /* ================= HANDLE SUBMIT ================= */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    await fetch(API, {
-      method: isEdit ? "PUT" : "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
+    try {
+      const res = await fetch(API, {
+        method: isEdit ? "PUT" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
 
-    setMessage(
-      isEdit
-        ? "User updated successfully ✅"
-        : "User added successfully 🎉"
-    );
-    setMessageType("success");
+      const data = await res.json();
+
+      if (data.status === "error") {
+        throw new Error(data.message);
+      }
+
+      setMessage(
+        isEdit
+          ? "User updated successfully ✅"
+          : "User added successfully 🎉"
+      );
+      setMessageType("success");
+
+      resetForm();
+      setShowModal(false);
+      loadUsers();
+    } catch (err) {
+      setMessage(err.message || "Something went wrong");
+      setMessageType("error");
+    }
 
     setTimeout(() => setMessage(""), 3000);
-
-    resetForm();
-    setShowModal(false);
-    loadUsers();
   };
 
+  /* ================= RESET FORM ================= */
   const resetForm = () => {
     setForm({
       user_id: "",
@@ -78,31 +93,34 @@ const Users = () => {
     setIsEdit(false);
   };
 
+  /* ================= EDIT ================= */
   const editUser = (user) => {
     setForm(user);
     setIsEdit(true);
     setShowModal(true);
   };
 
+  /* ================= DELETE ================= */
   const deleteUser = async (id) => {
     if (!window.confirm("Delete this user?")) return;
 
     await fetch(`${API}?id=${id}`, { method: "DELETE" });
 
     setMessage("User deleted successfully ❌");
-    setTimeout(() => setMessage(""), 3000);
+    setMessageType("success");
 
+    setTimeout(() => setMessage(""), 3000);
     loadUsers();
   };
 
-  /* SEARCH */
+  /* ================= SEARCH ================= */
   const filteredUsers = users.filter(
     (u) =>
       u.username?.toLowerCase().includes(search.toLowerCase()) ||
       u.role?.toLowerCase().includes(search.toLowerCase())
   );
 
-  /* PAGINATION */
+  /* ================= PAGINATION ================= */
   const totalPages = Math.ceil(filteredUsers.length / recordsPerPage);
   const start = (currentPage - 1) * recordsPerPage;
   const paginatedUsers = filteredUsers.slice(start, start + recordsPerPage);
@@ -117,55 +135,67 @@ const Users = () => {
         </div>
       )}
 
-      <button
-        className="add-user-btn"
-        onClick={() => {
-          resetForm();
-          setShowModal(true);
-        }}
-      >
-        <FaPlus /> Add New User
-      </button>
+     <button
+  className="add-user-btn"
+  onClick={() => {
+    setIsEdit(false);
+    setForm({
+      user_id: "",
+      username: "",
+      password: "",
+      role: "USER",
+      status: "ACTIVE",
+    });
+    setModalKey(prev => prev + 1);   // 🔥 force remount
+    setShowModal(true);
+  }}
+>
+  <FaPlus /> Add New User
+</button>
 
+
+
+
+      {/* CARD */}
       <div className="users-card">
-       <div className="users-header">
-  <h3>👤 USERS LIST</h3>
 
-  <div className="search-wrapper">
-    <input
-      className="search-input"
-      placeholder="Search by username or role"
-      value={search}
-      onChange={(e) => {
-        setSearch(e.target.value);
-        setCurrentPage(1);
-      }}
-    />
+        {/* HEADER */}
+        <div className="users-header">
+          <h3>👤 USERS LIST</h3>
 
-    {/* Search Button */}
-    <button
-      className="search-btn"
-      onClick={() => setCurrentPage(1)}
-    >
-      🔍
-    </button>
+          <div className="search-wrapper">
+            <input
+              className="search-input"
+              placeholder="Search by username or role"
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setCurrentPage(1);
+              }}
+            />
 
-    {/* Clear Button */}
-    {search && (
-      <button
-        className="clear-btn"
-        onClick={() => {
-          setSearch("");
-          setCurrentPage(1);
-        }}
-      >
-        ✕
-      </button>
-    )}
-  </div>
-</div>
+            <button
+              className="search-btn"
+              onClick={() => setCurrentPage(1)}
+            >
+              🔍
+            </button>
 
+            {search && (
+              <button
+                className="clear-btn"
+                onClick={() => {
+                  setSearch("");
+                  setCurrentPage(1);
+                }}
+              >
+                ✕
+              </button>
+            )}
+          </div>
+        </div>
 
+        {/* TABLE */}
         {filteredUsers.length === 0 ? (
           <div className="users-empty">👤 No users found.</div>
         ) : (
@@ -179,17 +209,18 @@ const Users = () => {
                   <th>Actions</th>
                 </tr>
               </thead>
+
               <tbody>
                 {paginatedUsers.map((u) => (
                   <tr key={u.user_id}>
-                    <td>{u.username}</td>
-                    <td>{u.role}</td>
-                    <td>
+                    <td data-label="Username">{u.username}</td>
+                    <td data-label="Role">{u.role}</td>
+                    <td data-label="Status">
                       <span className="users-status">
                         {u.status}
                       </span>
                     </td>
-                    <td>
+                    <td data-label="Actions">
                       <button
                         className="users-edit"
                         onClick={() => editUser(u)}
@@ -231,9 +262,10 @@ const Users = () => {
         )}
       </div>
 
-      {/* MODAL */}
-      {showModal && (
-        <div className="users-modal-overlay">
+     {showModal && (
+  <div key={modalKey} className="users-modal-overlay">
+
+
           <div className="users-modal">
             <div className="users-modal-header">
               <h3>{isEdit ? "Update User" : "Add User"}</h3>
@@ -278,7 +310,7 @@ const Users = () => {
                 <option value="INACTIVE">INACTIVE</option>
               </select>
 
-              <button className="users-save-btn">
+              <button type="submit" className="users-save-btn">
                 {isEdit ? "UPDATE USER" : "ADD USER"}
               </button>
             </form>

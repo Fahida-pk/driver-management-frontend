@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { MdSwapHoriz } from "react-icons/md";
+import { FaUserShield, FaUsers } from "react-icons/fa";
+
 import {
   FaClipboardCheck,
   FaMapMarkedAlt,
@@ -18,6 +20,7 @@ const Sidebar = () => {
   const [openMenu, setOpenMenu] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const navigate = useNavigate();
+const role = localStorage.getItem("role");
 
   useEffect(() => {
     const handler = () => setMobileOpen(true);
@@ -31,93 +34,130 @@ const Sidebar = () => {
   };
 
   return (
-    <>
-      {mobileOpen && (
-        <div
-          className="sidebar-overlay"
-          onClick={() => setMobileOpen(false)}
-        />
+  <>
+    {mobileOpen && (
+      <div
+        className="sidebar-overlay"
+        onClick={() => setMobileOpen(false)}
+      />
+    )}
+
+    <div className={`sidebar ${mobileOpen ? "mobile-open" : ""}`}>
+
+      {/* Dashboard */}
+      <Link
+        to="/dashboard"
+        className="menu-item"
+        onClick={() => setMobileOpen(false)}
+      >
+        <FaTachometerAlt />
+        <span>Dashboard</span>
+      </Link>
+
+      {/* ================= MASTER ================= */}
+      <div
+        className="menu-item"
+        onClick={() =>
+          setOpenMenu(openMenu === "master" ? null : "master")
+        }
+      >
+        <FaFolderOpen />
+        <span>Master</span>
+        <FaChevronDown className={openMenu === "master" ? "rotate" : ""} />
+      </div>
+
+      {openMenu === "master" && (
+        <div className="submenu">
+          <Link to="/drivers" onClick={() => setMobileOpen(false)}>
+            <FaUserTie />
+            <span>Driver</span>
+          </Link>
+
+          <Link to="/vehicles" onClick={() => setMobileOpen(false)}>
+            <FaTruck />
+            <span>Vehicle</span>
+          </Link>
+
+          <Link to="/trips" onClick={() => setMobileOpen(false)}>
+            <FaRoute />
+            <span>Route</span>
+          </Link>
+        </div>
       )}
 
-      <div className={`sidebar ${mobileOpen ? "mobile-open" : ""}`}>
+      {/* ================= TRANSACTION ================= */}
+      <div
+        className="menu-item"
+        onClick={() =>
+          setOpenMenu(openMenu === "transaction" ? null : "transaction")
+        }
+      >
+        <MdSwapHoriz />
+        <span>Transaction</span>
+        <FaChevronDown
+          className={openMenu === "transaction" ? "rotate" : ""}
+        />
+      </div>
 
-        {/* Dashboard */}
-        <Link
-          to="/dashboard"
-          className="menu-item"
-          onClick={() => setMobileOpen(false)}
-        >
-          <FaTachometerAlt />
-          <span>Dashboard</span>
-        </Link>
+      {openMenu === "transaction" && (
+        <div className="submenu">
+          <Link to="/fixed-trips" onClick={() => setMobileOpen(false)}>
+            <FaClipboardCheck />
+            <span>Fixed Trip</span>
+          </Link>
 
-        {/* ================= MASTER ================= */}
-        <div
-          className="menu-item"
-          onClick={() =>
-            setOpenMenu(openMenu === "master" ? null : "master")
-          }
-        >
-          <FaFolderOpen />
-          <span>Master</span>
-          <FaChevronDown className={openMenu === "master" ? "rotate" : ""} />
+          <Link to="/floating-trips" onClick={() => setMobileOpen(false)}>
+            <FaMapMarkedAlt />
+            <span>Floating Trip</span>
+          </Link>
         </div>
+      )}
 
-        {openMenu === "master" && (
-          <div className="submenu">
-            <Link to="/drivers" onClick={() => setMobileOpen(false)}>
-              <FaUserTie />
-              <span>Driver</span>
-            </Link>
+      {/* ================= BOTTOM SECTION ================= */}
+<div className="bottom-section">
 
-            <Link to="/vehicles" onClick={() => setMobileOpen(false)}>
-              <FaTruck />
-              <span>Vehicle</span>
-            </Link>
+  {/* ADMIN - Show only if ADMIN login */}
+  {role === "ADMIN" && (
+    <>
+      <div
+        className="menu-item1"
+        onClick={() =>
+          setOpenMenu(openMenu === "admin" ? null : "admin")
+        }
+      >
+        <FaUserShield />
+        <span>Admin</span>
+        <FaChevronDown
+          className={openMenu === "admin" ? "rotate" : ""}
+        />
+      </div>
 
-            <Link to="/trips" onClick={() => setMobileOpen(false)}>
-              <FaRoute />
-              <span>Route</span>
-            </Link>
-          </div>
-        )}
-
-        {/* ================= TRANSACTION ================= */}
-        <div
-          className="menu-item"
-          onClick={() =>
-            setOpenMenu(openMenu === "transaction" ? null : "transaction")
-          }
-        >
-          <MdSwapHoriz />
-          <span>Transaction</span>
-          <FaChevronDown
-            className={openMenu === "transaction" ? "rotate" : ""}
-          />
+      {openMenu === "admin" && (
+        <div className="submenu">
+          <Link to="/users" onClick={() => setMobileOpen(false)}>
+            <FaUsers />
+            <span>User</span>
+          </Link>
         </div>
+      )}
+    </>
+  )}
 
-        {openMenu === "transaction" && (
-          <div className="submenu">
-            <Link to="/fixed-trips" onClick={() => setMobileOpen(false)}>
-              <FaClipboardCheck />
-              <span>Fixed Trip</span>
-            </Link>
 
-            <Link to="/floating-trips" onClick={() => setMobileOpen(false)}>
-              <FaMapMarkedAlt />
-              <span>Floating Trip</span>
-            </Link>
-          </div>
-        )}
+
 
         {/* Logout */}
         <button className="logout-btn" onClick={handleLogout}>
           <FaSignOutAlt />
           <span>Logout</span>
         </button>
+
       </div>
-    </>
-  );
+
+    </div> {/* ✅ THIS WAS MISSING */}
+
+  </>
+);
 };
 
 export default Sidebar;

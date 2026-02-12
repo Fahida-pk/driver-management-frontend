@@ -32,12 +32,12 @@
 .menu-item {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 15px;
   padding: 18px 5px;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 20px;
+  font-weight: 800;
   transition: background 0.2s ease;
 }
 
@@ -99,13 +99,30 @@
 .submenu a span {
   margin-left: 12px;
 }
+.bottom-section {
+  margin-top: auto;
+  margin-bottom: 40px;
+}
+
+.menu-item1
+{
+ display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 800;
+  transition: background 0.2s ease;
+}
 
 /* ================= LOGOUT ================= */
 
 .logout-btn {
   margin-top: auto;
-  padding: 14px;
-  border-radius: 14px;
+  padding: 20px;
+  border-radius: 20px;
   border: none;
   background: #ffffff;
   color: #333;
@@ -113,8 +130,8 @@
   align-items: center;
   gap: 12px;
   cursor: pointer;
-  font-size: 16px;
-  font-weight: 500;
+  font-size: 20px;
+  font-weight: 700;
 }
 
 .logout-btn:hover {

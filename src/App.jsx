@@ -5,6 +5,7 @@ import Drivers from "./pages/driver/Drivers";
 import  Vehicles from "./pages/vehicles/Vehicles";
 import TripMaster from "./pages/trip/TripMaster";
 import MainLayout from "./layouts/MainLayout";
+import Users from "./pages/user/Users";
 import FixedTrip from "./pages/fixedtrip/FixedTrip";
 import FloatingTrips from "./pages/floatingtrip/FloatingTrips";
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path="/trips" element={<TripMaster />} />
           <Route path="/fixed-trips" element={<FixedTrip />} />
           <Route path="/floating-trips" element={<FloatingTrips />} />
+          <Route path="/users" element={<Users />} />
         </Route>
 
       </Routes>

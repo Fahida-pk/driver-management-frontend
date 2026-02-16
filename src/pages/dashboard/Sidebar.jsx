@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { MdSwapHoriz } from "react-icons/md";
 import { FaUserShield, FaUsers } from "react-icons/fa";
+import { FaChartBar, FaChartPie, FaFileInvoice } from "react-icons/fa";
 
 import {
   FaClipboardCheck,
@@ -105,12 +106,37 @@ const Sidebar = () => {
 
             {/* ✅ Trip Settlement correctly placed under Floating */}
             <Link to="/report" onClick={() => setMobileOpen(false)}>
-              <FaClipboardCheck />
-              <span>Trip Settlement</span>
-            </Link>
+      <FaFileInvoice />
+      <span>Trip Settlement</span>
+    </Link>
 
           </div>
         )}
+
+{/* ================= REPORT ================= */}
+{/* ================= REPORT ================= */}
+<div
+  className="menu-item"
+  onClick={() => setOpenMenu(openMenu === "report" ? null : "report")}
+>
+  <FaChartPie />
+  <span>Report</span>
+  <FaChevronDown className={openMenu === "report" ? "rotate" : ""} />
+</div>
+
+{openMenu === "report" && (
+  <div className="submenu">
+
+    
+
+    <Link to="/driver-report" onClick={() => setMobileOpen(false)}>
+      <FaChartBar />
+      <span>Driver Report</span>
+    </Link>
+
+  </div>
+)}
+
 
         {/* ================= BOTTOM SECTION ================= */}
         <div className="bottom-section">

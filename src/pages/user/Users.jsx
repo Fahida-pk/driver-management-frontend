@@ -10,10 +10,9 @@ const Users = () => {
   const [search, setSearch] = useState("");
   const [isEdit, setIsEdit] = useState(false);
   const [showModal, setShowModal] = useState(false);
-
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
-const [modalKey, setModalKey] = useState(0);
+  const [modalKey, setModalKey] = useState(0);
 
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 7;
@@ -101,16 +100,32 @@ const [modalKey, setModalKey] = useState(0);
   };
 
   /* ================= DELETE ================= */
-  const deleteUser = async (id) => {
+  const deleteUser = async (user) => {
+    if (user.username === "code@123") {
+      setMessage("Default admin cannot be deleted ❌");
+      setMessageType("error");
+      setTimeout(() => setMessage(""), 3000);
+      return;
+    }
+
     if (!window.confirm("Delete this user?")) return;
 
-    await fetch(`${API}?id=${id}`, { method: "DELETE" });
+    const res = await fetch(`${API}?id=${user.user_id}`, {
+      method: "DELETE",
+    });
 
-    setMessage("User deleted successfully ❌");
-    setMessageType("success");
+    const data = await res.json();
+
+    if (data.status === "error") {
+      setMessage(data.message);
+      setMessageType("error");
+    } else {
+      setMessage("User deleted successfully ❌");
+      setMessageType("success");
+      loadUsers();
+    }
 
     setTimeout(() => setMessage(""), 3000);
-    loadUsers();
   };
 
   /* ================= SEARCH ================= */
@@ -135,67 +150,33 @@ const [modalKey, setModalKey] = useState(0);
         </div>
       )}
 
-     <button
-  className="add-user-btn"
-  onClick={() => {
-    setIsEdit(false);
-    setForm({
-      user_id: "",
-      username: "",
-      password: "",
-      role: "USER",
-      status: "ACTIVE",
-    });
-    setModalKey(prev => prev + 1);   // 🔥 force remount
-    setShowModal(true);
-  }}
->
-  <FaPlus /> Add New User
-</button>
+      <button
+        className="add-user-btn"
+        onClick={() => {
+          setIsEdit(false);
+          resetForm();
+          setModalKey((prev) => prev + 1);
+          setShowModal(true);
+        }}
+      >
+        <FaPlus /> Add New User
+      </button>
 
-
-
-
-      {/* CARD */}
       <div className="users-card">
-
-        {/* HEADER */}
         <div className="users-header">
           <h3>👤 USERS LIST</h3>
 
-          <div className="search-wrapper">
-            <input
-              className="search-input"
-              placeholder="Search by username or role"
-              value={search}
-              onChange={(e) => {
-                setSearch(e.target.value);
-                setCurrentPage(1);
-              }}
-            />
-
-            <button
-              className="search-btn"
-              onClick={() => setCurrentPage(1)}
-            >
-              🔍
-            </button>
-
-            {search && (
-              <button
-                className="clear-btn"
-                onClick={() => {
-                  setSearch("");
-                  setCurrentPage(1);
-                }}
-              >
-                ✕
-              </button>
-            )}
-          </div>
+          <input
+            className="search-input"
+            placeholder="Search by username or role"
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setCurrentPage(1);
+            }}
+          />
         </div>
 
-        {/* TABLE */}
         {filteredUsers.length === 0 ? (
           <div className="users-empty">👤 No users found.</div>
         ) : (
@@ -213,59 +194,41 @@ const [modalKey, setModalKey] = useState(0);
               <tbody>
                 {paginatedUsers.map((u) => (
                   <tr key={u.user_id}>
-                    <td data-label="Username">{u.username}</td>
-                    <td data-label="Role">{u.role}</td>
-                    <td data-label="Status">
+                    <td>{u.username}</td>
+                    <td>{u.role}</td>
+                    <td>
                       <span className="users-status">
                         {u.status}
                       </span>
                     </td>
-                    <td data-label="Actions">
+                    <td>
                       <button
                         className="users-edit"
                         onClick={() => editUser(u)}
                       >
                         ✏️
                       </button>
-                      <button
-                        className="users-delete"
-                        onClick={() => deleteUser(u.user_id)}
-                      >
-                        <FaTrash />
-                      </button>
+
+                      {u.username !== "code@123" && (
+                        <button
+                          className="users-delete"
+                          onClick={() => deleteUser(u)}
+                        >
+                          <FaTrash />
+                        </button>
+                      )}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-
-            {totalPages > 1 && (
-              <div className="users-pagination">
-                <button
-                  disabled={currentPage === 1}
-                  onClick={() => setCurrentPage((p) => p - 1)}
-                >
-                  ◀
-                </button>
-                <span>
-                  {currentPage} / {totalPages}
-                </span>
-                <button
-                  disabled={currentPage === totalPages}
-                  onClick={() => setCurrentPage((p) => p + 1)}
-                >
-                  ▶
-                </button>
-              </div>
-            )}
           </>
         )}
       </div>
 
-     {showModal && (
-  <div key={modalKey} className="users-modal-overlay">
-
-
+      {/* ================= MODAL ================= */}
+      {showModal && (
+        <div key={modalKey} className="users-modal-overlay">
           <div className="users-modal">
             <div className="users-modal-header">
               <h3>{isEdit ? "Update User" : "Add User"}</h3>
@@ -279,6 +242,7 @@ const [modalKey, setModalKey] = useState(0);
                 value={form.username}
                 onChange={handleChange}
                 required
+                disabled={isEdit && form.username === "code@123"}
               />
 
               <label>Password *</label>
@@ -295,6 +259,7 @@ const [modalKey, setModalKey] = useState(0);
                 name="role"
                 value={form.role}
                 onChange={handleChange}
+                disabled={isEdit && form.username === "code@123"}
               >
                 <option value="ADMIN">ADMIN</option>
                 <option value="USER">USER</option>
@@ -305,6 +270,7 @@ const [modalKey, setModalKey] = useState(0);
                 name="status"
                 value={form.status}
                 onChange={handleChange}
+                disabled={isEdit && form.username === "code@123"}
               >
                 <option value="ACTIVE">ACTIVE</option>
                 <option value="INACTIVE">INACTIVE</option>

@@ -112,6 +112,29 @@ const role = localStorage.getItem("role");
           </Link>
         </div>
       )}
+{/* ================= REPORT ================= */}
+<div
+  className="menu-item"
+  onClick={() =>
+    setOpenMenu(openMenu === "report" ? null : "report")
+  }
+>
+  <FaClipboardCheck />
+  <span>Report</span>
+  <FaChevronDown
+    className={openMenu === "report" ? "rotate" : ""}
+  />
+</div>
+
+{openMenu === "report" && (
+  <div className="submenu">
+    <Link to="/report" onClick={() => setMobileOpen(false)}>
+      <FaClipboardCheck />
+      <span>Payment</span>
+    </Link>
+  </div>
+)}
+
 
       {/* ================= BOTTOM SECTION ================= */}
 <div className="bottom-section">

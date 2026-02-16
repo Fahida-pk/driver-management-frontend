@@ -8,6 +8,9 @@ import MainLayout from "./layouts/MainLayout";
 import Users from "./pages/user/Users";
 import FixedTrip from "./pages/fixedtrip/FixedTrip";
 import FloatingTrips from "./pages/floatingtrip/FloatingTrips";
+import Payment from "./pages/payment/payment";
+
+
 function App() {
   return (
     <BrowserRouter>
@@ -24,6 +27,8 @@ function App() {
           <Route path="/trips" element={<TripMaster />} />
           <Route path="/fixed-trips" element={<FixedTrip />} />
           <Route path="/floating-trips" element={<FloatingTrips />} />
+          <Route path="/report" element={<Payment />} />
+
           <Route path="/users" element={<Users />} />
         </Route>
 

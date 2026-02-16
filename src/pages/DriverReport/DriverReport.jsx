@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import TopNavbar from "../dashboard/TopNavbar";
 import "./DriverReport.css";
+import { FaUserTie,FaFileAlt } from "react-icons/fa";
 
 const REPORT_API = "https://zyntaweb.com/alafiya/api/report.php";
 const DRIVER_API = "https://zyntaweb.com/alafiya/api/drivers.php";
@@ -59,7 +60,19 @@ const DriverReport = () => {
 
       <div className="ledger-card-container">
 
-        <h3 className="ledger-title">Driver Ledger Report</h3>
+      <h3 className="ledger-title">
+  <span className="gradient-icon" style={{ marginRight: "6px" }}>
+    <FaUserTie />
+  </span>
+
+  <span className="gradient-icon" style={{ marginRight: "8px" }}>
+    <FaFileAlt />
+  </span>
+
+  Driver Report
+</h3>
+
+
 
         {/* ================= FILTER ================= */}
         <div className="ledger-filter-section">

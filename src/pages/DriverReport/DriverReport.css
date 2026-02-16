@@ -41,19 +41,20 @@
 .ledger-generate-btn,
 .ledger-print-btn {
   padding: 8px 14px;
-  border-radius: 6px;
+  border-radius: 15px;
   border: none;
   cursor: pointer;
   font-weight: 600;
+  font-size: large;
   color: #fff;
 }
 
 .ledger-generate-btn {
-  background: #2563eb;
+  background: linear-gradient(190deg,#2563eb,#b3d5f0,#6a7fac,#2563eb);
 }
 
 .ledger-print-btn {
-  background: #16a34a;
+  background: linear-gradient(250deg,#2563eb,#b3d5f0,#6a7fac,#2563eb);
 }
 
 /* FROM-TO DISPLAY */
@@ -149,6 +150,18 @@
 .driver-option:hover {
   background: #f3f4f6;
 }
+
+.gradient-icon {
+  
+  display: inline-block;
+}
+.gradient-icon svg {
+  fill: currentColor;
+}
+.gradient-icon {
+  color:  #9dafbd;;
+}
+
 
 .driver-no-results {
   padding: 10px;

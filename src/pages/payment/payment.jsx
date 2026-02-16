@@ -259,7 +259,7 @@ useEffect(() => {
             </tr>
           </thead>
 
-         <tbody>
+        <tbody>
   {paginated.length === 0 ? (
     <tr>
       <td colSpan="7" style={{ textAlign: "center" }}>
@@ -269,17 +269,42 @@ useEffect(() => {
   ) : (
     paginated.map(p => (
       <tr key={p.payment_id}>
-        <td>{p.document_no}</td>
-        <td>{p.payment_date}</td>
-        <td>{p.driver_name}</td>
-        <td>{Number(p.amount).toFixed(2)}</td>
-        <td>{Number(p.current_balance || 0).toFixed(2)}</td>
-        <td>{p.payment_mode}</td>
-        <td>
-<button className="edit-btn" onClick={() => handleEdit(p)}>
+        <td data-label="Doc">
+          {p.document_no}
+        </td>
+
+        <td data-label="Date">
+          {p.payment_date}
+        </td>
+
+        <td data-label="Driver">
+          {p.driver_name}
+        </td>
+
+        <td data-label="Amount">
+          {Number(p.amount).toFixed(2)}
+        </td>
+
+        <td data-label="Balance">
+          {Number(p.current_balance || 0).toFixed(2)}
+        </td>
+
+        <td data-label="Mode">
+          {p.payment_mode}
+        </td>
+
+        <td data-label="Actions">
+          <button
+            className="edit-btn"
+            onClick={() => handleEdit(p)}
+          >
             <FaEdit />
           </button>
-          <button className="delete-btn" onClick={() => deletePayment(p.payment_id)}>
+
+          <button
+            className="delete-btn"
+            onClick={() => deletePayment(p.payment_id)}
+          >
             <FaTrash />
           </button>
         </td>

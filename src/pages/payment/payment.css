@@ -1,17 +1,11 @@
-/* ===== PAGE ===== */
-.payment-page {
-  padding: 16px;
-  background: #f4f7fb;
-  min-height: 100vh;
-}
-/* ===== PAGE ===== */
+/* ================= PAGE ================= */
 .payment-page {
   padding: 16px;
   background: #f4f7fb;
   min-height: 100vh;
 }
 
-/* ===== ADD BUTTON ===== */
+/* ================= ADD BUTTON ================= */
 .add-payment-top {
   display: inline-flex;
   align-items: center;
@@ -26,47 +20,86 @@
   cursor: pointer;
   background: linear-gradient(300deg,#2563eb,#b3d5f0,#b096d1,#2563eb);
   box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+  transition: all 0.25s ease;
 }
 
-/* ===== CARD ===== */
+.add-payment-top:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(37, 99, 235, 0.45);
+}
+
+.add-payment-top:active {
+  transform: scale(0.97);
+}
+
+/* ================= CARD ================= */
 .payment-list-card {
-  background: #fff;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  width: 100%;
 }
 
-/* ===== TABLE ===== */
-.payment-table {
+/* ================= HEADER ================= */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.card-header h3 {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+/* ================= SEARCH ================= */
+.search-wrapper {
+  display: flex;
+  gap: 8px;
+}
+
+.search-input {
+  height: 42px;
+  padding: 0 12px;
+  border-radius: 8px;
+  border: 1px solid #dcdfe6;
+}
+
+/* ================= TABLE ================= */
+table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
 }
 
-.payment-table th,
-.payment-table td {
+th,
+td {
   padding: 12px;
   border-bottom: 1px solid #e5e7eb;
   text-align: left;
 }
 
-.payment-table th {
+th {
   background: #f9fafb;
   font-weight: 600;
 }
 
-/* ===== BUTTONS ===== */
-.payment-edit-btn {
+/* ================= ACTION BUTTONS ================= */
+.edit-btn {
   background: #22c55e;
-  color: white;
+  color: #fff;
   border: none;
   padding: 6px 10px;
   border-radius: 6px;
   cursor: pointer;
 }
 
-.payment-delete-btn {
+.delete-btn {
   background: #ef4444;
-  color: white;
+  color: #fff;
   border: none;
   padding: 6px 10px;
   border-radius: 6px;
@@ -74,7 +107,39 @@
   cursor: pointer;
 }
 
-/* ===== MODAL ===== */
+/* ================= PAGINATION ================= */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+/* ================= MESSAGE BOX ================= */
+.message-box {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 320px;
+  padding: 16px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  z-index: 9999;
+}
+
+.message-box.success {
+  background: #ecfdf5;
+  color: #065f46;
+}
+
+.message-box.error {
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+/* ================= MODAL ================= */
 .payment-modal-overlay {
   position: fixed;
   inset: 0;
@@ -82,68 +147,40 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 999;
 }
 
 .payment-modal-box {
-  background: #fff;
+  background: #ffffff;
   width: 500px;
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 20px;
-}
-
-.payment-form {
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
-  gap: 12px;
 }
 
-.payment-form input,
-.payment-form select {
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #dcdfe6;
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.payment-save-btn {
-  margin-top: 10px;
-  padding: 12px;
-  background: linear-gradient(190deg,#2563eb,#b3d5f0,#2563eb);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-}
-
-/* ===== CARD ===== */
-.payment-card {
-  background: #fff;
-  padding: 24px;
-  border-radius: 14px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-  max-width: 600px;
-}
-
-/* ===== HEADER ===== */
-.payment-card h3 {
-  margin-bottom: 20px;
-  font-size: 18px;
-  font-weight: 600;
-}
-
-/* ===== FORM ===== */
-.payment-form {
+.modal-body {
   display: flex;
   flex-direction: column;
   gap: 14px;
+  margin-top: 16px;
+  overflow-y: auto;
 }
 
-.payment-form label {
+.modal-body label {
   font-size: 13px;
   font-weight: 600;
 }
 
-.payment-form input,
-.payment-form select {
+.modal-body input,
+.modal-body select {
   width: 100%;
   padding: 10px;
   border-radius: 8px;
@@ -151,13 +188,58 @@
   font-size: 14px;
 }
 
-/* ===== BALANCE FIELD ===== */
-.balance-input {
-  font-weight: 600;
+/* ================= DRIVER DROPDOWN ================= */
+.driver-select-wrapper {
+  position: relative;
 }
 
-/* ===== BUTTON ===== */
-.payment-save-btn {
+.driver-select-display {
+  border: 2px solid #3b82f6;
+  border-radius: 8px;
+  padding: 10px 12px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+}
+
+.driver-dropdown-box {
+  margin-top: 6px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.driver-search-input {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-bottom: 1px solid #eee;
+  outline: none;
+}
+
+.driver-option {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.driver-option:hover {
+  background: #e6f0ff;
+}
+
+.driver-no-results {
+  padding: 10px;
+  text-align: center;
+  color: #666;
+  font-size: 14px;
+}
+
+/* ================= SAVE BUTTON ================= */
+.save-btn {
   margin-top: 10px;
   padding: 12px;
   border-radius: 10px;
@@ -165,17 +247,46 @@
   font-weight: 600;
   cursor: pointer;
   color: #fff;
-  background: linear-gradient(
-    190deg,
-    #2563eb 0%,
-    #b3d5f0 50%,
-    #2563eb 100%
-  );
+  background: linear-gradient(190deg,#2563eb,#b3d5f0,#2563eb);
 }
 
-/* ===== MOBILE ===== */
+/* ================= MOBILE ================= */
 @media (max-width: 576px) {
-  .payment-card {
-    max-width: 100%;
+
+  .payment-page {
+    padding: 12px;
+  }
+
+  thead {
+    display: none;
+  }
+
+  table,
+  tbody,
+  tr,
+  td {
+    display: block;
+    width: 100%;
+  }
+
+  tbody tr {
+    background: #fff;
+    margin-bottom: 14px;
+    padding: 14px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  }
+
+  tbody td {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border: none;
+  }
+
+  tbody td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #555;
   }
 }

@@ -346,7 +346,7 @@ const handleNameChange = (e) => {
                 name="license_no"
                 value={form.license_no}
                 onChange={handleChange}
-                required
+                
               />
 
               <label>Joining Date *</label>

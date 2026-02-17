@@ -129,12 +129,7 @@ const DriverReport = () => {
           Driver Report
         </h3>
 
-        <button
-          className="add-driver-top"
-          onClick={() => setShowCompanyModal(true)}
-        >
-          ⚙️ Company Settings
-        </button>
+        
 
         {/* ================= FILTER SECTION ================= */}
         <div className="ledger-filter-section">

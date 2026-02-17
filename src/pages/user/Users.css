@@ -196,6 +196,12 @@
   align-items: center;
   z-index: 999;
 }
+.users-top-actions {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
 
 .users-modal {
   background: #fff;

@@ -161,7 +161,7 @@ const Sidebar = () => {
 
     <Link to="/company-settings" onClick={() => setMobileOpen(false)}>
       🏢
-      <span>Company Settings</span>
+      <span>Company</span>
     </Link>
   </div>
 )}

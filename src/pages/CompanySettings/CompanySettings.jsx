@@ -111,7 +111,7 @@ const CompanySettings = () => {
         )}
 
         <div className="company-card">
-          <h2>🏢 Company Settings</h2>
+          <h2>🏢 Company</h2>
 
           <form onSubmit={handleSubmit}>
 

@@ -344,6 +344,17 @@ input {
   }
 
 }
+.driver-select-wrapper {
+  position: relative;
+  width: 280px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+  .driver-select-wrapper {
+    width: 100%;
+  }
+}
 
 /* MOBILE */
 @media (max-width: 768px) {
@@ -372,4 +383,21 @@ input {
     box-shadow: none;
     border-radius: 0;
   }
+  /* MOBILE FIX */
+@media (max-width: 768px) {
+
+  .driver-select-wrapper {
+    width: 100% !important;
+  }
+
+  .filter-group {
+    width: 100%;
+  }
+
+  .ledger-input {
+    width: 100%;
+  }
+
+}
+
 }

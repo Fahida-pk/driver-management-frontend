@@ -371,17 +371,6 @@ input {
   }
 }
 
-/* PRINT */
-@media print {
-  .ledger-filter-section {
-    display: none;
-  }
-
-  .ledger-card-container {
-    box-shadow: none;
-    border-radius: 0;
-  }
-/* ================= MOBILE FIX ================= */
 /* ================= MOBILE FIX ================= */
 @media (max-width: 768px) {
 
@@ -407,7 +396,48 @@ input {
 
 }
 
+/* ================= CLEAN PRINT ================= */
+@media print {
 
+  body * {
+    visibility: hidden;
+  }
 
+  .print-section,
+  .print-section * {
+    visibility: visible;
+  }
+
+  .print-section {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: #fff;
+    padding: 20px;
+  }
+
+  .ledger-card-container {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    background: #fff !important;
+  }
+
+  .no-print,
+  .ledger-filter-section,
+  .ledger-title {
+    display: none !important;
+  }
+
+  body {
+    margin: 0;
+    background: #fff;
+  }
 
 }
+
+
+
+
+
+

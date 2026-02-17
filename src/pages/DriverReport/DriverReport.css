@@ -107,8 +107,10 @@
 }
 .driver-select-wrapper {
   position: relative;
-  width: 250px;
+  width: 280px;
+  flex-shrink: 0;
 }
+
 
 .driver-select-display {
   padding: 10px;
@@ -123,19 +125,24 @@
 .driver-dropdown-box {
   position: absolute;
   width: 100%;
-  background: #fff;
-  border: 1px solid #ddd;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
   border-radius: 8px;
-  margin-top: 5px;
-  z-index: 999;
+  margin-top: 6px;
+  z-index: 1000;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
 }
+
 
 .driver-search-input {
   width: 100%;
-  padding: 8px;
+  padding: 10px;
   border: none;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #e5e7eb;
+  outline: none;
+  font-size: 14px;
 }
+
 
 .driver-options {
   max-height: 200px;
@@ -159,7 +166,7 @@
   fill: currentColor;
 }
 .gradient-icon {
-  color:  #9dafbd;;
+  color:  #85a5be;;
 }
 
 
@@ -176,6 +183,12 @@
   flex-wrap: wrap;
   align-items: flex-end;
 }
+.ledger-input {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #dcdfe6;
+  font-size: 14px;
+}
 
 /* TABLE */
 .ledger-table {
@@ -190,12 +203,104 @@
   border: 1px solid #e5e7eb;
   text-align: left;
 }
+.company-settings-box {
+  background: #f1f5f9;
+  padding: 20px;
+  border-radius: 12px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.company-form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+.company-form-group input,
+.company-form-group textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #dcdfe6;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+.company-form-group textarea:focus {
+  border: 1px solid #2563eb;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+}
+
+textarea,
+input {
+  outline: none;
+}
 
 .ledger-table th {
   background: #f3f4f6;
   font-weight: 600;
 }
 /* ================= PRINT ONLY REPORT ================= */
+.print-company-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.print-company-header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.print-company-header p {
+  margin: 2px 0;
+  font-size: 14px;
+}
+/* Hide in screen */
+.print-only {
+  display: none;
+}
+
+/* Show only in print */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  .print-only {
+    display: block !important;
+  }
+
+  .ledger-filter-section {
+    display: none !important;
+  }
+
+  .add-driver-top {
+    display: none !important;
+  }
+
+  .ledger-title {
+    display: none !important;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none;
+  }
+
+  .ledger-filter-section {
+    display: none;
+  }
+
+  .ledger-title {
+    display: none;
+  }
+}
 
 @media print {
 

@@ -190,37 +190,35 @@ const Users = () => {
                   <th>Actions</th>
                 </tr>
               </thead>
+<tbody>
+  {paginatedUsers.map((u) => (
+    <tr key={u.user_id}>
+      <td data-label="Username">{u.username}</td>
+      <td data-label="Role">{u.role}</td>
+      <td data-label="Status">
+        <span className="users-status">{u.status}</span>
+      </td>
+      <td data-label="Actions">
+        <button
+          className="users-edit"
+          onClick={() => editUser(u)}
+        >
+          ✏️
+        </button>
 
-              <tbody>
-                {paginatedUsers.map((u) => (
-                  <tr key={u.user_id}>
-                    <td>{u.username}</td>
-                    <td>{u.role}</td>
-                    <td>
-                      <span className="users-status">
-                        {u.status}
-                      </span>
-                    </td>
-                    <td>
-                      <button
-                        className="users-edit"
-                        onClick={() => editUser(u)}
-                      >
-                        ✏️
-                      </button>
+        {u.username !== "code@123" && (
+          <button
+            className="users-delete"
+            onClick={() => deleteUser(u)}
+          >
+            <FaTrash />
+          </button>
+        )}
+      </td>
+    </tr>
+  ))}
+</tbody>
 
-                      {u.username !== "code@123" && (
-                        <button
-                          className="users-delete"
-                          onClick={() => deleteUser(u)}
-                        >
-                          <FaTrash />
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
             </table>
           </>
         )}

@@ -9,6 +9,8 @@ import Users from "./pages/user/Users";
 import FixedTrip from "./pages/fixedtrip/FixedTrip";
 import FloatingTrips from "./pages/floatingtrip/FloatingTrips";
 import Payment from "./pages/payment/payment";
+import CompanySettings from "./pages/CompanySettings/CompanySettings";
+
 import DriverReport from "./pages/DriverReport/DriverReport";
 
 
@@ -30,6 +32,7 @@ function App() {
           <Route path="/floating-trips" element={<FloatingTrips />} />
           <Route path="/report" element={<Payment />} />
 <Route path="/driver-report" element={<DriverReport />} />
+<Route path="/company-settings" element={<CompanySettings />} />
 
           <Route path="/users" element={<Users />} />
         </Route>

@@ -152,14 +152,20 @@ const Sidebar = () => {
                 <FaChevronDown className={openMenu === "admin" ? "rotate" : ""} />
               </div>
 
-              {openMenu === "admin" && (
-                <div className="submenu">
-                  <Link to="/users" onClick={() => setMobileOpen(false)}>
-                    <FaUsers />
-                    <span>User</span>
-                  </Link>
-                </div>
-              )}
+           {openMenu === "admin" && (
+  <div className="submenu">
+    <Link to="/users" onClick={() => setMobileOpen(false)}>
+      <FaUsers />
+      <span>User</span>
+    </Link>
+
+    <Link to="/company-settings" onClick={() => setMobileOpen(false)}>
+      🏢
+      <span>Company Settings</span>
+    </Link>
+  </div>
+)}
+
             </>
           )}
 

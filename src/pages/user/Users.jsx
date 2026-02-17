@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
 import TopNavbar from "../dashboard/TopNavbar";
 import { FaTrash, FaPlus } from "react-icons/fa";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
-
 import "./Users.css";
 
 const API = "https://zyntaweb.com/alafiya/api/users.php";
-const COMPANY_API = "https://zyntaweb.com/alafiya/api/company.php";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -17,57 +13,19 @@ const Users = () => {
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState("");
   const [loading, setLoading] = useState(false);
-const [companyPhoneError, setCompanyPhoneError] = useState("");
-const emptyUserForm = {
-  user_id: "",
-  username: "",
-  password: "",
-  role: "USER",
-  status: "ACTIVE",
-};
+
+  const emptyUserForm = {
+    user_id: "",
+    username: "",
+    password: "",
+    role: "USER",
+    status: "ACTIVE",
+  };
+
+  const [form, setForm] = useState(emptyUserForm);
 
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 7;
-const [showCompanyModal, setShowCompanyModal] = useState(false);
-
-const [companyForm, setCompanyForm] = useState({
-  company_name: "",
-  address: "",
-  phone: "",
-});
-
- const [form, setForm] = useState(emptyUserForm);
-
-const handleCompanyPhoneChange = (value, country) => {
-  const fullNumber = "+" + value;
-  setCompanyForm({ ...companyForm, phone: fullNumber });
-
-  const localNumber = value.slice(country.dialCode.length);
-
-  if (!localNumber) {
-    setCompanyPhoneError("Phone number is required");
-    return;
-  }
-
-  if (!/^\d+$/.test(localNumber)) {
-    setCompanyPhoneError("Only digits allowed");
-    return;
-  }
-
-  if (country.countryCode === "in") {
-    if (localNumber.length !== 10) {
-      setCompanyPhoneError("Indian phone number must be 10 digits");
-      return;
-    }
-  } else {
-    if (localNumber.length < 7 || localNumber.length > 12) {
-      setCompanyPhoneError("Invalid phone number length");
-      return;
-    }
-  }
-
-  setCompanyPhoneError("");
-};
 
   /* ================= LOAD USERS ================= */
   const loadUsers = async () => {
@@ -84,133 +42,63 @@ const handleCompanyPhoneChange = (value, country) => {
   useEffect(() => {
     loadUsers();
   }, []);
-const loadCompany = async () => {
-  try {
-    const res = await fetch(COMPANY_API);
-    const data = await res.json();
-    if (data) {
-      setCompanyForm({
-        company_name: data.company_name || "",
-        address: data.address || "",
-        phone: data.phone || "",
-      });
-    }
-  } catch (err) {
-    console.error(err);
-  }
-};
 
   /* ================= HANDLE CHANGE ================= */
-const handleCompanyChange = (e) => {
-  setCompanyForm({
-    ...companyForm,
-    [e.target.name]: e.target.value,
-  });
-};
-
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
+  /* ================= SUBMIT ================= */
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  if (!form.username || !form.password) {
-    setMessage("All fields are required");
-    setMessageType("error");
-    return;
-  }
-
-  setLoading(true);
-
-  try {
-    const res = await fetch(API, {
-      method: isEdit ? "PUT" : "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
-
-    const data = await res.json(); // ✅ Read only once
-
-    if (!res.ok || data.status === "error") {
-  setMessage(data.message || "Username already exists ❌");
-  setMessageType("error");
-  setLoading(false);
-
-  setTimeout(() => {
-    setMessage("");
-  }, 3000);
-
-  return;
-}
-
-
-    setMessage(
-      isEdit
-        ? "User updated successfully ✅"
-        : "User added successfully 🎉"
-    );
-    setMessageType("success");
-
-    resetForm();
-    setShowModal(false);
-    loadUsers();
-
-  } catch (err) {
-    setMessage("Server error. Please try again.");
-    setMessageType("error");
-  }
-
-  setLoading(false);
-  setTimeout(() => setMessage(""), 3000);
-};
-const saveCompanySettings = async (e) => {
-  e.preventDefault();
-
-  if (companyPhoneError) {
-    setMessage("Please enter valid phone number ❌");
-    setMessageType("error");
-    return;
-  }
-
-  if (!companyForm.phone) {
-    setMessage("Phone number is required ❌");
-    setMessageType("error");
-    return;
-  }
-
-  try {
-    const res = await fetch(COMPANY_API, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(companyForm),
-    });
-
-    const data = await res.json();
-
-    if (data.success) {
-      setMessage("Company settings saved successfully ✅");
-      setMessageType("success");
-      setShowCompanyModal(false);
+    if (!form.username || !form.password) {
+      setMessage("All fields are required ❌");
+      setMessageType("error");
+      return;
     }
-  } catch {
-    setMessage("Failed to save company settings ❌");
-    setMessageType("error");
-  }
 
-  setTimeout(() => setMessage(""), 3000);
-};
+    setLoading(true);
 
+    try {
+      const res = await fetch(API, {
+        method: isEdit ? "PUT" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
 
-  /* ================= RESET FORM ================= */
+      const data = await res.json();
+
+      if (!res.ok || data.status === "error") {
+        setMessage(data.message || "Username already exists ❌");
+        setMessageType("error");
+        setLoading(false);
+        setTimeout(() => setMessage(""), 3000);
+        return;
+      }
+
+      setMessage(
+        isEdit
+          ? "User updated successfully ✅"
+          : "User added successfully 🎉"
+      );
+      setMessageType("success");
+
+      resetForm();
+      setShowModal(false);
+      loadUsers();
+    } catch {
+      setMessage("Server error ❌");
+      setMessageType("error");
+    }
+
+    setLoading(false);
+    setTimeout(() => setMessage(""), 3000);
+  };
+
+  /* ================= RESET ================= */
   const resetForm = () => {
-    setForm({
-      user_id: "",
-      username: "",
-      password: "",
-      role: "USER",
-      status: "ACTIVE",
-    });
+    setForm(emptyUserForm);
     setIsEdit(false);
   };
 
@@ -243,13 +131,12 @@ const saveCompanySettings = async (e) => {
         setMessage(data.message);
         setMessageType("error");
       } else {
-        setMessage("User deleted successfully ❌");
+        setMessage("User deleted successfully ✅");
         setMessageType("success");
         loadUsers();
       }
-
     } catch {
-      setMessage("Delete failed");
+      setMessage("Delete failed ❌");
       setMessageType("error");
     }
 
@@ -278,29 +165,16 @@ const saveCompanySettings = async (e) => {
       )}
 
       <div className="users-top-actions">
-
-  <button
-    className="add-user-btn"
-    onClick={() => {
-      resetForm();
-      setShowModal(true);
-    }}
-  >
-    <FaPlus /> Add New User
-  </button>
-
-  <button
-    className="add-user-btn"
-    onClick={() => {
-      loadCompany();
-      setShowCompanyModal(true);
-    }}
-  >
-    🏢 Company Settings
-  </button>
-
-</div>
-
+        <button
+          className="add-user-btn"
+          onClick={() => {
+            resetForm();
+            setShowModal(true);
+          }}
+        >
+          <FaPlus /> Add New User
+        </button>
+      </div>
 
       <div className="users-card">
         <div className="users-header">
@@ -329,7 +203,7 @@ const saveCompanySettings = async (e) => {
                 <th>Actions</th>
               </tr>
             </thead>
-            <tbody>
+           <tbody>
   {paginatedUsers.map((u) => (
     <tr key={u.user_id}>
       <td data-label="Username">{u.username}</td>
@@ -357,7 +231,6 @@ const saveCompanySettings = async (e) => {
     </tr>
   ))}
 </tbody>
-
           </table>
         )}
       </div>
@@ -366,17 +239,17 @@ const saveCompanySettings = async (e) => {
       {showModal && (
         <div className="users-modal-overlay">
           <div className="users-modal">
-         <div className="users-modal-header">
-  <h3>{isEdit ? "Update User" : "Add User"}</h3>
-  <button
-    onClick={() => {
-      resetForm();        // 👈 ADD THIS
-      setShowModal(false);
-    }}
-  >
-    ✕
-  </button>
-</div>
+            <div className="users-modal-header">
+              <h3>{isEdit ? "Update User" : "Add User"}</h3>
+              <button
+                onClick={() => {
+                  resetForm();
+                  setShowModal(false);
+                }}
+              >
+                ✕
+              </button>
+            </div>
 
             <form onSubmit={handleSubmit} className="users-form">
               <label>Username *</label>
@@ -434,55 +307,6 @@ const saveCompanySettings = async (e) => {
           </div>
         </div>
       )}
-      {showCompanyModal && (
-  <div className="users-modal-overlay">
-    <div className="users-modal">
-      <div className="users-modal-header">
-        <h3>Company Settings</h3>
-        <button onClick={() => setShowCompanyModal(false)}>✕</button>
-      </div>
-
-      <form onSubmit={saveCompanySettings} className="users-form">
-        <label>Company Name *</label>
-        <input
-          name="company_name"
-          value={companyForm.company_name}
-          onChange={handleCompanyChange}
-          required
-        />
-
-        <label>Address *</label>
-        <textarea
-          name="address"
-          value={companyForm.address}
-          onChange={handleCompanyChange}
-          required
-        />
-
-        <label>Phone *</label>
-        <PhoneInput
-  country={"in"}
-  value={companyForm.phone.replace("+", "")}
-  onChange={handleCompanyPhoneChange}
-  enableSearch
-  inputStyle={{ width: "100%" }}
-/>
-
-{companyPhoneError && (
-  <small style={{ color: "red" }}>
-    {companyPhoneError}
-  </small>
-)}
-
-
-        <button type="submit" className="users-save-btn">
-          SAVE SETTINGS
-        </button>
-      </form>
-    </div>
-  </div>
-)}
-
     </div>
   );
 };

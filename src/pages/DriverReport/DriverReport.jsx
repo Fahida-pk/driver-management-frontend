@@ -120,9 +120,7 @@ const DriverReport = () => {
       <div className="ledger-card-container">
 
         <h3 className="ledger-title">
-          <span className="gradient-icon" style={{ marginRight: "6px" }}>
-            <FaUserTie />
-          </span>
+         
           <span className="gradient-icon" style={{ marginRight: "8px" }}>
             <FaFileAlt />
           </span>

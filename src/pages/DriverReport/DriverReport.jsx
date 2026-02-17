@@ -265,8 +265,8 @@ const DriverReport = () => {
       <td data-label="Date">{t.TRANS_DATE}</td>
       <td data-label="Bill No">{t.BILL_NO}</td>
       <td data-label="Type">{t.transaction_type}</td>
-      <td data-label="Total Amount">{t.DR_AMOUNT}</td>
-      <td data-label="Paid Amount">{t.CR_AMOUNT}</td>
+      <td data-label="Total Amount">{t.CR_AMOUNT}</td>
+      <td data-label="Paid Amount">{t.DR_AMOUNT}</td>
     </tr>
   ))}
 </tbody>

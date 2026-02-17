@@ -49,7 +49,6 @@ const [showVehicleDropdown, setShowVehicleDropdown] = useState(false);
   start_km: "",
   end_km: "",
   food_allowance: "",
-  allowance: "",
 };
 
 
@@ -210,7 +209,6 @@ const filteredVehicles = vehicles.filter(v =>
               <th>Mileage</th>
               <th>Total Time</th>
               <th>Food</th>
-              <th>Allowance</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -244,9 +242,7 @@ const filteredVehicles = vehicles.filter(v =>
   {t.total_time}
 </td>
         <td data-label="Food"> {t.food_allowance}</td>
-        <td data-label="Allowance">
-   {t.allowance}
-</td>
+      
 
         <td data-label="Actions">
           <button
@@ -441,16 +437,6 @@ const filteredVehicles = vehicles.filter(v =>
                 onChange={handleChange}
                 required
               />
-<label>Allowance *</label>
-<input
-  type="number"
-  step="0.01"
-  inputMode="decimal"
-  name="allowance"
-  value={form.allowance}
-  onChange={handleChange}
-  required
-/>
 
               <button className="save-floating-btn">
                 {isEdit ? "UPDATE" : "SAVE"}

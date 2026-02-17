@@ -386,25 +386,41 @@ input {
   .ledger-filter-section {
     flex-direction: column;
     align-items: stretch;
-    gap: 12px;
+    gap: 15px;
   }
 
-  .driver-select-wrapper,
+  /* Driver Dropdown */
+  .driver-select-wrapper {
+    width: 100% !important;
+  }
+
+  .driver-select-display {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* From & To */
   .filter-group {
     width: 100%;
   }
 
   .ledger-input,
+  .date-input,
   input[type="date"] {
     width: 100%;
     box-sizing: border-box;
   }
 
+  /* Buttons Full Width */
   .ledger-generate-btn,
   .ledger-print-btn {
     width: 100%;
+    padding: 12px;
+    border-radius: 25px;
   }
+
 }
+
 
 
 }

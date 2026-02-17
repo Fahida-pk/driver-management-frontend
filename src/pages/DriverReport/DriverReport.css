@@ -384,14 +384,13 @@ input {
     box-shadow: none;
     border-radius: 0;
   }
-  /* MOBILE FIX */
 /* ================= MOBILE FIX ================= */
-/* ================= MOBILE FULL WIDTH FIX ================= */
 @media (max-width: 768px) {
 
   .ledger-filter-section {
     flex-direction: column;
     align-items: stretch;
+    gap: 12px;
   }
 
   .driver-select-wrapper,
@@ -400,8 +399,8 @@ input {
   }
 
   .ledger-input,
-  .date-input {
-    width: 100% !important;
+  input[type="date"] {
+    width: 100%;
     box-sizing: border-box;
   }
 

@@ -4,8 +4,13 @@ html, body {
   padding: 0;
   width: 100%;
   height: 100%;
-  background: #d3d8de;
-  overflow-x: hidden;
+background: linear-gradient(
+    120deg,
+    #a2d5ff,
+    #ffffff,
+    #d0d8de,
+    #a2d5ff
+  );  overflow-x: hidden;
   font-family: "Poppins", sans-serif;
 }
 .card-icon1

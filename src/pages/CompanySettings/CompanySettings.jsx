@@ -3,6 +3,7 @@ import TopNavbar from "../dashboard/TopNavbar";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import "./CompanySettings.css";
+import { FaSave, FaTrash } from "react-icons/fa";
 
 const COMPANY_API = "https://zyntaweb.com/alafiya/api/company.php";
 
@@ -147,19 +148,20 @@ const CompanySettings = () => {
               />
             </div>
 
-            <div className="button-group">
-              <button type="submit" className="save-btn" disabled={loading}>
-                {loading ? "Saving..." : "Save Settings"}
-              </button>
+           <div className="company-btn-wrapper">
+  <button type="submit" className="company-btn save-btn">
+    <FaSave className="btn-icon" />
+    Save
+  </button>
 
-              <button
-                type="button"
-                className="clear-btn"
-                onClick={handleClear}
-              >
-                Clear
-              </button>
-            </div>
+  <button type="button" className="company-btn clear-btn" onClick={handleClear}>
+    <FaTrash className="btn-icon" />
+    Clear
+  </button>
+</div>
+
+
+
 
           </form>
         </div>

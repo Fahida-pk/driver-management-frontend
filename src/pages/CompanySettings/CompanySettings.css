@@ -1,3 +1,9 @@
+button {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .company-page {
   padding: 20px;
 }
@@ -44,36 +50,53 @@
   outline: none;
 }
 
-.button-group {
+
+.company-btn-wrapper {
   display: flex;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 20px;
+  margin-top: 30px;
+  align-items: center;   /* Important */
+}
+
+.company-btn {
+  flex: 1;
+  height: 50px;
+  border-radius: 12px;
+  border: none;
+    margin-top: 30px;
+
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;   /* change from flex to inline-flex */
+  align-items: center;
+  justify-content: center;
+  line-height: 1; 
+  vertical-align: middle;
+        /* remove text vertical difference */
 }
 
 .save-btn {
-  flex: 1;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  background: linear-gradient(250deg,#2563eb,#b3d5f0,#6a7fac,#2563eb);
+  background: linear-gradient(to right, #4e73df, #6f42c1);
   color: #fff;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.save-btn:hover {
-  opacity: 0.9;
 }
 
 .clear-btn {
-  flex: 1;
-  padding: 10px;
-  border: none;
-  border-radius: 8px;
-  background: #e0e0e0;
-  cursor: pointer;
+  background: linear-gradient(to left, #4e73df, #6f42c1);
+  color: #fff;
 }
 
+.btn-icon {
+  margin-right: 8px;
+  font-size: 14px;
+}
+.save-btn:hover{
+  color: rgb(18, 18, 18);
+}
+
+.clear-btn:hover{
+  color: rgb(255, 17, 17);
+}
 .company-alert {
   padding: 10px;
   border-radius: 8px;

@@ -98,25 +98,22 @@ border-radius: 25px 10px;
 .card {
   background: linear-gradient(
     135deg,
-  #6a85ff,
-  #9c6bff,
-  #4fd1ff,
-  #5f7cf0,
- 
-  #3ec6ff
+    #6a85ff,
+    #9c6bff,
+    #4fd1ff
   );
 
-  background-size: 300% 300%;   /* IMPORTANT */
-  animation: gradientMove 7s ease infinite;
+  background-size: 300% 300%;   /* Important for animation */
+  animation: gradientMove 8s ease infinite;
 
   padding: 24px;
   width: 380px;
-  height: 250px;
-  border-radius: 45px 15px 5px 45px;
-  box-shadow: 0 10px 10px rgba(158, 191, 213, 0.12);
+  height: 200px;
+  border-radius: 45px 30px 15px 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 
-/* KEYFRAMES */
+/* Gradient Move Animation */
 @keyframes gradientMove {
   0% {
     background-position: 0% 50%;
@@ -129,6 +126,14 @@ border-radius: 25px 10px;
   }
 }
 
+.glass-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
 
 .card-icon {
   font-size: 34px;
@@ -174,17 +179,21 @@ border-radius: 25px 10px;
   }
 
   .card {
-    background: linear-gradient(
-  135deg,
-  #6a85ff,
-  #9c6bff,
-  #4fd1ff
-);
+  background: linear-gradient(
+    135deg,
+    #6a85ff,
+    #9c6bff,
+    #4fd1ff
+  );
 
+  padding: 24px;
+  width: 380px;
+  height: 200px;
 
-    width: 100%;
-    min-height: auto;
-  }
+  border-radius: 45px 30px 15px 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
 
   .card-title {
     font-size: 28px;

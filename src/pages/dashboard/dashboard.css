@@ -179,21 +179,17 @@ border-radius: 25px 10px;
   }
 
   .card {
-  background: linear-gradient(
-    135deg,
-    #6a85ff,
-    #9c6bff,
-    #4fd1ff
-  );
+    background: linear-gradient(
+  135deg,
+  #6a85ff,
+  #9c6bff,
+  #4fd1ff
+);
 
-  padding: 24px;
-  width: 380px;
-  height: 200px;
 
-  border-radius: 45px 30px 15px 15px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-}
-
+    width: 100%;
+    min-height: auto;
+  }
 
   .card-title {
     font-size: 28px;

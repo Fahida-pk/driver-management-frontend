@@ -3,9 +3,9 @@
 /* ================= SIDEBAR ================= */
 
 .sidebar {
-  width: 250px;
+  width: 260px; /* little bigger */
   min-height: 100vh;
-  padding: 24px 18px;
+  padding: 28px 20px; /* more breathing space */
   font-family: "Poppins", sans-serif;
   color: #fff;
 
@@ -32,26 +32,26 @@
 .menu-item1 {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 12px 14px;
-  border-radius: 10px;
+  gap: 16px;
+  padding: 16px 16px;  /* increased */
+  border-radius: 12px;
   cursor: pointer;
-  font-size: 15px;
-  font-weight: 500;
+  font-size: 18px;     /* BIGGER */
+  font-weight: 600;
   transition: all 0.2s ease;
 }
 
 .menu-item:hover,
 .menu-item1:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.18);
 }
 
 /* ICON SIZE SAME FOR ALL */
 .menu-item svg,
 .menu-item1 svg {
-  width: 18px;
-  height: 18px;
-  min-width: 18px;
+  width: 22px;   /* bigger icon */
+  height: 22px;
+  min-width: 22px;
 }
 
 /* Arrow right side */
@@ -69,56 +69,56 @@
 /* ================= SUBMENU ================= */
 
 .submenu {
-  margin-left: 34px;
-  margin-top: 6px;
+  margin-left: 40px; /* balanced indent */
+  margin-top: 8px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .submenu a {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 8px 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 400;
+  gap: 14px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 16px;  /* bigger */
+  font-weight: 500;
   color: #f5f5f5;
   transition: all 0.2s ease;
 }
 
 .submenu a:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .submenu a svg {
-  width: 16px;
-  height: 16px;
-  min-width: 16px;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
 }
 
 /* ================= BOTTOM ================= */
 
 .bottom-section {
   margin-top: auto;
-  padding-top: 20px;
+  padding-top: 30px;
 }
 
 /* ================= LOGOUT ================= */
 
 .logout-btn {
-  margin-top: 14px;
-  padding: 10px 14px;
-  border-radius: 12px;
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-radius: 16px;
   border: none;
   background: #ffffff;
   color: #333;
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 14px;
-  font-weight: 500;
+  gap: 12px;
+  font-size: 16px;  /* bigger */
+  font-weight: 600;
   cursor: pointer;
   transition: 0.2s;
 }
@@ -128,8 +128,8 @@
 }
 
 .logout-btn svg {
-  width: 16px;
-  height: 16px;
+  width: 18px;
+  height: 18px;
 }
 
 /* ================= MOBILE ================= */
@@ -138,7 +138,7 @@
   .sidebar {
     position: fixed;
     top: 0;
-    left: -260px;
+    left: -280px;
     height: 100vh;
     z-index: 1000;
     transition: left 0.3s ease;

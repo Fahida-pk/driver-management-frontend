@@ -200,6 +200,18 @@
   padding: 16px;
   overflow-y: auto;
 }
+.calculated-box {
+  background: #f2f4f8;
+  font-weight: 600;
+  color: #333;
+  cursor: not-allowed;
+}
+.formula-hint {
+  font-size: 12px;
+  font-weight: 400;
+  color: #888;
+  margin-left: 6px;
+}
 
 .save-floating-btn {
   margin-top: 14px;

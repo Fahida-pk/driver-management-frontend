@@ -154,6 +154,35 @@ const filteredVehicles = vehicles.filter(v =>
     startIndex,
     startIndex + recordsPerPage
   );
+// CALCULATIONS
+const startKm = parseFloat(form.start_km) || 0;
+const endKm = parseFloat(form.end_km) || 0;
+
+const totalDistance = endKm > startKm ? (endKm - startKm).toFixed(2) : 0;
+
+// Example mileage rate (change if needed)
+const mileageRate = 10; // ₹10 per KM
+const mileageAllowance = (totalDistance * mileageRate).toFixed(2);
+
+// TIME CALCULATION
+const getTimeDifference = (start, end) => {
+  if (!start || !end) return "00:00:00";
+
+  const startTime = new Date(`1970-01-01T${start}`);
+  const endTime = new Date(`1970-01-01T${end}`);
+
+  let diff = (endTime - startTime) / 1000;
+
+  if (diff < 0) diff += 24 * 60 * 60;
+
+  const hours = String(Math.floor(diff / 3600)).padStart(2, "0");
+  const minutes = String(Math.floor((diff % 3600) / 60)).padStart(2, "0");
+  const seconds = String(Math.floor(diff % 60)).padStart(2, "0");
+
+  return `${hours}:${minutes}:${seconds}`;
+};
+
+const totalTime = getTimeDifference(form.start_time, form.end_time);
 
   return (
     <div className="floating-trip-page">
@@ -437,6 +466,41 @@ const filteredVehicles = vehicles.filter(v =>
                 onChange={handleChange}
                 required
               />
+<hr />
+
+<label>
+  Total Distance 
+  <span className="formula-hint">(End KM − Start KM)</span>
+</label>
+<input
+  type="text"
+  value={totalDistance}
+  readOnly
+  className="calculated-box"
+/>
+
+<label>
+  Mileage Allowance 
+  <span className="formula-hint">(Distance × 3.5)</span>
+</label>
+<input
+  type="text"
+  value={mileageAllowance}
+  readOnly
+  className="calculated-box"
+/>
+
+<label>
+  Total Time 
+  <span className="formula-hint">(End Time − Start Time)</span>
+</label>
+<input
+  type="text"
+  value={totalTime}
+  readOnly
+  className="calculated-box"
+/>
+
 
               <button className="save-floating-btn">
                 {isEdit ? "UPDATE" : "SAVE"}

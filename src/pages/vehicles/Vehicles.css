@@ -307,6 +307,22 @@ th {
   .vehicle-page {
     padding: 12px;
   }
+/* ===== MOBILE PAGINATION FIX ===== */
+.pagination {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 25px;
+}
+
+.pagination button {
+  padding: 10px 18px;
+  font-size: 15px;
+  min-width: 100px;
+  min-height: 42px;
+  border-radius: 8px;
+}
 
   .card-header {
     flex-direction: column;

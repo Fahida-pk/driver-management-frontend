@@ -56,12 +56,20 @@
 }
 
 .ledger-generate-btn {
-  background: linear-gradient(190deg,#2563eb,#b3d5f0,#6a7fac,#2563eb);
-}
+background: linear-gradient(
+  180deg,
+  #8e63e0 0%,
+  #7a5cd6 50%,
+  #654fc4 100%
+);  color: #fff;}
 
 .ledger-print-btn {
-  background: linear-gradient(250deg,#2563eb,#b3d5f0,#6a7fac,#2563eb);
-}
+background: linear-gradient(
+  180deg,
+  #8e63e0 0%,
+  #7a5cd6 50%,
+  #654fc4 100%
+);  color: #fff;}
 
 /* FROM-TO DISPLAY */
 .filter-summary {

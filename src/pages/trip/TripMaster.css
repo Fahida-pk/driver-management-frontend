@@ -37,7 +37,7 @@
   color: #ffffff;
   cursor: pointer;
 
-    background: linear-gradient(300deg,#2563eb,#b3d5f0,#b096d1,#2563eb);
+  background: linear-gradient(to right, #4e73df, #6f42c1);
 
 
   box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
@@ -202,7 +202,7 @@ th {
 
 .save-btn {
   padding: 12px;
-  background: linear-gradient(190deg,#2563eb,#b3d5f0,#2563eb);
+  background: linear-gradient(to right, #4e73df, #6f42c1);
   color: #fff;
   border: none;
   border-radius: 8px;

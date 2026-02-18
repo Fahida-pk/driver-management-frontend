@@ -85,13 +85,26 @@ border-radius: 25px 10px;
 }
 
 .card {
-  background: linear-gradient(190deg, rgba(142, 99, 224, 0.95),
-    rgba(101, 79, 196, 0.95), #bab5c6,#5a5feb);
+ background: linear-gradient(
+  135deg,
+  #6a85ff,
+  #9c6bff,
+  #4fd1ff
+);
+
   padding: 24px;
   width: 380px;
   height: 200px;
   border-radius: 45px 30px 15px 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+.glass-card {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 .card-icon {
@@ -138,8 +151,14 @@ border-radius: 25px 10px;
   }
 
   .card {
-     background: linear-gradient(190deg,#b9afd8,#8275a7,rgba(142, 99, 224, 0.95),
-    rgba(101, 79, 196, 0.95), #bab5c6);
+    background: linear-gradient(
+  135deg,
+  #6a85ff,
+  #9c6bff,
+  #4fd1ff
+);
+
+
     width: 100%;
     min-height: auto;
   }

@@ -96,27 +96,39 @@ border-radius: 25px 10px;
 }
 
 .card {
- background: linear-gradient(
-  135deg,
+  background: linear-gradient(
+    135deg,
   #6a85ff,
   #9c6bff,
-  #4fd1ff
-);
+  #4fd1ff,
+  #5f7cf0,
+ 
+  #3ec6ff
+  );
+
+  background-size: 300% 300%;   /* IMPORTANT */
+  animation: gradientMove 7s ease infinite;
 
   padding: 24px;
   width: 380px;
-  height: 200px;
-  border-radius: 45px 30px 15px 15px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  height: 250px;
+  border-radius: 45px 15px 5px 45px;
+  box-shadow: 0 10px 10px rgba(158, 191, 213, 0.12);
 }
-.glass-card {
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+
+/* KEYFRAMES */
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
+
 
 .card-icon {
   font-size: 34px;

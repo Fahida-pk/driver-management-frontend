@@ -230,6 +230,21 @@
   .floating-table thead {
     display: none;
   }
+.pagination {
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  margin-top: 25px;
+}
+
+.pagination button {
+  padding: 10px 18px;
+  font-size: 15px;
+  min-width: 100px;
+  min-height: 42px;
+  border-radius: 8px;
+}
 
   /* table → card */
   .floating-table,

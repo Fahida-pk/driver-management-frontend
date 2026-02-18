@@ -8,7 +8,13 @@ html, body {
   overflow-x: hidden;
   font-family: "Poppins", sans-serif;
 }
+.card-icon1
+{
+  color: #fff;
+    font-size: 34px;
+    padding-right: 10px;
 
+}
 /* ================= LAYOUT ================= */
 .dashboard {
   display: flex;

@@ -30,12 +30,8 @@
   color: #ffffff;
   cursor: pointer;
 
-background: linear-gradient(
-  180deg,
-  #8e63e0 0%,
-  #7a5cd6 50%,
-  #654fc4 100%
-);  color: #fff;  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+  background: linear-gradient(to left, #4e73df, #6f42c1);
+color: #fff;  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
   transition: all 0.25s ease;
 }
 
@@ -268,12 +264,8 @@ background: linear-gradient(
 .users-save-btn {
   margin-top: 10px;
   padding: 12px;
- background: linear-gradient(
-  180deg,
-  #8e63e0 0%,
-  #7a5cd6 50%,
-  #654fc4 100%
-);  color: #fff;
+   background: linear-gradient(to left, #4e73df, #6f42c1);
+
   color: #fff;
   border: none;
   border-radius: 8px;

@@ -61,7 +61,7 @@
   font-weight: 600;
   color: #ffffff;
   cursor: pointer;
-  background: linear-gradient(300deg,#2563eb,#b3d5f0,#b096d1,#2563eb);
+  background: linear-gradient(to left, #4e73df, #6f42c1);
   box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
 }
 .floating-table th {
@@ -221,7 +221,7 @@
   font-weight: 600;
   color: #fff;
   cursor: pointer;
-  background: linear-gradient(190deg,#2563eb,#b3d5f0,#2563eb);
+  background: linear-gradient(to left, #4e73df, #6f42c1);
 }
 
 @media (max-width: 576px) {

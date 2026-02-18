@@ -43,12 +43,8 @@
   color: #ffffff;
   cursor: pointer;
 
-background: linear-gradient(
-  180deg,
-  #8e63e0 0%,
-  #7a5cd6 50%,
-  #654fc4 100%
-);  color: #fff;
+  background: linear-gradient(to left, #4e73df, #6f42c1);
+
 
   box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
   transition: all 0.25s ease;
@@ -264,8 +260,12 @@ th {
   width: 42px;
   height: 42px;
   font-size: 22px;
-     background: linear-gradient(to right, #4e73df, #6f42c1);
-
+   background: linear-gradient(
+  35deg,
+    #2563eb 0%,
+    #b3d5f0 75%,
+    #b096d1 100%
+  );
   color: white;
   border: none;
   border-radius: 6px;

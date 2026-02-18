@@ -86,8 +86,12 @@ button {
 }
 
 .save-btn {
-  background: linear-gradient(to right, #4e73df, #6f42c1);
-  color: #fff;
+background: linear-gradient(
+  180deg,
+  #8e63e0 0%,
+  #7a5cd6 50%,
+  #654fc4 100%
+);  color: #fff;
 }
 
 .clear-btn {

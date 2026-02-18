@@ -33,11 +33,11 @@ border-radius: 25px 10px;
   justify-content: space-between;
 
   background: linear-gradient(
-    200deg,
-    #b096d1 0%,
-    #b3d5f0 50%,
-    #b096d1 100%
-  );
+  180deg,
+  #8e63e0 0%,
+  #7a5cd6 50%,
+  #654fc4 100%
+);
 
   color: #fff;
   box-shadow: 0 5px 8px rgba(0, 0, 0, 0.15);
@@ -85,13 +85,8 @@ border-radius: 25px 10px;
 }
 
 .card {
-  background: linear-gradient(
-    200deg,
-    #b3d5f0 0%,
-    #f2e9fd 35%,
-    #86a7c3 70%
-    
-  );
+  background: linear-gradient(190deg, rgba(142, 99, 224, 0.95),
+    rgba(101, 79, 196, 0.95), #bab5c6,#5a5feb);
   padding: 24px;
   width: 380px;
   height: 200px;
@@ -106,13 +101,14 @@ border-radius: 25px 10px;
 .card-title {
   font-size: 28px;
   font-weight: 500;
-  color: #1f2d3d;
+  color:white;
 }
 
 .card-count {
   margin-top: 10px;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 500;
+  color: white;
 }
 
 /* ================= MOBILE VIEW ================= */
@@ -142,8 +138,8 @@ border-radius: 25px 10px;
   }
 
   .card {
-      background: rgb(230, 229, 210);
-
+     background: linear-gradient(190deg,#b9afd8,#8275a7,rgba(142, 99, 224, 0.95),
+    rgba(101, 79, 196, 0.95), #bab5c6);
     width: 100%;
     min-height: auto;
   }

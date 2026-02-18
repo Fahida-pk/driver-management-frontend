@@ -3,23 +3,24 @@
 /* ================= SIDEBAR ================= */
 
 .sidebar {
-  width: 260px; /* little bigger */
+  width: 260px;
   min-height: 100vh;
-  padding: 28px 20px; /* more breathing space */
+  padding: 28px 20px;
   font-family: "Poppins", sans-serif;
   color: #fff;
 
-  background: linear-gradient(
-    180deg,
-    #b096d1 0%,
-    #979ba0 50%,
-    #b3d5f0 75%,
-    #6a7be7 100%
-  );
+ background: linear-gradient(
+  180deg,
+  #8e63e0 0%,
+  #7a5cd6 50%,
+  #654fc4 100%
+);
+
 
   display: flex;
   flex-direction: column;
 }
+
 
 .sidebar a {
   text-decoration: none;

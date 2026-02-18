@@ -50,6 +50,15 @@ button {
   outline: none;
 }
 
+.company-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+}
+
+
+
 
 .company-btn-wrapper {
   display: flex;

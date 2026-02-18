@@ -3,12 +3,11 @@
 /* ================= SIDEBAR ================= */
 
 .sidebar {
-  width: 240px;
+  width: 250px;
   min-height: 100vh;
-  position: relative;
-  padding: 20px;
-  color: #ffffff;
+  padding: 24px 18px;
   font-family: "Poppins", sans-serif;
+  color: #fff;
 
   background: linear-gradient(
     180deg,
@@ -27,63 +26,66 @@
   color: #fff;
 }
 
-/* ================= MAIN MENU ITEM ================= */
+/* ================= MAIN MENU ================= */
 
-.menu-item {
+.menu-item,
+.menu-item1 {
   display: flex;
   align-items: center;
-  gap: 15px;
-  padding: 18px 5px;
-  border-radius: 8px;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: 10px;
   cursor: pointer;
-  font-size: 20px;
-  font-weight: 800;
-  transition: background 0.2s ease;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.2s ease;
 }
 
-.menu-item:hover {
+.menu-item:hover,
+.menu-item1:hover {
   background: rgba(255, 255, 255, 0.15);
 }
 
-.menu-item svg {
-  width: 26px;
-  min-width: 26px;
-  height: 26px;
-  font-size: 22px;
-  flex-shrink: 0;
+/* ICON SIZE SAME FOR ALL */
+.menu-item svg,
+.menu-item1 svg {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
 }
 
-.menu-item span {
-  margin-left: 12px;
-}
-.menu-item svg:last-child {
+/* Arrow right side */
+.menu-item svg:last-child,
+.menu-item1 svg:last-child {
   margin-left: auto;
-}
-
-
-/* arrow rotate */
-.rotate {
-  transform: rotate(180deg);
   transition: 0.3s;
 }
 
-/* ================= SUB MENU ================= */
+/* Rotate arrow */
+.rotate {
+  transform: rotate(180deg);
+}
+
+/* ================= SUBMENU ================= */
 
 .submenu {
-  margin-left: 42px;
+  margin-left: 34px;
   margin-top: 6px;
   display: flex;
   flex-direction: column;
+  gap: 4px;
 }
 
 .submenu a {
   display: flex;
   align-items: center;
-  gap: 18px;
-  padding: 10px 14px;
-  border-radius: 6px;
-  font-size: 15px;
-  color: #f1f1f1;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #f5f5f5;
+  transition: all 0.2s ease;
 }
 
 .submenu a:hover {
@@ -91,56 +93,43 @@
 }
 
 .submenu a svg {
-  width: 24px;
-  min-width: 24px;
-  height: 24px;
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
 }
 
-.submenu a span {
-  margin-left: 12px;
-}
+/* ================= BOTTOM ================= */
+
 .bottom-section {
   margin-top: auto;
-  margin-bottom: 40px;
-}
-
-.menu-item1
-{
- display: flex;
-  align-items: center;
-  gap: 18px;
-  padding: 18px 5px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 20px;
-  font-weight: 800;
-  transition: background 0.2s ease;
+  padding-top: 20px;
 }
 
 /* ================= LOGOUT ================= */
 
 .logout-btn {
-  margin-top: auto;
-  padding: 20px;
-  border-radius: 20px;
+  margin-top: 14px;
+  padding: 10px 14px;
+  border-radius: 12px;
   border: none;
   background: #ffffff;
   color: #333;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
-  font-size: 20px;
-  font-weight: 700;
+  transition: 0.2s;
 }
 
 .logout-btn:hover {
-  background: #f3f3f3;
+  background: #f1f1f1;
 }
 
 .logout-btn svg {
-  width: 22px;
-  height: 22px;
+  width: 16px;
+  height: 16px;
 }
 
 /* ================= MOBILE ================= */

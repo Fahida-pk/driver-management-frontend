@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { MdSwapHoriz } from "react-icons/md";
 import { FaUserShield, FaUsers } from "react-icons/fa";
 import { FaChartBar, FaChartPie, FaFileInvoice } from "react-icons/fa";
+import { FaBuilding } from "react-icons/fa";
 
 import {
   FaClipboardCheck,
@@ -160,9 +161,10 @@ const Sidebar = () => {
     </Link>
 
     <Link to="/company-settings" onClick={() => setMobileOpen(false)}>
-      🏢
-      <span>Company</span>
-    </Link>
+  <FaBuilding />
+  <span>Company</span>
+</Link>
+
   </div>
 )}
 

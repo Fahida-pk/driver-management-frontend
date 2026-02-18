@@ -4,6 +4,11 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import "./CompanySettings.css";
 import { FaSave, FaTrash } from "react-icons/fa";
+import { FaBuilding } from "react-icons/fa";
+import { RiBuilding2Line } from "react-icons/ri";
+import { MdBusiness } from "react-icons/md";
+import { HiOutlineOfficeBuilding } from "react-icons/hi";
+import { FiHome } from "react-icons/fi";
 
 const COMPANY_API = "https://zyntaweb.com/alafiya/api/company.php";
 
@@ -112,7 +117,11 @@ const CompanySettings = () => {
         )}
 
         <div className="company-card">
-          <h2>🏢 Company</h2>
+          <h2 className="company-title">
+  <  RiBuilding2Line className="title-icon" />
+  Company
+</h2>
+
 
           <form onSubmit={handleSubmit}>
 

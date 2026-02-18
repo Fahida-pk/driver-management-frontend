@@ -234,10 +234,10 @@ const totalTime = getTimeDifference(form.start_time, form.end_time);
               <th>End KM</th>
               <th>Start time</th>
               <th>End time</th>
-              <th>Distance</th>
-              <th>Mileage</th>
+              <th>Total Distance</th>
+              <th>Mileage Allowance</th>
               <th>Total Time</th>
-              <th>Food</th>
+              <th>Food Allowance</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -265,13 +265,13 @@ const totalTime = getTimeDifference(form.start_time, form.end_time);
         <td data-label="End KM">{t.end_km}</td>
         <td data-label="Start time">{t.start_time}</td>
         <td data-label="End time">{t.end_time}</td>
-        <td data-label="Distance">{t.total_distance}</td>
-        <td data-label="Mileage"> {t.mileage_allowance}</td>
+        <td data-label="Total Distance">{t.total_distance}</td>
+        <td data-label="Mileage Allowance">{t.mileage_allowance}</td>
         <td data-label="Total Time">
   {t.total_time}
 </td>
-        <td data-label="Food"> {t.food_allowance}</td>
-      
+        <td data-label="Food Allowance">{t.food_allowance}</td>
+
 
         <td data-label="Actions">
           <button

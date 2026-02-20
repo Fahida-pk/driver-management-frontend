@@ -1,4 +1,7 @@
 /* ================= PAGE ================= */
+body {
+  overflow-x: auto;
+}
 .floating-trip-page {
   padding: 8px;
   background: #f4f7fb;
@@ -15,7 +18,8 @@
   border-radius: 14px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   width: 100%;
-  overflow-x: hidden;
+    overflow: visible;
+
 }
 
 /* ================= HEADER ================= */
@@ -73,11 +77,28 @@
 }
 
 /* ================= TABLE ================= */
-.floating-table {
+/* TABLE WRAPPER */
+/* TABLE WRAPPER */
+/* TABLE WRAPPER */
+
+/* SCROLL WRAPPER */
+.floating-table-scroll {
   width: 100%;
-  border-collapse: collapse;
-  table-layout: auto;   /* ✅ fixed → auto */
+  overflow-x: auto;
 }
+
+.floating-table {
+  border-collapse: collapse;
+  width: max-content;
+  min-width: 100%;
+}
+
+.floating-table th,
+.floating-table td {
+  white-space: nowrap;
+}
+/* prevent wrapping */
+
 
 .floating-table th {
   border-bottom: 2px solid #e5e7eb;

@@ -34,8 +34,7 @@ const [showVehicleDropdown, setShowVehicleDropdown] = useState(false);
 
   /* PAGINATION */
   const [currentPage, setCurrentPage] = useState(1);
-  const recordsPerPage = 7;
-
+const recordsPerPage = 7;
   const autoHide = () => setTimeout(() => setMessage(""), 3000);
 
   const emptyForm = {
@@ -49,6 +48,8 @@ const [showVehicleDropdown, setShowVehicleDropdown] = useState(false);
   start_km: "",
   end_km: "",
   food_allowance: "",
+  remark: "",
+  reference: ""
 };
 
 
@@ -165,6 +166,7 @@ const mileageRate = 10; // ₹10 per KM
 const mileageAllowance = (totalDistance * mileageRate).toFixed(2);
 
 // TIME CALCULATION
+
 const getTimeDifference = (start, end) => {
   if (!start || !end) return "00:00:00";
 
@@ -222,78 +224,85 @@ const totalTime = getTimeDifference(form.start_time, form.end_time);
           </div>
         </div>
 
-        <table className="floating-table">
-          <thead>
-            <tr>
-              <th>Doc</th>
-              <th>Date</th>
-              <th>Driver</th>
-              <th>Vehicle</th>
-              <th>Area</th>
-              <th>Start KM</th>
-              <th>End KM</th>
-              <th>Start time</th>
-              <th>End time</th>
-              <th>Total Distance</th>
-              <th>Mileage Allowance</th>
-              <th>Total Time</th>
-              <th>Food Allowance</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-
-          <tbody>
-  {paginatedTrips.length === 0 ? (
-    <tr>
-      <td colSpan="12" style={{ textAlign: "center" }}>
-        <FaMapMarkedAlt /> No floating trips found
-      </td>
-    </tr>
-  ) : (
-    paginatedTrips.map(t => (
-      <tr key={t.floating_trip_id}>
-        <td data-label="Doc">{t.document_no}</td>
-        <td data-label="Date">{t.trip_date}</td>
-        <td data-label="Driver">{t.driver_name}</td>
-        <td data-label="Vehicle">{t.vehicle_name}</td>
-        <td data-label="Area">
-  <span className="area-value">{t.area_name}</span>
-</td>
-
-
-        <td data-label="Start KM">{t.start_km}</td>
-        <td data-label="End KM">{t.end_km}</td>
-        <td data-label="Start time">{t.start_time}</td>
-        <td data-label="End time">{t.end_time}</td>
-        <td data-label="Total Distance">{t.total_distance}</td>
-        <td data-label="Mileage Allowance">{t.mileage_allowance}</td>
-        <td data-label="Total Time">
-  {t.total_time}
-</td>
-        <td data-label="Food Allowance">{t.food_allowance}</td>
-
-
-        <td data-label="Actions">
-          <button
-            className="floating-edit-btn"
-            onClick={() => editTrip(t)}
-          >
-            <FaEdit />
-          </button>
-          <button
-            className="floating-delete-btn"
-            onClick={() => deleteTrip(t.floating_trip_id)}
-          >
-            <FaTrash />
-          </button>
-        </td>
+<div className="floating-table-scroll">
+    <table className="floating-table">
+    <thead>
+      <tr>
+        <th>Doc</th>
+        <th>Date</th>
+        <th>Driver</th>
+        <th>Vehicle</th>
+        <th>Area</th>
+        <th>Start KM</th>
+        <th>End KM</th>
+        <th>Start time</th>
+        <th>End time</th>
+        <th>Total Distance</th>
+        <th>Mileage Allowance</th>
+        <th>Total Time</th>
+        <th>Food Allowance</th>
+        <th>Time Bonus</th>
+        <th>Remark</th>
+        <th>Reference</th>
+        <th>Actions</th>
       </tr>
-    ))
-  )}
-</tbody>
+    </thead>
 
-        </table>
+    <tbody>
+      {paginatedTrips.length === 0 ? (
+        <tr>
+          <td colSpan="17" style={{ textAlign: "center", padding: "20px" }}>
+            <FaMapMarkedAlt /> No floating trips found
+          </td>
+        </tr>
+      ) : (
+        paginatedTrips.map((t) => (
+          <tr key={t.floating_trip_id}>
+            <td data-label="Doc">{t.document_no}</td>
+            <td data-label="Date">{t.trip_date}</td>
+            <td data-label="Driver">{t.driver_name}</td>
+            <td data-label="Vehicle">{t.vehicle_name}</td>
 
+            <td data-label="Area">
+              <span className="area-value">{t.area_name}</span>
+            </td>
+
+            <td data-label="Start KM">{t.start_km}</td>
+            <td data-label="End KM">{t.end_km}</td>
+            <td data-label="Start time">{t.start_time}</td>
+            <td data-label="End time">{t.end_time}</td>
+            <td data-label="Total Distance">{t.total_distance}</td>
+            <td data-label="Mileage Allowance">{t.mileage_allowance}</td>
+            <td data-label="Total Time">{t.total_time}</td>
+            <td data-label="Food Allowance">{t.food_allowance}</td>
+            <td data-label="Time Bonus">{t.time_bonus}</td>
+            <td data-label="Remark">{t.remark}</td>
+            <td data-label="Reference">{t.reference}</td>
+
+            <td data-label="Actions">
+              <button
+                className="floating-edit-btn"
+                onClick={() => editTrip(t)}
+              >
+                <FaEdit />
+              </button>
+
+              <button
+                className="floating-delete-btn"
+                onClick={() =>
+                  deleteTrip(t.floating_trip_id)
+                }
+              >
+                <FaTrash />
+              </button>
+            </td>
+          </tr>
+        ))
+      )}
+    </tbody>
+  </table>
+  
+</div>
         {totalPages > 1 && (
           <div className="pagination">
             <button disabled={currentPage === 1} onClick={() => setCurrentPage(p => p - 1)}>
@@ -467,6 +476,19 @@ const totalTime = getTimeDifference(form.start_time, form.end_time);
                 required
               />
 <hr />
+<label>Remark</label>
+<input
+  name="remark"
+  value={form.remark}
+  onChange={handleChange}
+/>
+
+<label>Reference</label>
+<input
+  name="reference"
+  value={form.reference}
+  onChange={handleChange}
+/>
 
 <label>
   Total Distance 
@@ -501,7 +523,25 @@ const totalTime = getTimeDifference(form.start_time, form.end_time);
   className="calculated-box"
 />
 
+<label>
+  Time Bonus 
+  <span className="formula-hint">(Total Time (hours) × 50)</span>
+</label>
+<input
+  type="text"
+value={(() => {
+  const parts = totalTime.split(":");
 
+  const hours =
+    parseInt(parts[0] || 0) +
+    parseInt(parts[1] || 0) / 60 +
+    parseInt(parts[2] || 0) / 3600;
+
+  return (hours * 50).toFixed(2);
+})()}
+  readOnly
+  className="calculated-box"
+/>
               <button className="save-floating-btn">
                 {isEdit ? "UPDATE" : "SAVE"}
               </button>

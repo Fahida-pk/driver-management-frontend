@@ -162,8 +162,11 @@ const endKm = parseFloat(form.end_km) || 0;
 const totalDistance = endKm > startKm ? (endKm - startKm).toFixed(2) : 0;
 
 // Example mileage rate (change if needed)
-const mileageRate = 10; // ₹10 per KM
-const mileageAllowance = (totalDistance * mileageRate).toFixed(2);
+const mileageRate = 3.5;
+
+const mileageAllowance = Math.round(
+  parseFloat(totalDistance) * mileageRate
+);
 
 // TIME CALCULATION
 
@@ -225,83 +228,77 @@ const totalTime = getTimeDifference(form.start_time, form.end_time);
         </div>
 
 <div className="floating-table-scroll">
-    <table className="floating-table">
+  <table className="floating-table">
     <thead>
       <tr>
-        <th>Doc</th>
         <th>Date</th>
+        <th>Doc</th>
+        <th>Reference</th>
         <th>Driver</th>
         <th>Vehicle</th>
         <th>Area</th>
-        <th>Start KM</th>
-        <th>End KM</th>
-        <th>Start time</th>
-        <th>End time</th>
         <th>Total Distance</th>
-        <th>Mileage Allowance</th>
         <th>Total Time</th>
-        <th>Food Allowance</th>
-        <th>Time Bonus</th>
-        <th>Remark</th>
-        <th>Reference</th>
+        <th>Total Amount</th>
         <th>Actions</th>
       </tr>
     </thead>
 
     <tbody>
-      {paginatedTrips.length === 0 ? (
-        <tr>
-          <td colSpan="17" style={{ textAlign: "center", padding: "20px" }}>
-            <FaMapMarkedAlt /> No floating trips found
+  {paginatedTrips.length === 0 ? (
+    <tr>
+      <td colSpan="10" style={{ textAlign: "center", padding: "20px" }}>
+        <FaMapMarkedAlt /> No floating trips found
+      </td>
+    </tr>
+  ) : (
+    paginatedTrips.map((t) => {
+
+      const totalAmount =
+        (parseFloat(t.food_allowance) || 0) +
+        (parseFloat(t.mileage_allowance) || 0) +
+        (parseFloat(t.time_bonus) || 0);
+
+          return (
+            <tr key={t.floating_trip_id}>
+              <td data-label="Date">{t.trip_date}</td>
+              <td data-label="Doc">{t.document_no}</td>
+              <td data-label="Reference">{t.reference}</td>
+              <td data-label="Driver">{t.driver_name}</td>
+              <td data-label="Vehicle">{t.vehicle_name}</td>
+              <td data-label="Area">
+                <span className="area-value">{t.area_name}</span>
+              </td>
+              <td data-label="Total Distance">{t.total_distance}</td>
+              <td data-label="Total Time">{t.total_time}</td>
+              <td>
+            ₹ {Math.round(totalAmount)}
           </td>
-        </tr>
-      ) : (
-        paginatedTrips.map((t) => (
-          <tr key={t.floating_trip_id}>
-            <td data-label="Doc">{t.document_no}</td>
-            <td data-label="Date">{t.trip_date}</td>
-            <td data-label="Driver">{t.driver_name}</td>
-            <td data-label="Vehicle">{t.vehicle_name}</td>
 
-            <td data-label="Area">
-              <span className="area-value">{t.area_name}</span>
-            </td>
 
-            <td data-label="Start KM">{t.start_km}</td>
-            <td data-label="End KM">{t.end_km}</td>
-            <td data-label="Start time">{t.start_time}</td>
-            <td data-label="End time">{t.end_time}</td>
-            <td data-label="Total Distance">{t.total_distance}</td>
-            <td data-label="Mileage Allowance">{t.mileage_allowance}</td>
-            <td data-label="Total Time">{t.total_time}</td>
-            <td data-label="Food Allowance">{t.food_allowance}</td>
-            <td data-label="Time Bonus">{t.time_bonus}</td>
-            <td data-label="Remark">{t.remark}</td>
-            <td data-label="Reference">{t.reference}</td>
+              <td data-label="Actions">
+                <button
+                  className="floating-edit-btn"
+                  onClick={() => editTrip(t)}
+                >
+                  <FaEdit />
+                </button>
 
-            <td data-label="Actions">
-              <button
-                className="floating-edit-btn"
-                onClick={() => editTrip(t)}
-              >
-                <FaEdit />
-              </button>
-
-              <button
-                className="floating-delete-btn"
-                onClick={() =>
-                  deleteTrip(t.floating_trip_id)
-                }
-              >
-                <FaTrash />
-              </button>
-            </td>
-          </tr>
-        ))
+                <button
+                  className="floating-delete-btn"
+                  onClick={() =>
+                    deleteTrip(t.floating_trip_id)
+                  }
+                >
+                  <FaTrash />
+                </button>
+              </td>
+            </tr>
+          );
+        })
       )}
     </tbody>
   </table>
-  
 </div>
         {totalPages > 1 && (
           <div className="pagination">
@@ -522,6 +519,10 @@ const totalTime = getTimeDifference(form.start_time, form.end_time);
   readOnly
   className="calculated-box"
 />
+<label>
+  Time Bonus 
+  <span className="formula-hint">(Rounded Hours × 50)</span>
+</label>
 
 <input
   type="text"

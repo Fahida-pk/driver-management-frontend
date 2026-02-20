@@ -70,18 +70,20 @@ const validatePhone = (phone) => {
 
   /* fixed trip form */
   const emptyForm = {
-    fixed_trip_id: "",
-    document_no: "",
-    trip_date: "",
-    driver_id: "",
-    vehicle_id: "",
-    route_id: "",
-    route_name: "",
-    distance: "",
-    fixed_allowance: "",
-    food_allowance: "",
-    status: "ACTIVE",
-  };
+  fixed_trip_id: "",
+  document_no: "",
+  trip_date: "",
+  driver_id: "",
+  vehicle_id: "",
+  route_id: "",
+  route_name: "",
+  distance: "",
+  fixed_allowance: "",
+  food_allowance: "",
+  remark: "",        // ✅ ADD
+  reference: "",     // ✅ ADD
+  status: "ACTIVE",
+};
 
   const [form, setForm] = useState(emptyForm);
 
@@ -284,6 +286,8 @@ const filteredRoutes = routes.filter(r =>
               <th>Distance</th>
               <th>Allowance</th>
               <th>Food</th>
+              <th>Reference</th>
+<th>Remark</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -322,7 +326,13 @@ const filteredRoutes = routes.filter(r =>
       <td data-label="Food">
         <span className="td-value">{t.food_allowance}</span>
       </td>
+<td data-label="Reference">
+  <span className="td-value">{t.reference}</span>
+</td>
 
+<td data-label="Remark">
+  <span className="td-value">{t.remark}</span>
+</td>
      <td data-label="Actions">
   <button
     className="edit-btn"
@@ -533,7 +543,19 @@ const filteredRoutes = routes.filter(r =>
 
               <label>Food Allowance</label>
               <input value={form.food_allowance} readOnly />
+<label>Reference</label>
+<input
+  name="reference"
+  value={form.reference}
+  onChange={handleChange}
+/>
 
+<label>Remark</label>
+<input
+  name="remark"
+  value={form.remark}
+  onChange={handleChange}
+/>
               <button className="save-btn">{isEdit ? "✏️ UPDATE" : "💾 SAVE"}</button>
             </form>
           </div>

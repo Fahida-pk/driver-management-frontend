@@ -523,22 +523,34 @@ const totalTime = getTimeDifference(form.start_time, form.end_time);
   className="calculated-box"
 />
 
-<label>
-  Time Bonus 
-  <span className="formula-hint">(Total Time (hours) × 50)</span>
-</label>
 <input
   type="text"
-value={(() => {
-  const parts = totalTime.split(":");
+  value={(() => {
+    if (!form.start_time || !form.end_time) return "0.00";
 
-  const hours =
-    parseInt(parts[0] || 0) +
-    parseInt(parts[1] || 0) / 60 +
-    parseInt(parts[2] || 0) / 3600;
+    const start = new Date(`1970-01-01T${form.start_time}`);
+    const end = new Date(`1970-01-01T${form.end_time}`);
 
-  return (hours * 50).toFixed(2);
-})()}
+    let diff = (end - start) / 1000;
+    if (diff < 0) diff += 24 * 60 * 60;
+
+    let hours = Math.floor(diff / 3600);
+    let minutes = Math.floor((diff % 3600) / 60);
+
+    // 🔥 Correct Rounding Rule
+    if (minutes <= 15) {
+      minutes = 0;
+    } else if (minutes <= 45) {
+      minutes = 30;
+    } else {
+      hours += 1;
+      minutes = 0;
+    }
+
+    const roundedHours = hours + minutes / 60;
+
+    return (roundedHours * 50).toFixed(2);
+  })()}
   readOnly
   className="calculated-box"
 />

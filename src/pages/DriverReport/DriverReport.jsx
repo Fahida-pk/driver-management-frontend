@@ -92,21 +92,28 @@ const DriverReport = () => {
   );
 
   /* ================= FETCH REPORT ================= */
-  const fetchReport = async () => {
-    if (!driverId || !fromDate || !toDate) {
-      alert("Select driver and dates");
-      return;
-    }
+const fetchReport = async () => {
+  if (!driverId || !fromDate || !toDate) {
+    alert("Select driver and dates");
+    return;
+  }
 
-    const res = await fetch(
-      `${REPORT_API}?driver_id=${driverId}&from_date=${fromDate}&to_date=${toDate}`
-    );
+  const res = await fetch(
+    `${REPORT_API}?driver_id=${Number(driverId)}&from_date=${fromDate}&to_date=${toDate}`
+  );
 
-    const data = await res.json();
-    setSummary(data.summary);
-    setTransactions(data.transactions);
-  };
+  const data = await res.json();
 
+  console.log("API Response:", data); // 🔥 add this
+
+  if (data.error) {
+    alert(data.error);
+    return;
+  }
+
+  setSummary(data.summary);
+  setTransactions(data.transactions);
+};
   const handlePrint = () => window.print();
 
   /* ================= UI ================= */
@@ -210,7 +217,7 @@ const DriverReport = () => {
         </div>
 
         {/* ================= REPORT TABLE ================= */}
-        {summary && (
+       {summary !== null && (
           <div className="print-section">
 
             <div className="print-company-header print-only">
@@ -235,34 +242,42 @@ const DriverReport = () => {
               <hr />
             </div>
 
-            <div className="ledger-summary-box">
-              <p><strong>Total Amount:</strong> ₹ {summary.total_credit}</p>
-              <p><strong>Total Paid:</strong> ₹ {summary.total_debit}</p>
-              <p><strong>Balance amount:</strong> ₹ {summary.balance}</p>
-            </div>
+           <div className="ledger-summary-box">
+  <p><strong>Total Amount :</strong> ₹ {summary.total_credit}</p>
+  <p><strong>Advance Paid :</strong> ₹ {summary.total_debit}</p>
+  <p><strong>Paid Amount :</strong> ₹ {summary.total_debit}</p>
+  <p><strong>Balance Amount :</strong> ₹ {summary.balance}</p>
+</div>
 
-            <table className="ledger-table">
-              <thead>
-                <tr>
-                  <th>Date</th>
-                  <th>Bill No</th>
-                  <th>Type</th>
-                    <th>Total Amount</th>
-                  <th>Paid Amount</th>
-                
-                </tr>
-              </thead>
-             <tbody>
+          <table className="ledger-table">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Bill No</th>
+      <th>Trip Sheet No</th>
+      <th>Type / Area</th>
+      <th>Trip Allowance</th>
+      <th>Time Allowance</th>
+      <th>Food Allowance</th>
+      <th>Total Amount</th>
+    </tr>
+  </thead>
+
+  <tbody>
   {transactions.map((t, index) => (
     <tr key={index}>
-      <td data-label="Date">{t.TRANS_DATE}</td>
-      <td data-label="Bill No">{t.BILL_NO}</td>
-      <td data-label="Type">{t.transaction_type}</td>
-      <td data-label="Total Amount">{t.CR_AMOUNT}</td>
-      <td data-label="Paid Amount">{t.DR_AMOUNT}</td>
+      <td>{t.date}</td>
+      <td>{t.bill_no}</td>
+      <td>{t.trip_sheet_no}</td>
+      <td>{t.type} - {t.area}</td>
+      <td>{t.trip_allowance}</td>
+      <td>{t.time_allowance}</td>
+      <td>{t.food_allowance}</td>
+      <td><strong>{t.total_amount}</strong></td>
     </tr>
   ))}
 </tbody>
+
 
             </table>
 

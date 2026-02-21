@@ -28,14 +28,15 @@ const Payment = () => {
   /* pagination */
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 7;
-
-  const emptyForm = {
-    payment_id: "",
-    payment_date: "",
-    driver_id: "",
-    amount: "",
-    payment_mode: "CASH"
-  };
+const emptyForm = {
+  payment_id: "",
+  payment_date: "",
+  driver_id: "",
+  amount: "",
+  payment_mode: "CASH",
+  reference: "",
+  remarks: ""
+};
 
   const [form, setForm] = useState(emptyForm);
 
@@ -153,8 +154,15 @@ useEffect(() => {
     setBalance(adjustedBalance);
 
     // Set form
-    setForm(payment);
-
+setForm({
+  payment_id: payment.payment_id,
+  payment_date: payment.payment_date,
+  driver_id: payment.driver_id,
+  amount: payment.amount,
+  payment_mode: payment.payment_mode,
+  reference: payment.reference ?? "",
+  remarks: payment.remarks ?? ""
+});
   } catch (err) {
     console.error("Balance fetch error:", err);
   }
@@ -255,6 +263,8 @@ useEffect(() => {
               <th>Amount</th>
               <th>Balance</th>
               <th>Mode</th>
+              <th>Reference</th>
+<th>Remarks</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -262,7 +272,7 @@ useEffect(() => {
         <tbody>
   {paginated.length === 0 ? (
     <tr>
-      <td colSpan="7" style={{ textAlign: "center" }}>
+      <td colSpan="9" style={{ textAlign: "center" }}>
         No payments found
       </td>
     </tr>
@@ -292,7 +302,13 @@ useEffect(() => {
         <td data-label="Mode">
           {p.payment_mode}
         </td>
+<td data-label="Reference">
+  {p.reference || ""}
+</td>
 
+<td data-label="Remarks">
+  {p.remarks || ""}
+</td>
         <td data-label="Actions">
           <button
             className="edit-btn"
@@ -435,10 +451,29 @@ useEffect(() => {
                 value={form.payment_mode}
                 onChange={handleChange}
               >
+                
                 <option value="CASH">Cash</option>
                 <option value="BANK">Bank</option>
               </select>
+<label>Reference</label>
+<input
+  type="text"
+  name="reference"
+  value={form.reference}
+  onChange={handleChange}
+/>
 
+<label>Remarks</label>
+<textarea
+  name="remarks"
+  value={form.remarks}
+  onChange={handleChange}
+  style={{
+    minHeight: "90px",
+    padding: "10px",
+    borderRadius: "8px"
+  }}
+/>
               <button className="save-btn">
                 {isEdit ? "✏️ UPDATE" : "💾 SAVE"}
               </button>

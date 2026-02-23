@@ -228,6 +228,7 @@ html, body {
 .ledger-table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;   /* IMPORTANT */
 }
 /* Increase Type / Area column width */
 .ledger-table th:nth-child(4),
@@ -403,6 +404,8 @@ input {
   }
 
 }
+
+/* ================= MOBILE RESPONSIVE ================= */
 @media (min-width: 992px) {
 
   .ledger-table {
@@ -411,12 +414,10 @@ input {
 
   .ledger-table th:nth-child(4),
   .ledger-table td:nth-child(4) {
-    width: 55%;
+    width: 35%;
   }
 
 }
-/* ================= MOBILE RESPONSIVE ================= */
-
 @media (max-width: 768px) {
 
   .ledger-page-wrapper {
@@ -441,14 +442,7 @@ input {
   .ledger-print-btn {
     width: 100%;
   }
-.ledger-table {
-    table-layout: fixed;
-  }
 
-  .ledger-table th:nth-child(4),
-  .ledger-table td:nth-child(4) {
-    width: 55%;
-  }
   .ledger-generate-btn,
   .ledger-print-btn {
     padding: 12px;
@@ -470,7 +464,19 @@ input {
 
 }
 /* ================= CLEAN PRINT MODE ================= */
+@media print {
 
+  .summary-right-box {
+    width: 350px !important;
+    float: right !important;
+    text-align: right;
+  }
+
+  .summary-row {
+    justify-content: space-between;
+  }
+
+}
 @media print {
 
   @page {

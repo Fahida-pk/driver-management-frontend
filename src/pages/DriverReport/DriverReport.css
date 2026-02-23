@@ -230,6 +230,50 @@ html, body {
   border-collapse: collapse;
   table-layout: fixed;   /* IMPORTANT */
 }
+.ledger-table th:nth-child(1),
+  .ledger-table td:nth-child(1) {
+    width:15%;
+  }
+
+  /* Bill No */
+  .ledger-table th:nth-child(2),
+  .ledger-table td:nth-child(2) {
+    width: 15%;
+  }
+
+  /* Trip Sheet */
+  .ledger-table th:nth-child(3),
+  .ledger-table td:nth-child(3) {
+    width: 15%;
+  }
+
+  /* Type / Area */
+  
+
+  /* Trip Allowance */
+  .ledger-table th:nth-child(5),
+  .ledger-table td:nth-child(5) {
+    width: 15%;
+  }
+
+  /* Time Allowance */
+  .ledger-table th:nth-child(6),
+  .ledger-table td:nth-child(6) {
+    width: 15%;
+  }
+
+  /* Food Allowance */
+  .ledger-table th:nth-child(7),
+  .ledger-table td:nth-child(7) {
+    width: 15%;
+  }
+
+  /* Total Amount */
+  .ledger-table th:nth-child(8),
+  .ledger-table td:nth-child(8) {
+    width: 15%;
+  }
+
 /* Increase Type / Area column width */
 .ledger-table th:nth-child(4),
 .ledger-table td:nth-child(4) {
@@ -405,7 +449,6 @@ input {
 
 }
 
-/* ================= MOBILE RESPONSIVE ================= */
 @media (min-width: 992px) {
 
   .ledger-table {
@@ -418,6 +461,9 @@ input {
   }
 
 }
+
+/* ================= MOBILE PERFECT FIX ================= */
+
 @media (max-width: 768px) {
 
   .ledger-page-wrapper {
@@ -448,27 +494,32 @@ input {
     padding: 12px;
     font-size: 16px;
   }
-.ledger-table {
-    table-layout: fixed;
+
+ @media (max-width: 768px) {
+
+  .ledger-table {
+    table-layout: auto !important;
+    width: 100%;
   }
 
-  .ledger-table th:nth-child(4),
-  .ledger-table td:nth-child(4) {
-    width: 35%;
+  /* Remove desktop width forcing */
+  .ledger-table th,
+  .ledger-table td {
+    width: auto !important;
+    white-space: normal !important;
   }
-  /* Allow horizontal scroll without stretching page */
-  .ledger-table {
-  width: 100%;
-  display: block;
-  overflow-x: auto;
-  white-space: nowrap;
-}
+
+  /* Allow area wrapping */
+  .ledger-table td:nth-child(4) {
+    white-space: normal !important;
+  }
 
   .summary-right-box {
     width: 100%;
     margin-left: 0;
   }
 
+}
 }
 /* ================= FINAL CLEAN PRINT ================= */
 

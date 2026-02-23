@@ -228,7 +228,6 @@ html, body {
 .ledger-table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed;   /* IMPORTANT */
 }
 /* Increase Type / Area column width */
 .ledger-table th:nth-child(4),
@@ -413,7 +412,13 @@ input {
   .ledger-page-wrapper {
     padding: 10px;
   }
-
+/* Desktop only column width */
+@media (min-width: 769px) {
+  .ledger-table th:nth-child(4),
+  .ledger-table td:nth-child(4) {
+    width: 300px;
+  }
+}
   /* Card */
   .ledger-card-container {
     padding: 15px;

@@ -39,7 +39,17 @@ const [showVehicleDropdown, setShowVehicleDropdown] = useState(false);
 // ROUTE
 const [routeSearch, setRouteSearch] = useState("");
 const [showRouteDropdown, setShowRouteDropdown] = useState(false);
+const validateForm = () => {
+  if (!form.trip_date) return "Date is required";
+  if (!form.driver_id) return "Driver is required";
+  if (!form.vehicle_id) return "Vehicle is required";
+  if (!form.route_id) return "Route is required";
+  if (!form.distance) return "Distance missing";
+  if (!form.fixed_allowance) return "Fixed allowance missing";
+  if (!form.food_allowance) return "Food allowance missing";
 
+  return "";
+};
   /* pagination */
   const [currentPage, setCurrentPage] = useState(1);
   const recordsPerPage = 7;
@@ -134,24 +144,36 @@ const validatePhone = (phone) => {
 
   /* ================= SAVE / UPDATE ================= */
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    await fetch(API, {
-      method: isEdit ? "PUT" : "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
+  const error = validateForm();
 
-    setMessage(isEdit ? "Fixed trip updated successfully ✅" : "Fixed trip added successfully 🎉");
-    setMessageType("success");
+  if (error) {
+    setMessage(error);
+    setMessageType("error");
     autoHide();
+    return;  // ❌ stop submit
+  }
 
-    setShowModal(false);
-    setIsEdit(false);
-    setForm(emptyForm);
-    loadAll();
-  };
+  await fetch(API, {
+    method: isEdit ? "PUT" : "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(form),
+  });
 
+  setMessage(isEdit 
+    ? "Fixed trip updated successfully ✅" 
+    : "Fixed trip added successfully 🎉"
+  );
+
+  setMessageType("success");
+  autoHide();
+
+  setShowModal(false);
+  setIsEdit(false);
+  setForm(emptyForm);
+  loadAll();
+};
   /* ================= EDIT ================= */
   const editTrip = (t) => {
     setForm(t);

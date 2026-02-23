@@ -287,22 +287,29 @@ const fetchReport = async () => {
             </table>
 
             {/* SUMMARY RIGHT BOTTOM */}
-            <div className="summary-right-box">
-              <div className="summary-row">
-                <span>Total Amount :</span>
-                <span>₹ {Number(summary.total_credit).toFixed(2)}</span>
-              </div>
+      <div className="summary-right-box">
 
-              <div className="summary-row">
-                <span>Paid Amount :</span>
-                <span>₹ {Number(summary.total_debit).toFixed(2)}</span>
-              </div>
+  <div className="summary-row">
+    <span>Opening Balance :</span>
+    <span>₹ {Number(summary?.opening_balance ?? 0).toFixed(2)}</span>
+  </div>
 
-              <div className="summary-row balance">
-                <span>Balance Amount :</span>
-                <span>₹ {Number(summary.balance).toFixed(2)}</span>
-              </div>
-            </div>
+  <div className="summary-row">
+    <span>Total Amount :</span>
+    <span>₹ {Number(summary?.total_credit ?? 0).toFixed(2)}</span>
+  </div>
+
+  <div className="summary-row">
+    <span>Paid Amount :</span>
+    <span>₹ {Number(summary?.total_debit ?? 0).toFixed(2)}</span>
+  </div>
+
+  <div className="summary-row balance">
+    <span>Balance Amount :</span>
+    <span>₹ {Number(summary?.balance ?? 0).toFixed(2)}</span>
+  </div>
+
+</div>
 
           </div>
         )}

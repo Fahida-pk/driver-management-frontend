@@ -448,7 +448,14 @@ input {
     padding: 12px;
     font-size: 16px;
   }
+.ledger-table {
+    table-layout: fixed;
+  }
 
+  .ledger-table th:nth-child(4),
+  .ledger-table td:nth-child(4) {
+    width: 35%;
+  }
   /* Allow horizontal scroll without stretching page */
   .ledger-table {
     width: 100%;

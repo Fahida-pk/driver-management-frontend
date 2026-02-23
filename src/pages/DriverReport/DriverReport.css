@@ -403,35 +403,36 @@ input {
   }
 
 }
+@media (min-width: 992px) {
 
+  .ledger-table {
+    table-layout: fixed;
+  }
+
+  .ledger-table th:nth-child(4),
+  .ledger-table td:nth-child(4) {
+    width: 35%;
+  }
+
+}
 /* ================= MOBILE RESPONSIVE ================= */
 
 @media (max-width: 768px) {
 
-  /* Page padding */
   .ledger-page-wrapper {
     padding: 10px;
   }
-/* Desktop only column width */
-  .ledger-table th:nth-child(4),
-  .ledger-table td:nth-child(4) {
-    width: 300px;
-  }
 
-  /* Card */
   .ledger-card-container {
     padding: 15px;
-    border-radius: 10px;
   }
 
-  /* Filter section stacked */
   .ledger-filter-section {
     flex-direction: column;
     align-items: stretch;
     gap: 15px;
   }
 
-  /* All inputs full width */
   .driver-select-wrapper,
   .filter-group,
   .ledger-input,
@@ -441,42 +442,26 @@ input {
     width: 100%;
   }
 
-  .ledger-input,
-  input[type="date"] {
-    box-sizing: border-box;
-  }
-
-  /* Buttons better size */
   .ledger-generate-btn,
   .ledger-print-btn {
-    font-size: 16px;
     padding: 12px;
-    border-radius: 12px;
+    font-size: 16px;
   }
 
-  /* Table scroll instead of breaking layout */
+  /* Allow horizontal scroll without stretching page */
   .ledger-table {
+    width: 100%;
     display: block;
     overflow-x: auto;
     white-space: nowrap;
-    font-size: 13px;
   }
 
-  /* Summary full width on mobile */
   .summary-right-box {
     width: 100%;
     margin-left: 0;
-    margin-top: 20px;
   }
 
-  /* Filter summary stacked */
-  .filter-summary {
-    flex-direction: column;
-    gap: 6px;
-  }
 }
-
-
 /* ================= CLEAN PRINT MODE ================= */
 
 @media print {

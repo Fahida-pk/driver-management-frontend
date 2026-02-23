@@ -413,12 +413,11 @@ input {
     padding: 10px;
   }
 /* Desktop only column width */
-@media (min-width: 769px) {
   .ledger-table th:nth-child(4),
   .ledger-table td:nth-child(4) {
     width: 300px;
   }
-}
+
   /* Card */
   .ledger-card-container {
     padding: 15px;

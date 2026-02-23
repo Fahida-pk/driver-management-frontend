@@ -458,11 +458,11 @@ input {
   }
   /* Allow horizontal scroll without stretching page */
   .ledger-table {
-    width: 100%;
-    display: block;
-    overflow-x: auto;
-    white-space: nowrap;
-  }
+  width: 100%;
+  display: block;
+  overflow-x: auto;
+  white-space: nowrap;
+}
 
   .summary-right-box {
     width: 100%;
@@ -470,79 +470,59 @@ input {
   }
 
 }
-/* ================= CLEAN PRINT MODE ================= */
-@media print {
+/* ================= FINAL CLEAN PRINT ================= */
 
-  .summary-right-box {
-    width: 350px !important;
-    float: right !important;
-    text-align: right;
-  }
-
-  .summary-row {
-    justify-content: space-between;
-  }
-
-}
 @media print {
 
   @page {
     size: A4 landscape;
-    margin: 10mm;
+    margin: 8mm;
   }
 
   html, body {
-    width: 100%;
-    height: auto;
     margin: 0;
     padding: 0;
     background: #fff;
   }
 
-  /* Hide everything */
-  body * {
-    visibility: hidden;
-  }
-
-  /* Show only report */
-  .print-section,
-  .print-section * {
-    visibility: visible;
-  }
-
-  .print-section {
-    position: relative;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-  }
-
-  /* Remove card styles */
-  .ledger-card-container {
-    max-width: 100% !important;
-    width: 100% !important;
-    box-shadow: none !important;
-    border-radius: 0 !important;
-    background: #fff !important;
-  }
-
-  /* Table clean for print */
-  .ledger-table {
-    width: 100% !important;
-    font-size: 13px;
-  }
-
-  .ledger-table th,
-  .ledger-table td {
-    padding: 6px;
-  }
-
-  /* Hide unwanted */
+  /* Hide non-print content */
   .no-print,
   .ledger-filter-section,
   .ledger-title {
     display: none !important;
   }
+
+  /* Keep layout same as screen */
+  .ledger-card-container {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* IMPORTANT: Reset mobile table behavior */
+  .ledger-table {
+    display: table !important;
+    width: 100% !important;
+    table-layout: auto !important;
+    white-space: normal !important;
+  }
+
+  .ledger-table th,
+  .ledger-table td {
+    padding: 6px !important;
+    font-size: 12px;
+  }
+
+  /* Keep summary right */
+  .summary-right-box {
+    width: 300px !important;
+    float: right !important;
+    margin-top: 20px !important;
+  }
+
+
 }
 
 

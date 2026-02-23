@@ -269,7 +269,14 @@ input {
 .print-only {
   display: none;
 }
+@media print {
 
+  @page {
+    size: A4 landscape;
+    margin: 10mm;
+  }
+
+}
 /* Show only in print */
 @media print {
   .no-print {

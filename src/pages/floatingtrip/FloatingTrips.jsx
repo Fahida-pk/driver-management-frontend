@@ -526,32 +526,37 @@ const totalTime = getTimeDifference(form.start_time, form.end_time);
 
 <input
   type="text"
-  value={(() => {
-    if (!form.start_time || !form.end_time) return "0.00";
+ value={(() => {
+  if (!form.start_time || !form.end_time) return "0.00";
 
-    const start = new Date(`1970-01-01T${form.start_time}`);
-    const end = new Date(`1970-01-01T${form.end_time}`);
+  const start = new Date(`1970-01-01T${form.start_time}`);
+  const end = new Date(`1970-01-01T${form.end_time}`);
 
-    let diff = (end - start) / 1000;
-    if (diff < 0) diff += 24 * 60 * 60;
+  let diff = (end - start) / 1000;
+  if (diff < 0) diff += 24 * 60 * 60;
 
-    let hours = Math.floor(diff / 3600);
-    let minutes = Math.floor((diff % 3600) / 60);
+  let hours = Math.floor(diff / 3600);
+  let minutes = Math.floor((diff % 3600) / 60);
 
-    // 🔥 Correct Rounding Rule
-    if (minutes <= 15) {
-      minutes = 0;
-    } else if (minutes <= 45) {
-      minutes = 30;
-    } else {
-      hours += 1;
-      minutes = 0;
-    }
+  // 30 min rounding
+  if (minutes <= 15) {
+    minutes = 0;
+  } else if (minutes <= 45) {
+    minutes = 30;
+  } else {
+    hours += 1;
+    minutes = 0;
+  }
 
-    const roundedHours = hours + minutes / 60;
+  const roundedHours = hours + minutes / 60;
 
+  // ✅ NEW LOGIC (Same as backend)
+  if (roundedHours >= 6) {
+    return "300.00";
+  } else {
     return (roundedHours * 50).toFixed(2);
-  })()}
+  }
+})()}
   readOnly
   className="calculated-box"
 />

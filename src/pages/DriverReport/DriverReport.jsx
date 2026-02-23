@@ -216,53 +216,44 @@ const fetchReport = async () => {
           </button>
         </div>
 
-        {/* ================= REPORT TABLE ================= */}
-       {summary !== null && (
+        {/* ================= REPORT SECTION ================= */}
+        {summary && (
           <div className="print-section">
 
+            {/* Print Header */}
             <div className="print-company-header print-only">
               <h2>{company.company_name}</h2>
               <p>{company.address}</p>
               <p>Phone: {company.phone}</p>
 
-              <h3 style={{ marginTop: "20px" }}>DRIVER SETTLEMENT</h3>
+              <h3>DRIVER SETTLEMENT</h3>
 
               <p>
                 Driver: {
-                  driverId
-                    ? drivers.find(d => d.driver_id === driverId)?.driver_name
-                    : "All Drivers"
+                  drivers.find(d => d.driver_id === driverId)?.driver_name
                 }
               </p>
 
-              <p>
-                Period: {fromDate} to {toDate}
-              </p>
-
+              <p>Period: {fromDate} to {toDate}</p>
               <hr />
             </div>
 
-           <div className="ledger-summary-box">
-  <p><strong>Total Amount :</strong> ₹ {summary.total_credit}</p>
-  <p><strong>Paid Amount :</strong> ₹ {summary.total_debit}</p>
-  <p><strong>Balance Amount :</strong> ₹ {summary.balance}</p>
-</div>
+            {/* TABLE */}
+            <table className="ledger-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Bill No</th>
+                  <th>Trip Sheet No</th>
+                  <th>Type / Area</th>
+                  <th>Trip Allowance</th>
+                  <th>Time Allowance</th>
+                  <th>Food Allowance</th>
+                  <th>Total Amount</th>
+                </tr>
+              </thead>
 
-          <table className="ledger-table">
-  <thead>
-  <tr>
-    <th>Date</th>
-    <th>Bill No</th>
-    <th>Trip Sheet No</th>
-    <th>Type / Area</th>
-    <th>Trip Allowance</th>
-    <th>Time Allowance</th>
-    <th>Food Allowance</th>
-    <th>Total Amount</th>
-  </tr>
-</thead>
-
-<tbody>
+              <tbody>
   {transactions.map((t, index) => (
     <tr key={index}>
       <td data-label="Date">{t.date}</td>
@@ -293,13 +284,31 @@ const fetchReport = async () => {
     </tr>
   ))}
 </tbody>
-
-
             </table>
+
+            {/* SUMMARY RIGHT BOTTOM */}
+            <div className="summary-right-box">
+              <div className="summary-row">
+                <span>Total Amount :</span>
+                <span>₹ {Number(summary.total_credit).toFixed(2)}</span>
+              </div>
+
+              <div className="summary-row">
+                <span>Paid Amount :</span>
+                <span>₹ {Number(summary.total_debit).toFixed(2)}</span>
+              </div>
+
+              <div className="summary-row balance">
+                <span>Balance Amount :</span>
+                <span>₹ {Number(summary.balance).toFixed(2)}</span>
+              </div>
+            </div>
 
           </div>
         )}
+
       </div>
+    
 
       {/* ================= COMPANY MODAL ================= */}
       {showCompanyModal && (

@@ -1,3 +1,10 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;
+}
 /* PAGE */
 .ledger-page-wrapper {
   padding: 20px;
@@ -114,7 +121,29 @@
   margin-bottom: 4px;
 }
 
+/* ================= RIGHT SIDE SUMMARY ================= */
 
+.summary-right-box {
+  width: 350px;
+  margin-left: auto;
+  margin-top: 20px;
+  border-top: 2px solid #000;
+  padding-top: 10px;
+  page-break-inside: avoid;
+}
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-weight: 500;
+}
+
+.summary-row.balance {
+  font-weight: 700;
+  font-size: 16px;
+  border-top: 1px solid #ccc;
+  padding-top: 8px;
+}
 
 
 .driver-select-display {
@@ -199,7 +228,12 @@
 .ledger-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 14px;
+  table-layout: fixed;   /* IMPORTANT */
+}
+/* Increase Type / Area column width */
+.ledger-table th:nth-child(4),
+.ledger-table td:nth-child(4) {
+  width: 400px;
 }
 
 .ledger-table th,
@@ -314,81 +348,86 @@ input {
   }
 }
 
+/* ================= PERFECT PRINT LANDSCAPE ================= */
 @media print {
 
-  /* Hide everything */
+  @page {
+    size: A4 landscape;
+    margin: 10mm;
+  }
+
+  html, body {
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+  }
+
   body * {
     visibility: hidden;
   }
 
-  /* Show only report */
   .print-section,
   .print-section * {
     visibility: visible;
   }
 
-  /* Remove layout positioning issues */
   .print-section {
-    position: absolute;
-    left: 0;
-    top: 0;
+    position: relative;
     width: 100%;
-    background: #fff;
-    padding: 20px;
+    margin: 0;
+    padding: 0;
   }
 
-  /* Remove card style */
   .ledger-card-container {
+    max-width: 100% !important;
+    width: 100% !important;
     box-shadow: none !important;
     border-radius: 0 !important;
-    background: #fff !important;
-  }
-
-  /* Remove navbar & sidebar */
-  .no-print {
-    display: none !important;
-  }
-
-  /* Clean page */
-  body {
-    margin: 0;
-    background: #fff;
-  }
-
-}
-
-@media (max-width: 768px) {
-  .driver-select-wrapper {
-    width: 100%;
-  }
-}
-
-/* MOBILE */
-@media (max-width: 768px) {
-  .ledger-filter-section {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .filter-summary {
-    flex-direction: column;
-    gap: 4px;
   }
 
   .ledger-table {
-    font-size: 12px;
+    width: 100% !important;
+    font-size: 13px;
   }
+
+  .ledger-table th,
+  .ledger-table td {
+    padding: 6px;
+  }
+
+  .no-print,
+  .ledger-filter-section,
+  .ledger-title {
+    display: none !important;
+  }
+
 }
 
-/* ================= MOBILE FIX ================= */
+/* ================= MOBILE RESPONSIVE ================= */
+
 @media (max-width: 768px) {
 
+  /* Page padding */
+  .ledger-page-wrapper {
+    padding: 10px;
+  }
+
+  /* Card */
+  .ledger-card-container {
+    padding: 15px;
+    border-radius: 10px;
+  }
+
+  /* Filter section stacked */
   .ledger-filter-section {
     flex-direction: column;
     align-items: stretch;
     gap: 15px;
   }
 
+  /* All inputs full width */
   .driver-select-wrapper,
   .filter-group,
   .ledger-input,
@@ -403,46 +442,98 @@ input {
     box-sizing: border-box;
   }
 
+  /* Buttons better size */
+  .ledger-generate-btn,
+  .ledger-print-btn {
+    font-size: 16px;
+    padding: 12px;
+    border-radius: 12px;
+  }
+
+  /* Table scroll instead of breaking layout */
+  .ledger-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    font-size: 13px;
+  }
+
+  /* Summary full width on mobile */
+  .summary-right-box {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 20px;
+  }
+
+  /* Filter summary stacked */
+  .filter-summary {
+    flex-direction: column;
+    gap: 6px;
+  }
 }
 
-/* ================= CLEAN PRINT ================= */
+
+/* ================= CLEAN PRINT MODE ================= */
+
 @media print {
 
+  @page {
+    size: A4 landscape;
+    margin: 10mm;
+  }
+
+  html, body {
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+  }
+
+  /* Hide everything */
   body * {
     visibility: hidden;
   }
 
+  /* Show only report */
   .print-section,
   .print-section * {
     visibility: visible;
   }
 
   .print-section {
-    position: absolute;
-    left: 0;
-    top: 0;
+    position: relative;
     width: 100%;
-    background: #fff;
-    padding: 20px;
+    margin: 0;
+    padding: 0;
   }
 
+  /* Remove card styles */
   .ledger-card-container {
+    max-width: 100% !important;
+    width: 100% !important;
     box-shadow: none !important;
     border-radius: 0 !important;
     background: #fff !important;
   }
 
+  /* Table clean for print */
+  .ledger-table {
+    width: 100% !important;
+    font-size: 13px;
+  }
+
+  .ledger-table th,
+  .ledger-table td {
+    padding: 6px;
+  }
+
+  /* Hide unwanted */
   .no-print,
   .ledger-filter-section,
   .ledger-title {
     display: none !important;
   }
-
-  body {
-    margin: 0;
-    background: #fff;
-  }
-
 }
 
 

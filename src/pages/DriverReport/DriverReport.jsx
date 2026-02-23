@@ -244,36 +244,52 @@ const fetchReport = async () => {
 
            <div className="ledger-summary-box">
   <p><strong>Total Amount :</strong> ₹ {summary.total_credit}</p>
-  <p><strong>Advance Paid :</strong> ₹ {summary.total_debit}</p>
   <p><strong>Paid Amount :</strong> ₹ {summary.total_debit}</p>
   <p><strong>Balance Amount :</strong> ₹ {summary.balance}</p>
 </div>
 
           <table className="ledger-table">
   <thead>
-    <tr>
-      <th>Date</th>
-      <th>Bill No</th>
-      <th>Trip Sheet No</th>
-      <th>Type / Area</th>
-      <th>Trip Allowance</th>
-      <th>Time Allowance</th>
-      <th>Food Allowance</th>
-      <th>Total Amount</th>
-    </tr>
-  </thead>
+  <tr>
+    <th>Date</th>
+    <th>Bill No</th>
+    <th>Trip Sheet No</th>
+    <th>Type / Area</th>
+    <th>Trip Allowance</th>
+    <th>Time Allowance</th>
+    <th>Food Allowance</th>
+    <th>Total Amount</th>
+  </tr>
+</thead>
 
-  <tbody>
+<tbody>
   {transactions.map((t, index) => (
     <tr key={index}>
-      <td>{t.date}</td>
-      <td>{t.bill_no}</td>
-      <td>{t.trip_sheet_no}</td>
-      <td>{t.type} - {t.area}</td>
-      <td>{t.trip_allowance}</td>
-      <td>{t.time_allowance}</td>
-      <td>{t.food_allowance}</td>
-      <td><strong>{t.total_amount}</strong></td>
+      <td data-label="Date">{t.date}</td>
+
+      <td data-label="Bill No">{t.bill_no}</td>
+
+      <td data-label="Trip Sheet No">{t.trip_sheet_no}</td>
+
+      <td data-label="Type / Area">
+        {t.type} - {t.area}
+      </td>
+
+      <td data-label="Trip Allowance">
+        ₹ {Number(t.trip_allowance).toFixed(2)}
+      </td>
+
+      <td data-label="Time Allowance">
+        ₹ {Number(t.time_allowance).toFixed(2)}
+      </td>
+
+      <td data-label="Food Allowance">
+        ₹ {Number(t.food_allowance).toFixed(2)}
+      </td>
+
+      <td data-label="Total Amount">
+        <strong>₹ {Number(t.total_amount).toFixed(2)}</strong>
+      </td>
     </tr>
   ))}
 </tbody>

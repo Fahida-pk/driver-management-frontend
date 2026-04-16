@@ -575,7 +575,35 @@ input {
 
 
 }
+@media print {
 
+  /* EXISTING code undakum... athinu shesham add cheyyu */
+
+  /* 🔥 MAIN FIX FOR CUT ISSUE */
+  html, body {
+    height: auto !important;
+    overflow: visible !important;
+  }
+
+  .print-section {
+    page-break-inside: auto;
+  }
+
+  table {
+    page-break-inside: auto;
+  }
+
+  tr {
+    page-break-inside: avoid;
+  }
+
+  .summary-right-box {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    margin-top: 20px;
+  }
+
+}
 
 
 
